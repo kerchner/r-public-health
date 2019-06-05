@@ -10,7 +10,8 @@ objectives:
 - "`cor()`"
 - "Learn how to run regressions with `lm()` and `glm()`"
 - "Learn how to isolate parts of the matrix that `lm()` returns"
-- "Learn how to run `t.test()`"
+- "Learn how to run `t.test()` - get p-value, CI, etc."
+- "Assess interactions between variables"
 keypoints:
 - "Use `table()` to look at frequencies"
 - "Get a count ..."
