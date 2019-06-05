@@ -4,12 +4,13 @@ teaching: 40
 exercises: 5
 questions:
 - "How do I load in a data set?"
-- more
+- "Once I've loaded in my data, how do I look at it?"
 objectives:
 - "Read a CSV file into a `data.frame`"
 - "Read data files from other format: SPSS, SAS, Excel"
-- "Explore a newly loaded data.frame"
+- "Explore a newly loaded data.frame -- number of rows, columns... preview before merging"
 - "Understand the variable types of imported data"
+- "Install R packages"
 keypoints:
 - "FIXME"
 
