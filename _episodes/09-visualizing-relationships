@@ -6,6 +6,7 @@ questions:
 - "How can I make a graph of my regression?"
 - "How can I look at residuals?"
 - "How can I assess and remove outliers?"
+- "How can I export publication-quality graphics?"
 objectives:
 - "`cor()`"
 - "Learn how to run regressions with `lm()` and `glm()`"
