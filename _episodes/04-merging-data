@@ -3,7 +3,7 @@ title: "Merging and Joining Data"
 teaching: 45
 exercises: 10
 questions:
-- "
+- "Need a question here"
 objectives:
 - "Learn how to stack data frames (ex. different years' data)"
 - "Learn how to join - inner, outer, etc."
