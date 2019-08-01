@@ -75,11 +75,13 @@ Next we're going to want to perform some analysis using this data, but to do tha
 Let's try creating a variable called `health` and set it to whatever is returned by `read.csv()`:
 
 ~~~
-cbc <- read.csv('data/CBC1.csv')
+health <- read.csv('data/health.csv')
 ~~~
 {: .language-r}
 
 Running that line of code didn't print out the data table, like last time.  But in our Environment pane, we now see a new variable called `health`.
+
+#TODO: other parameters in read.csv
 
 > ## Exercise
 > 
@@ -101,6 +103,62 @@ Running that line of code didn't print out the data table, like last time.  But 
 > > {: .language-r}
 > {: .solution}
 {: .challenge}
+
+Talk about `data.frame`
+
+Let's look at a more realistic example of Public Health data.  One of the widely-used sources of public data in the U.S. is the National Health and Nutrition Examination Survey, NHANES.  Much of the data in NHANES is not provided in CSV format, and often contains many more variables and observations than in our first example.
+
+In this case, we'll be working with *.XPT* files, which are in a format used by SAS.  If you work in public health, you'll most definitely be encountering data files in SAS "xport" format.  While XPT is a plain-text format, it's not terribly easy to read.
+
+R's base packages don't include a function to read in XPT files, but we can install a "contributed" package called `SASxport`.
+
+## A word about pacakges
+
+Packages are sets of functions that # FIND A GOOD DEFINITION
+
+*Installing* a package downloads the code to run the package onto your computer.  But we don't always want every package available in every project that we work on.
+
+So, there's a second step involved to _load_ a package that you've installed.  More on that in a moment.
+
+To install the `SASxport` package:
+
+~~~
+install.packages('SASxport')
+~~~
+{: .language-r}
+
+Go to the *Packages* pane in RStudio.  Do you see that `SASxport` is now in the list of available packages?  You'll also notice that some of the packages are checked, and some, like SASxport, are not checked (yet).
+
+You'll also notice Version numbers for all of the packages #Reproducibility
+
+The next thing we need to do is load in the library for this particular project, using the `library()` function:
+
+~~~
+library(SASxport)
+~~~
+{: .language-r}
+
+Notice that `SASxport` is now checked in the Packages pane.
+
+We can open up the documentation page for `SASxport` in our Help pane by running `help(SASxport)`.  We learn there that the function we want to use is called `read.xport()`.  let's try it and see what we get.
+
+`DEMO_I.XPT` contains demographic data for study subjects.
+
+~~~
+demographics <- read.xport('data/DEMO_I.XPT')
+~~~
+{: .language-r}
+
+
+glu_df <- read.xport('data/GLU_I.XPT')
+sleep_df <- read.xport('data/SLQ_I.XPT')
+
+### A word about reproducibility
+
+Package versions - maybe put this as an open discussion question in the Exercises?  With some links to ways to solve reproducibility issues?
+
+Platform-independent?  Maybe put this in the intro (R vs. software that only works on Windows, for example)
+
 
 
 
