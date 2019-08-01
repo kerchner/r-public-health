@@ -82,8 +82,13 @@ Running that line of code didn't print out the data table, like last time.  But 
 > 3. How would you find out what class of variable `cbc` is?  (answer:  class())
 >
 > > ## Solution
-> > 3. `class(cbc)`
-
+> >
+> > 
+> > ~~~
+> > ## 3. `class(cbc)`
+> > {: .language-r}
+> {: .solution}
+{: .challenge}
 
 
 
