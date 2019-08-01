@@ -149,6 +149,25 @@ demographics <- read.xport('data/DEMO_I.XPT')
 ~~~
 {: .language-r}
 
+After reading in our dataset into the `demographics` dataframe, we can inspect the shape and size of the data, such as: colname(df), head(df), tail(df)
+
+~~~
+colnames(demographics)
+~~~
+{: .language-r}
+
+~~~
+ [1] "SEQN"     "SDDSRVYR" "RIDSTATR" "RIAGENDR" "RIDAGEYR" "RIDAGEMN" "RIDRETH1" "RIDRETH3" "RIDEXMON"
+[10] "RIDEXAGM" "DMQMILIZ" "DMQADFC"  "DMDBORN4" "DMDCITZN" "DMDYRSUS" "DMDEDUC3" "DMDEDUC2" "DMDMARTL"
+[19] "RIDEXPRG" "SIALANG"  "SIAPROXY" "SIAINTRP" "FIALANG"  "FIAPROXY" "FIAINTRP" "MIALANG"  "MIAPROXY"
+[28] "MIAINTRP" "AIALANGA" "DMDHHSIZ" "DMDFMSIZ" "DMDHHSZA" "DMDHHSZB" "DMDHHSZE" "DMDHRGND" "DMDHRAGE"
+[37] "DMDHRBR4" "DMDHREDU" "DMDHRMAR" "DMDHSEDU" "WTINT2YR" "WTMEC2YR" "SDMVPSU"  "SDMVSTRA" "INDHHIN2"
+[46] "INDFMIN2" "INDFMPIR"
+~~~
+{: .output}
+
+
+
 
 
 glu_df <- read.xport('data/GLU_I.XPT')
