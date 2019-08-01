@@ -15,6 +15,30 @@ keypoints:
 - "FIXME"
 ---
 
+## Reading in Data
+
+- This occurs in the analysis phase, after you've collected data (and/or using data from another source)
+- Data should be in some sort of table format.  CSV, Excel, SAS, SPSS, Stata, etc.
+
+R contains a number of built-in functions that can read in plain-text formats like CSV.  To read in formats associated with particular software packages, we'll need to use certain R packages (more on that in a bit).
+
+Let's say that we have a CSV file called `tbd.csv`.  If we open the CSV file to look at it in a text reader (or in software like Excel), we see that it:
+- has variable names in the first row (it doesn't have to - more on that soon #TODO)
+- contains one observation per row
+
+```
+ID   X    Y
+1    5    0
+2    NA   1
+...
+
+```
+To read in the table, we can use the `read.csv()` function.  Let's see what what we get when we use it:
+~~~
+read.csv('tbd.csv')
+~~~
+{: .source}
+
 
 
 ## Motivation
