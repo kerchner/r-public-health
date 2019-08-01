@@ -34,10 +34,28 @@ ID   X    Y
 
 ```
 To read in the table, we can use the `read.csv()` function.  Let's see what what we get when we use it:
+
 ~~~
-read.csv('tbd.csv')
+read.csv('data/CBC1.csv')
 ~~~
-{: .source}
+{: .language-r}
+
+~~~
+   ID   First      Last BloodType Age Gender  WBC  RBC Chol
+1   1  Andrew    Thomas        AB  29      M 7710 7.40  258
+2   2 Carlton   Stevens        AB  55      M 6560 4.70   NA
+3   3     Dan   Silvers         A  19      M 5690 7.53  184
+4   4     Gas   Sanders         B  69      M 6680 6.85   NA
+5   5   James   Melopis         A  35      M   NA 7.72  187
+6   6  Janice Lancaster         A  91      F 6140 3.69  142
+7   7    Kurt   Johnson         A  25      M 6550 4.78  290
+8   8 Matthew   Douglas         O  33      M 5780 4.37  311
+9   9 Melissa Doolittle         B  32      F   NA 5.62  152
+10 10  Teresa     Davis         O  40      F 7210 5.17  193
+~~~
+{: .output}
+
+Where did it find the `tbd.csv` file?  #TODO
 
 
 
