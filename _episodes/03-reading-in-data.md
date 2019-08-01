@@ -35,6 +35,7 @@ ID   X    Y
 ```
 To read in the table, we can use the `read.csv()` function.  Let's see what what we get when we use it:
 
+#TODO: Change the data, right now it's from a book
 ~~~
 read.csv('data/CBC1.csv')
 ~~~
@@ -55,7 +56,34 @@ read.csv('data/CBC1.csv')
 ~~~
 {: .output}
 
-Where did it find the `tbd.csv` file?  #TODO
+Where did it find the `data/tbd.csv` file?  #TODO
+
+Let's notice a few things about what we got out:
+- There seems to be a column to the left with numbering starting at 1
+- other observations?
+
+Next we're going to want to perform some analysis using this data, but to do that, we need to capture it in an R object somehow.
+
+Let's try creating a variable called `cbc` and set it to whatever is returned by `read.csv()`:
+
+~~~
+cbc <- read.csv('data/CBC1.csv')
+~~~
+{: .language-r}
+
+Running that line of code didn't print out the data table, like last time.  But in our Environment pane, we now see a new variable called `cbc`.
+
+> ## Exercise
+> 
+> 1. Click on `cbc` - see what happens.  Put questions here
+>
+> 2. Click on the `cbc` twisty.  What did you learn here?
+>
+> 3. How would you find out what class of variable `cbc` is?  (answer:  class())
+>
+> > ## Solution
+> > 3. `class(cbc)`
+
 
 
 
