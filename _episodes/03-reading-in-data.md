@@ -22,14 +22,22 @@ keypoints:
 
 R contains a number of built-in functions that can read in plain-text formats like CSV.  To read in formats associated with particular software packages, we'll need to use certain R packages (more on that in a bit).
 
-Let's say that we have a CSV file called `tbd.csv`.  If we open the CSV file to look at it in a text reader (or in software like Excel), we see that it:
+Let's say that we have a CSV file called `health.csv`.  If we open the CSV file to look at it in a text reader (or in software like Excel), we see that it:
 - has variable names in the first row (it doesn't have to - more on that soon #TODO)
 - contains one observation per row
 
 ```
-ID   X    Y
-1    5    0
-2    NA   1
+ID,First ,Last,Age,Gender,Blood Type,RBC Count,SBP,DPB
+101,Dan,Chung,40,M,AB,7.35,121,80
+102,Zara,Farooq,35,F,B,6.12,139,82
+103,Sarah,Long,22,F,AB,6.89,125,81
+104,Kurt,Woods,18,M,AB,5.71,126,82
+105,Dan,Davis,45,M,,6.15,111,65
+106,Matt,Van Jones,66,,A,4.7,,
+107,John,Johnson,22,M,A,4.44,120,75
+108,Veronica,Johnson,20,M,A,5.91,130,86
+109,Cathy,Mallinson,32,F,,15.65,125,79
+110,Mohammed,Ahmad,30,M,B,0.68,116,75
 ...
 
 ```
@@ -37,26 +45,26 @@ To read in the table, we can use the `read.csv()` function.  Let's see what what
 
 #TODO: Change the data, right now it's from a book
 ~~~
-read.csv('data/CBC1.csv')
+read.csv('data/health.csv')
 ~~~
 {: .language-r}
 
 ~~~
-   ID   First      Last BloodType Age Gender  WBC  RBC Chol
-1   1  Andrew    Thomas        AB  29      M 7710 7.40  258
-2   2 Carlton   Stevens        AB  55      M 6560 4.70   NA
-3   3     Dan   Silvers         A  19      M 5690 7.53  184
-4   4     Gas   Sanders         B  69      M 6680 6.85   NA
-5   5   James   Melopis         A  35      M   NA 7.72  187
-6   6  Janice Lancaster         A  91      F 6140 3.69  142
-7   7    Kurt   Johnson         A  25      M 6550 4.78  290
-8   8 Matthew   Douglas         O  33      M 5780 4.37  311
-9   9 Melissa Doolittle         B  32      F   NA 5.62  152
-10 10  Teresa     Davis         O  40      F 7210 5.17  193
+    ID    First      Last Age Gender Blood.Type RBC.Count SBP DPB
+1  101      Dan     Chung  40      M         AB      7.35 121  80
+2  102     Zara    Farooq  35      F          B      6.12 139  82
+3  103    Sarah      Long  22      F         AB      6.89 125  81
+4  104     Kurt     Woods  18      M         AB      5.71 126  82
+5  105      Dan     Davis  45      M                 6.15 111  65
+6  106     Matt Van Jones  66                 A      4.70  NA  NA
+7  107     John   Johnson  22      M          A      4.44 120  75
+8  108 Veronica   Johnson  20      M          A      5.91 130  86
+9  109    Cathy Mallinson  32      F                15.65 125  79
+10 110 Mohammed     Ahmad  30      M          B      0.68 116  75
 ~~~
 {: .output}
 
-Where did it find the `data/tbd.csv` file?  #TODO
+Where did it find the `data/health.csv` file?  #TODO
 
 Let's notice a few things about what we got out:
 - There seems to be a column to the left with numbering starting at 1
@@ -64,28 +72,32 @@ Let's notice a few things about what we got out:
 
 Next we're going to want to perform some analysis using this data, but to do that, we need to capture it in an R object somehow.
 
-Let's try creating a variable called `cbc` and set it to whatever is returned by `read.csv()`:
+Let's try creating a variable called `health` and set it to whatever is returned by `read.csv()`:
 
 ~~~
 cbc <- read.csv('data/CBC1.csv')
 ~~~
 {: .language-r}
 
-Running that line of code didn't print out the data table, like last time.  But in our Environment pane, we now see a new variable called `cbc`.
+Running that line of code didn't print out the data table, like last time.  But in our Environment pane, we now see a new variable called `health`.
 
 > ## Exercise
 > 
-> 1. Click on `cbc` - see what happens.  Put questions here
+> 1. Click on `health` - see what happens.  Put questions here
 >
-> 2. Click on the `cbc` twisty.  What did you learn here?
+> 2. Click on the `health` twisty.  What did you learn here?
 >
-> 3. How would you find out what class of variable `cbc` is?  (answer:  class())
+> 3. Why do you think the blank values for Gender and Blood Type came through as blanks, but
+>    the blanks in SBP and DBP came through as `NA`?
+>
+> 4. How would you find out what class of variable `health` is?  (answer:  class())
 >
 > > ## Solution
 > >
-> > 
+> > ## 3.  Because of different variable types
 > > ~~~
-> > ## 3. `class(cbc)`
+> > ## 4. `class(health)`
+> > ~~~
 > > {: .language-r}
 > {: .solution}
 {: .challenge}
