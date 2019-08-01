@@ -108,7 +108,7 @@ Talk about `data.frame`
 
 Let's look at a more realistic example of Public Health data.  One of the widely-used sources of public data in the U.S. is the National Health and Nutrition Examination Survey, NHANES.  Much of the data in NHANES is not provided in CSV format, and often contains many more variables and observations than in our first example.
 
-In this case, we'll be working with *.XPT* files, which are in a format used by SAS.  If you work in public health, you'll most definitely be encountering data files in SAS "xport" format.  While XPT is a plain-text format, it's not terribly easy to read.
+In this case, we'll be working with **.XPT** files, which are in a format used by SAS.  If you work in public health, you'll most definitely be encountering data files in SAS "xport" format.  While XPT is a plain-text format, it's not terribly easy to read.
 
 R's base packages don't include a function to read in XPT files, but we can install a "contributed" package called `SASxport`.
 
@@ -127,7 +127,7 @@ install.packages('SASxport')
 ~~~
 {: .language-r}
 
-Go to the *Packages* pane in RStudio.  Do you see that `SASxport` is now in the list of available packages?  You'll also notice that some of the packages are checked, and some, like SASxport, are not checked (yet).
+Go to the **Packages** pane in RStudio.  Do you see that `SASxport` is now in the list of available packages?  You'll also notice that some of the packages are checked, and some, like SASxport, are not checked (yet).
 
 You'll also notice Version numbers for all of the packages #Reproducibility
 
@@ -148,6 +148,7 @@ We can open up the documentation page for `SASxport` in our Help pane by running
 demographics <- read.xport('data/DEMO_I.XPT')
 ~~~
 {: .language-r}
+
 
 
 glu_df <- read.xport('data/GLU_I.XPT')
