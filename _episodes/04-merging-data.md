@@ -1,0 +1,43 @@
+---
+title: "Merging and Joining Data"
+teaching: 45
+exercises: 10
+questions:
+- "Need a question here"
+objectives:
+- "Learn how to stack data frames (ex. different years' data)"
+- "Learn how to join - inner, outer, etc."
+- "Explore after a join to verify results as expected"
+keypoints:
+- "Use `merge()` to stack data"
+- "Use `merge()` to join data"
+- "Understand joins"
+---
+
+~~~
+bmi_df <- read.xport('data/BMX_I.XPT') 
+bp_df <- read.xport('data/BPX_I.XPT')
+cbc_df <- read.xport('data/CBC_I.XPT')
+glu_df <- read.xport('data/GLU_I.XPT')
+tg_df <- read.xport('data/TRIGLY_I.XPT')
+hdl_df <- read.xport('data/HDL_I.XPT')
+tc_df <- read.xport('data/TCHOL_I.XPT')
+~~~
+{: .language-r}
+
+Now that we have all the files read in, let's merge.
+From bmi_df we are keeping: BMXBMI
+from bp_df: PBXPLS (pules), BPXSY1 (SBP), PBXDI1 (DPB),
+tg_df : LBXTR (triglycerides mg/dL), LBDLDL (LDL mg/dL)
+tc_df: LBXTC (total chol mg/dL)
+hdl_df: LBDHDD (HDL mg/dL)
+cbc_df: LBXWBCSI (WBCs 1000cells/uL)
+
+HERE WE NEED TO CONSIDER DPLYR FOR JOINING. #TODO
+~~~
+merge_df <- merge(demographics, bmi_df[ ,c("SEQN", "BMXBMI")])
+merge_df <- merge (merge_df, bp_df[ ,c("SEQN", "BPXSY1", "BPXDI1")])
+merge_df <- merge(merge_df, tg_df[ , c("SEQN", "LBXTR", "LBDLDL")])
+merge_df <- merge(merge_df, tc_df[ , c("SEQN", "LBXTC")])
+~~~
+{: .language-r}
