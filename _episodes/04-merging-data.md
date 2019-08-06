@@ -32,6 +32,7 @@ tg_df : LBXTR (triglycerides mg/dL), LBDLDL (LDL mg/dL)
 tc_df: LBXTC (total chol mg/dL)
 hdl_df: LBDHDD (HDL mg/dL)
 cbc_df: LBXWBCSI (WBCs 1000cells/uL)
+glu_df: LBXGLU (glucose fasting mg/dL)
 
 HERE WE NEED TO CONSIDER DPLYR FOR JOINING. #TODO
 ~~~
@@ -39,5 +40,13 @@ merge_df <- merge(demographics, bmi_df[ ,c("SEQN", "BMXBMI")])
 merge_df <- merge (merge_df, bp_df[ ,c("SEQN", "BPXSY1", "BPXDI1")])
 merge_df <- merge(merge_df, tg_df[ , c("SEQN", "LBXTR", "LBDLDL")])
 merge_df <- merge(merge_df, tc_df[ , c("SEQN", "LBXTC")])
+merge_df <- merge(merge_df, hdl_df[ , c("SEQN", "LBDHDD")])
+merge_df <- merge(merge_df, cbc_df[ , c("SEQN", "LBXWBCSI")])
+merge_df <- merge(merge_df, glu_df[ , c("SEQN", "LBXGLU")])
 ~~~
 {: .language-r}
+
+~~~
+write.csv(merge_df, file = 'data_out/merge.csv', row.names = FALSE)
+~~~
+
