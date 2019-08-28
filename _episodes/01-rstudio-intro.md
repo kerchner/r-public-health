@@ -9,6 +9,7 @@ questions:
 - "How to interact with R?"
 - "How to manage your environment?"
 - "How to install packages?"
+- "How to work in R Markdown documents?"
 objectives:
 - "Describe the purpose and use of each pane in the RStudio IDE"
 - "Locate buttons and options in the RStudio IDE"
@@ -708,7 +709,7 @@ function (name, pos = -1L, envir = as.environment(pos), all.names = FALSE,
     }
     else all.names
 }
-<bytecode: 0x7ff126119d90>
+<bytecode: 0x7fda391c9990>
 <environment: namespace:base>
 ~~~
 {: .output}
