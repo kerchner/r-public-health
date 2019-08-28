@@ -12,7 +12,8 @@ objectives:
 - "Understand the variable types of imported data"
 - "Install R packages"
 keypoints:
-- "FIXME"
+- "Learn to use read.* and related functions"
+- "Learn to use str()"
 ---
 
 ## Reading in Data

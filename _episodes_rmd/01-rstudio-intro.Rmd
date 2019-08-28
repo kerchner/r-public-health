@@ -412,6 +412,22 @@ symbol used in the community. So the recommendation is to use `<-`.
 > {: .solution}
 {: .challenge}
 
+> ## Challenge 2
+>
+> Are R variable names case-sensitive?
+>
+> > ## Solution to challenge 2
+> > 
+> > Yes.  You might have tested this by trying something like:
+> >
+> > ```{r ch2pt1-sol, eval=TRUE}
+> > myvariable <- 5
+> > 
+> > MyVariable
+> > ```
+> {: .solution}
+{: .challenge}
+
 ## Vectorization
 
 One final thing to be aware of is that R is *vectorized*, meaning that
@@ -511,7 +527,7 @@ network). R and RStudio have functionality for managing packages:
 * You can remove a package with `remove.packages("packagename")`
 * You can make a package available for use with `library(packagename)`
 
-> ## Challenge 2
+> ## Challenge 3
 >
 > What will be the value of each  variable  after each
 > statement in the following program?
@@ -523,25 +539,25 @@ network). R and RStudio have functionality for managing packages:
 > age <- age - 20
 > ```
 >
-> > ## Solution to challenge 2
+> > ## Solution to challenge 3
 > >
-> > ```{r ch2pt1-sol}
+> > ```{r ch3pt1-sol}
 > > mass <- 47.5
 > > ```
 > > This will give a value of `r mass` for the variable mass
 > >
-> > ```{r ch2pt2-sol}
+> > ```{r ch3pt2-sol}
 > > age <- 122
 > > ```
 > > This will give a value of `r age` for the variable age
 > >
-> > ```{r ch2pt3-sol}
+> > ```{r ch3pt3-sol}
 > > mass <- mass * 2.3
 > > ```
 > > This will multiply the existing value of `r mass/2.3` by 2.3 to give a new value of
 > > `r mass` to the variable mass.
 > >
-> > ```{r ch2pt4-sol}
+> > ```{r ch3pt4-sol}
 > > age <- age - 20
 > > ```
 > > This will subtract 20 from the existing value of `r age + 20 ` to give a new value
@@ -550,15 +566,15 @@ network). R and RStudio have functionality for managing packages:
 {: .challenge}
 
 
-> ## Challenge 3
+> ## Challenge 4
 >
 > Run the code from the previous challenge, and write a command to
 > compare mass to age. Is mass larger than age?
 >
-> > ## Solution to challenge 3
+> > ## Solution to challenge 4
 > >
 > > One way of answering this question in R is to use the `>` to set up the following:
-> > ```{r ch3-sol}
+> > ```{r ch4-sol}
 > > mass > age
 > >```
 > > This should yield a boolean value of TRUE since `r mass` is greater than `r age`.
@@ -566,28 +582,28 @@ network). R and RStudio have functionality for managing packages:
 {: .challenge}
 
 
-> ## Challenge 4
+> ## Challenge 5
 >
 > Clean up your working environment by deleting the mass and age
 > variables.
 >
-> > ## Solution to challenge 4
+> > ## Solution to challenge 5
 > >
 > > We can use the `rm` command to accomplish this task
-> > ```{r ch4-sol}
+> > ```{r ch5-sol}
 > > rm(age, mass)
 > > ```
 > {: .solution}
 {: .challenge}
 
-> ## Challenge 5
+> ## Challenge 6
 >
 > Install the following packages: `ggplot2`, `plyr`, `gapminder`
 >
-> > ## Solution to challenge 5
+> > ## Solution to challenge 6
 > >
 > > We can use the `install.packages()` command to install the required packages.
-> > ```{r ch5-sol, eval=FALSE}
+> > ```{r ch6-sol, eval=FALSE}
 > > install.packages("ggplot2")
 > > install.packages("plyr")
 > > install.packages("gapminder")

@@ -3,7 +3,7 @@ title: "Merging and Joining Data"
 teaching: 45
 exercises: 10
 questions:
-- "Need a question here"
+- "How can I combine data from different sources?"
 objectives:
 - "Learn how to stack data frames (ex. different years' data)"
 - "Learn how to join - inner, outer, etc."
@@ -12,9 +12,20 @@ keypoints:
 - "Use `merge()` to stack data"
 - "Use `merge()` to join data"
 - "Understand joins"
+source: Rmd
 ---
 
-~~~
+```{r, include=FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("01-")
+```
+
+## Introduction goes here
+
+Text
+
+
+```{r, eval=FALSE}
 bmi_df <- read.xport('data/BMX_I.XPT') 
 bp_df <- read.xport('data/BPX_I.XPT')
 cbc_df <- read.xport('data/CBC_I.XPT')
@@ -22,8 +33,7 @@ glu_df <- read.xport('data/GLU_I.XPT')
 tg_df <- read.xport('data/TRIGLY_I.XPT')
 hdl_df <- read.xport('data/HDL_I.XPT')
 tc_df <- read.xport('data/TCHOL_I.XPT')
-~~~
-{: .language-r}
+```
 
 Now that we have all the files read in, let's merge.
 From bmi_df we are keeping: BMXBMI
@@ -35,7 +45,8 @@ cbc_df: LBXWBCSI (WBCs 1000cells/uL)
 glu_df: LBXGLU (glucose fasting mg/dL)
 
 HERE WE NEED TO CONSIDER DPLYR FOR JOINING. #TODO
-~~~
+
+```{r, eval=FALSE}
 merge_df <- merge(demographics, bmi_df[ ,c("SEQN", "BMXBMI")])
 merge_df <- merge (merge_df, bp_df[ ,c("SEQN", "BPXSY1", "BPXDI1")])
 merge_df <- merge(merge_df, tg_df[ , c("SEQN", "LBXTR", "LBDLDL")])
@@ -43,10 +54,9 @@ merge_df <- merge(merge_df, tc_df[ , c("SEQN", "LBXTC")])
 merge_df <- merge(merge_df, hdl_df[ , c("SEQN", "LBDHDD")])
 merge_df <- merge(merge_df, cbc_df[ , c("SEQN", "LBXWBCSI")])
 merge_df <- merge(merge_df, glu_df[ , c("SEQN", "LBXGLU")])
-~~~
-{: .language-r}
+```
 
-~~~
+```{r, eval=FALSE}
 write.csv(merge_df, file = 'data_out/merge.csv', row.names = FALSE)
-~~~
+```
 

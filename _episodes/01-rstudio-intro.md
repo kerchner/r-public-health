@@ -582,6 +582,31 @@ symbol used in the community. So the recommendation is to use `<-`.
 > {: .solution}
 {: .challenge}
 
+> ## Challenge 2
+>
+> Are R variable names case-sensitive?
+>
+> > ## Solution to challenge 2
+> > 
+> > Yes.  You might have tested this by trying something like:
+> >
+> > 
+> > ~~~
+> > myvariable <- 5
+> > 
+> > MyVariable
+> > ~~~
+> > {: .language-r}
+> > 
+> > 
+> > 
+> > ~~~
+> > Error in eval(expr, envir, enclos): object 'MyVariable' not found
+> > ~~~
+> > {: .error}
+> {: .solution}
+{: .challenge}
+
 ## Vectorization
 
 One final thing to be aware of is that R is *vectorized*, meaning that
@@ -651,8 +676,8 @@ ls()
 
 
 ~~~
-[1] "args"          "dest_md"       "missing_pkgs"  "required_pkgs"
-[5] "src_rmd"       "x"             "y"            
+[1] "args"          "dest_md"       "missing_pkgs"  "myvariable"   
+[5] "required_pkgs" "src_rmd"       "x"             "y"            
 ~~~
 {: .output}
 
@@ -709,7 +734,7 @@ function (name, pos = -1L, envir = as.environment(pos), all.names = FALSE,
     }
     else all.names
 }
-<bytecode: 0x7fda391c9990>
+<bytecode: 0x7fd3955f9b90>
 <environment: namespace:base>
 ~~~
 {: .output}
@@ -780,7 +805,7 @@ network). R and RStudio have functionality for managing packages:
 * You can remove a package with `remove.packages("packagename")`
 * You can make a package available for use with `library(packagename)`
 
-> ## Challenge 2
+> ## Challenge 3
 >
 > What will be the value of each  variable  after each
 > statement in the following program?
@@ -794,7 +819,7 @@ network). R and RStudio have functionality for managing packages:
 > ~~~
 > {: .language-r}
 >
-> > ## Solution to challenge 2
+> > ## Solution to challenge 3
 > >
 > > 
 > > ~~~
@@ -829,12 +854,12 @@ network). R and RStudio have functionality for managing packages:
 {: .challenge}
 
 
-> ## Challenge 3
+> ## Challenge 4
 >
 > Run the code from the previous challenge, and write a command to
 > compare mass to age. Is mass larger than age?
 >
-> > ## Solution to challenge 3
+> > ## Solution to challenge 4
 > >
 > > One way of answering this question in R is to use the `>` to set up the following:
 > > 
@@ -854,12 +879,12 @@ network). R and RStudio have functionality for managing packages:
 {: .challenge}
 
 
-> ## Challenge 4
+> ## Challenge 5
 >
 > Clean up your working environment by deleting the mass and age
 > variables.
 >
-> > ## Solution to challenge 4
+> > ## Solution to challenge 5
 > >
 > > We can use the `rm` command to accomplish this task
 > > 
@@ -870,11 +895,11 @@ network). R and RStudio have functionality for managing packages:
 > {: .solution}
 {: .challenge}
 
-> ## Challenge 5
+> ## Challenge 6
 >
 > Install the following packages: `ggplot2`, `plyr`, `gapminder`
 >
-> > ## Solution to challenge 5
+> > ## Solution to challenge 6
 > >
 > > We can use the `install.packages()` command to install the required packages.
 > > 
