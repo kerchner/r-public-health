@@ -180,3 +180,7 @@ Package versions - maybe put this as an open discussion question in the Exercise
 
 Platform-independent?  Maybe put this in the intro (R vs. software that only works on Windows, for example)
 
+## Looking at variable types after reading in - Factors etc.
+
+And how to use the `factorsAsStrings` parameter
+
