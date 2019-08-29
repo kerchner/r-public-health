@@ -4,7 +4,7 @@ teaching: 45
 exercises: 10
 questions:
 - "How can I tabulate frequencies of a single categorical variable?"
-- "How can I tabulate cross-frequencies between two different variables?"
+- "How can I tabulate contingency tables?"
 - "How can I generate a bar chart to visualize categorical data?"
 - "How can I check for missing data?"
 - "MAYBE: Cross-correlations??"
