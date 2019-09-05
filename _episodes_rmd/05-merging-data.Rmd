@@ -24,8 +24,13 @@ knitr_fig_path("01-")
 
 Text
 
+```{r, eval=FALSE}
+library(SASxport)
+library(tidyverse)
+```
 
 ```{r, eval=FALSE}
+demographics <- read.xport('data/DEMO_I.XPT')
 bmi_df <- read.xport('data/BMX_I.XPT') 
 bp_df <- read.xport('data/BPX_I.XPT')
 cbc_df <- read.xport('data/CBC_I.XPT')
@@ -33,6 +38,7 @@ glu_df <- read.xport('data/GLU_I.XPT')
 tg_df <- read.xport('data/TRIGLY_I.XPT')
 hdl_df <- read.xport('data/HDL_I.XPT')
 tc_df <- read.xport('data/TCHOL_I.XPT')
+# smk_df <- read.xport('data/SMQ_I.XPT')
 ```
 
 Now that we have all the files read in, let's merge.
@@ -58,5 +64,63 @@ merge_df <- merge(merge_df, glu_df[ , c("SEQN", "LBXGLU")])
 
 ```{r, eval=FALSE}
 write.csv(merge_df, file = 'data_out/merge.csv', row.names = FALSE)
+```
+
+Variables of interest:
+BMI, BP, LDL, TC, HDL, GLU, AGE,
+-We are interested in the association between TC and BMI categories. (Total chol (TC) = outcome and glucose (main predictor))
+
+NOTE: lm ignoes NAs (check this again though).  Make a note of this in the write up of the lesson. 
+
+BLOOD PRESSURE CATEGORIES:
+https://www.heart.org/-/media/data-import/downloadables/pe-abh-what-is-high-blood-pressure-ucm_300310.pdf
+ 
+```{r, eval=FALSE}
+bp_cat <- function(sbp, dbp) {
+ if (sbp>=180 | dbp >=120) {
+    return("Hypertensive Crisis")
+  }
+if (sbp>=140 | dbp >=90) {
+    return("Hypertension Stage 2")
+  }
+
+if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp >=89)) {
+    return("Hypertension Stage 1")
+  }
+
+ if ((sbp>=120 & sbp<=129) &  dbp <80) {
+    return("Elevated")
+  }
+
+  if (sbp < 120 & dbp <80) {
+    return("Normal") 
+  }
+} 
+```  
+  
+Analysis:
+Linear Regression of outcome with each of variables of interest. 
+
+```{r, eval=TRUE}
+# Look at descriptive statistics of all independent variables
+summary(merge_df$LBXTC) # total chol
+summary(merge_df$LBXGLU) # glucose
+summary(merge_df$BMXBMI) # BMI
+summary(merge_df$RIDAGEYR) #TODO exclude people <18yo now. 
+```
+
+
+```{r, eval=FALSE}
+# Converting Blood pressure into categories
+merge_df <- merge_df %>% mutate(bp_category = bp_cat(BPXSY1, BPXDI1))
+
+# Convertf BMI into categories
+```
+
+```{r, eval=FALSE}
+lm_gluc <- lm(LBXTC ~ LBXGLU, data = merge_df) 
+summary(lm_gluc)
+lm_sbp <- lm(LBXTC ~ BPXSY1, data = merge_df)
+summary(lm_sbp)
 ```
 
