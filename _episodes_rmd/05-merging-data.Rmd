@@ -117,13 +117,25 @@ summary(merge_df$RIDAGEYR) #TODO exclude people <18yo now.
 # Converting Blood pressure into categories
 # merge_df <- merge_df %>% mutate(bp_category = bp_cat(BPXSY1, BPXDI1))
 merge_df$bp_category <- mapply(bp_cat, merge_df$BPXSY1, merge_df$BPXDI1)
-merge_df %>% select(BPXSY1, BPXDI1, bp_category) # check to make sure no NULL values and categories are correctly created
+```
+
+Let's first make sure that everything looks okay.  There are over 50 variables, so scrolling through the data frame in the viewer is not a great option.
+
+```{r, eval=FALSE}
+# See what the range of text vales is
+unique(merge_df$bp_category)
+
+# Look at just the pertinent columns
+just_bp <- merge_df %>% select(BPXSY1, BPXDI1, bp_category) # check to make sure no NULL values and categories are correctly created
+
 ```
 
 ```{r, eval=FALSE}
 # Converting to factor 
 merge_df$bp_category <- as.factor(merge_df$bp_category) 
-str(merge_df$bp_category)
+str(merge_df$bp_category)  # Observe that it's a factor
+table(merge_df$bp_category, useNA = "ifany")  # Inspect the values
+
 barplot(table(merge_df$bp_category)) #TODO reorder so it looks ordinal
 ```
 
@@ -137,6 +149,9 @@ summary(merge_df$BMI_category)
 
 
 ```{r, eval=FALSE}
+
+#TODO: Set appropriate reference levels in factor variables
+
 lm_gluc <- lm(LBXTC ~ LBXGLU, data = merge_df) 
 summary(lm_gluc)
 lm_sbp <- lm(LBXTC ~ BPXSY1, data = merge_df)
