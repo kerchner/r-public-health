@@ -77,14 +77,17 @@ https://www.heart.org/-/media/data-import/downloadables/pe-abh-what-is-high-bloo
  
 ```{r, eval=FALSE}
 bp_cat <- function(sbp, dbp) {
- if (sbp>=180 | dbp >=120) {
+ if (is.na(sbp) | is.na(dbp)){
+   return(NA)
+ }
+  if (sbp>=180 | dbp >=120) {
     return("Hypertensive Crisis")
   }
 if (sbp>=140 | dbp >=90) {
     return("Hypertension Stage 2")
   }
 
-if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp >=89)) {
+if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) {
     return("Hypertension Stage 1")
   }
 
@@ -112,10 +115,26 @@ summary(merge_df$RIDAGEYR) #TODO exclude people <18yo now.
 
 ```{r, eval=FALSE}
 # Converting Blood pressure into categories
-merge_df <- merge_df %>% mutate(bp_category = bp_cat(BPXSY1, BPXDI1))
-
-# Convertf BMI into categories
+# merge_df <- merge_df %>% mutate(bp_category = bp_cat(BPXSY1, BPXDI1))
+merge_df$bp_category <- mapply(bp_cat, merge_df$BPXSY1, merge_df$BPXDI1)
+merge_df %>% select(BPXSY1, BPXDI1, bp_category) # check to make sure no NULL values and categories are correctly created
 ```
+
+```{r, eval=FALSE}
+# Converting to factor 
+merge_df$bp_category <- as.factor(merge_df$bp_category) 
+str(merge_df$bp_category)
+barplot(table(merge_df$bp_category)) #TODO reorder so it looks ordinal
+```
+
+```{r, eval=FALSE}
+# Convert BMI into categories
+merge_df$BMI_category <- cut(merge_df$BMXBMI, breaks = c(0, 18.5, 25.0, 30.0, 35.0, 40, 100), labels = c("Underweight", "Normal weight", "Pre-obese", "Obesity I", "Obesity II", "Obesity III"), right = FALSE)
+summary(merge_df$BMI_category)
+```
+
+
+
 
 ```{r, eval=FALSE}
 lm_gluc <- lm(LBXTC ~ LBXGLU, data = merge_df) 
