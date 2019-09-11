@@ -24,8 +24,15 @@ source: Rmd
 Text
 
 
+~~~
+library(SASxport)
+library(tidyverse)
+~~~
+{: .language-r}
+
 
 ~~~
+demographics <- read.xport('data/DEMO_I.XPT')
 bmi_df <- read.xport('data/BMX_I.XPT') 
 bp_df <- read.xport('data/BPX_I.XPT')
 cbc_df <- read.xport('data/CBC_I.XPT')
@@ -33,6 +40,7 @@ glu_df <- read.xport('data/GLU_I.XPT')
 tg_df <- read.xport('data/TRIGLY_I.XPT')
 hdl_df <- read.xport('data/HDL_I.XPT')
 tc_df <- read.xport('data/TCHOL_I.XPT')
+# smk_df <- read.xport('data/SMQ_I.XPT')
 ~~~
 {: .language-r}
 
@@ -62,6 +70,156 @@ merge_df <- merge(merge_df, glu_df[ , c("SEQN", "LBXGLU")])
 
 ~~~
 write.csv(merge_df, file = 'data_out/merge.csv', row.names = FALSE)
+~~~
+{: .language-r}
+
+Variables of interest:
+BMI, BP, LDL, TC, HDL, GLU, AGE,
+-We are interested in the association between TC and BMI categories. (Total chol (TC) = outcome and glucose (main predictor))
+
+NOTE: lm ignoes NAs (check this again though).  Make a note of this in the write up of the lesson. 
+
+BLOOD PRESSURE CATEGORIES:
+https://www.heart.org/-/media/data-import/downloadables/pe-abh-what-is-high-blood-pressure-ucm_300310.pdf
+ 
+
+~~~
+bp_cat <- function(sbp, dbp) {
+ if (is.na(sbp) | is.na(dbp)){
+   return(NA)
+ }
+  if (sbp>=180 | dbp >=120) {
+    return("Hypertensive Crisis")
+  }
+if (sbp>=140 | dbp >=90) {
+    return("Hypertension Stage 2")
+  }
+
+if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) {
+    return("Hypertension Stage 1")
+  }
+
+ if ((sbp>=120 & sbp<=129) &  dbp <80) {
+    return("Elevated")
+  }
+
+  if (sbp < 120 & dbp <80) {
+    return("Normal") 
+  }
+} 
+~~~
+{: .language-r}
+  
+Analysis:
+Linear Regression of outcome with each of variables of interest. 
+
+
+~~~
+# Look at descriptive statistics of all independent variables
+summary(merge_df$LBXTC) # total chol
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(merge_df$LBXTC): object 'merge_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(merge_df$LBXGLU) # glucose
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(merge_df$LBXGLU): object 'merge_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(merge_df$BMXBMI) # BMI
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(merge_df$BMXBMI): object 'merge_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(merge_df$RIDAGEYR) #TODO exclude people <18yo now. 
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(merge_df$RIDAGEYR): object 'merge_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+# Converting Blood pressure into categories
+# merge_df <- merge_df %>% mutate(bp_category = bp_cat(BPXSY1, BPXDI1))
+merge_df$bp_category <- mapply(bp_cat, merge_df$BPXSY1, merge_df$BPXDI1)
+~~~
+{: .language-r}
+
+Let's first make sure that everything looks okay.  There are over 50 variables, so scrolling through the data frame in the viewer is not a great option.
+
+
+~~~
+# See what the range of text vales is
+unique(merge_df$bp_category)
+
+# Look at just the pertinent columns
+just_bp <- merge_df %>% select(BPXSY1, BPXDI1, bp_category) # check to make sure no NULL values and categories are correctly created
+~~~
+{: .language-r}
+
+
+~~~
+# Converting to factor 
+merge_df$bp_category <- as.factor(merge_df$bp_category) 
+str(merge_df$bp_category)  # Observe that it's a factor
+table(merge_df$bp_category, useNA = "ifany")  # Inspect the values
+
+barplot(table(merge_df$bp_category)) #TODO reorder so it looks ordinal
+~~~
+{: .language-r}
+
+
+~~~
+# Convert BMI into categories
+merge_df$BMI_category <- cut(merge_df$BMXBMI, breaks = c(0, 18.5, 25.0, 30.0, 35.0, 40, 100), labels = c("Underweight", "Normal weight", "Pre-obese", "Obesity I", "Obesity II", "Obesity III"), right = FALSE)
+summary(merge_df$BMI_category)
+~~~
+{: .language-r}
+
+
+
+
+
+~~~
+#TODO: Set appropriate reference levels in factor variables
+
+lm_gluc <- lm(LBXTC ~ LBXGLU, data = merge_df) 
+summary(lm_gluc)
+lm_sbp <- lm(LBXTC ~ BPXSY1, data = merge_df)
+summary(lm_sbp)
 ~~~
 {: .language-r}
 
