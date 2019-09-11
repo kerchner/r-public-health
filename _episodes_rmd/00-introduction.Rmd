@@ -1,14 +1,27 @@
 ---
 title: "Introduction"
-teaching: 0
+teaching: 10
 exercises: 0
 questions:
-- "Key question (FIXME)"
+- "What do we try to accomplish when we perform data analysis?"
+- "Why would a researcher use R for public health analysis?"
+- "What are the benefits of adopting reproducible research practices?"
 objectives:
-- "First learning objective. (FIXME)"
+- "Characterize typical public health data analysis steps"
+- "Describe pros and cons of different statistical software"
+- "Define 'reproducibility' and related terms"
 keypoints:
 - "First key point. Brief Answer to questions. (FIXME)"
 ---
+
+```{r, include=FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("01-")
+```
+
+## What is data analysis?
+
+## What are the typical steps involved with public health data analysis?
 
 
 ## Reasons for using R versus other statistical software
@@ -22,4 +35,5 @@ keypoints:
 ### What else?
 
 {% include links.md %}
+
 
