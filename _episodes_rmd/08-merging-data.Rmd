@@ -1,18 +1,17 @@
 ---
 title: "Merging and Joining Data"
+keypoints:
+- Use `merge()` to stack data
+- Use `merge()` to join data
+- Understand joins
+objectives:
+- Learn how to stack data frames (ex. different years' data)
+- Learn how to join - inner, outer, etc.
+- Explore after a join to verify results as expected
+questions: How can I combine data from different sources?
+source: Rmd
 teaching: 45
 exercises: 10
-questions:
-- "How can I combine data from different sources?"
-objectives:
-- "Learn how to stack data frames (ex. different years' data)"
-- "Learn how to join - inner, outer, etc."
-- "Explore after a join to verify results as expected"
-keypoints:
-- "Use `merge()` to stack data"
-- "Use `merge()` to join data"
-- "Understand joins"
-source: Rmd
 ---
 
 ```{r, include=FALSE}
@@ -24,12 +23,12 @@ knitr_fig_path("01-")
 
 Text
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 library(SASxport)
 library(tidyverse)
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 demographics <- read.xport('data/DEMO_I.XPT')
 bmi_df <- read.xport('data/BMX_I.XPT') 
 bp_df <- read.xport('data/BPX_I.XPT')
@@ -52,7 +51,7 @@ glu_df: LBXGLU (glucose fasting mg/dL)
 
 HERE WE NEED TO CONSIDER DPLYR FOR JOINING. #TODO
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 merge_df <- merge(demographics, bmi_df[ ,c("SEQN", "BMXBMI")])
 merge_df <- merge (merge_df, bp_df[ ,c("SEQN", "BPXSY1", "BPXDI1")])
 merge_df <- merge(merge_df, tg_df[ , c("SEQN", "LBXTR", "LBDLDL")])
@@ -62,11 +61,11 @@ merge_df <- merge(merge_df, cbc_df[ , c("SEQN", "LBXWBCSI")])
 merge_df <- merge(merge_df, glu_df[ , c("SEQN", "LBXGLU")])
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 write.csv(merge_df, file = 'data_out/merge.csv', row.names = FALSE)
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 merge_df <- read.csv("data_out/merge.csv")
 ```
 
@@ -122,7 +121,7 @@ BLOOD PRESSURE CATEGORIES:
 https://www.heart.org/-/media/data-import/downloadables/pe-abh-what-is-high-blood-pressure-ucm_300310.pdf
 
 6. Let's create catgegories for variables we are intersted in.
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 bp_cat <- function(sbp, dbp) {
  if (is.na(sbp) | is.na(dbp)){
    return(NA)
@@ -149,7 +148,7 @@ if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) {
 ```  
 
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Converting Blood pressure into categories
 # merge25_df <- merge25_df %>% mutate(bp_category = bp_cat(BPXSY1, BPXDI1))
 merge25_df$bp_category <- mapply(bp_cat, merge25_df$BPXSY1, merge25_df$BPXDI1)
@@ -157,7 +156,7 @@ merge25_df$bp_category <- mapply(bp_cat, merge25_df$BPXSY1, merge25_df$BPXDI1)
 
 Let's first make sure that everything looks okay.  There are over 50 variables, so scrolling through the data frame in the viewer is not a great option.
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # See what the range of text vales is
 unique(merge25_df$bp_category)
 
@@ -166,7 +165,7 @@ just_bp <- merge25_df %>% select(BPXSY1, BPXDI1, bp_category) # check to make su
 
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Converting to factor 
 merge25_df$bp_category <- as.factor(merge25_df$bp_category) 
 merge25_df$bp_category <- relevel(merge25_df$bp_category, "Normal") #sets "normal" as reference.
@@ -176,7 +175,7 @@ table(merge25_df$bp_category, useNA = "ifany")  # Inspect the values
 barplot(table(merge25_df$bp_category)) #TODO reorder so it looks ordinal
 ```
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # Convert BMI into categories
 merge25_df$BMI_category <- cut(merge25_df$BMXBMI, breaks = c(0, 18.5, 25.0, 30.0, 35.0, 40, 100), labels = c("Underweight", "Normal", "Pre-obese", "Obesity I", "Obesity II", "Obesity III"), right = FALSE)
 
@@ -229,12 +228,4 @@ lm_model <- lm(LBXTC ~ LBXGLU + BMI_category + LBDHDD + LBDLDL + RIDAGEYR + bp_c
 summary(lm_model)
 ```
 
-
-
-
-
-```{r, eval=FALSE}
-
-
-```
 
