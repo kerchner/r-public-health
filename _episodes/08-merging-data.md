@@ -73,50 +73,22 @@ write.csv(merge_df, file = 'data_out/merge.csv', row.names = FALSE)
 ~~~
 {: .language-r}
 
+
+~~~
+merge_df <- read.csv("data_out/merge.csv")
+~~~
+{: .language-r}
+
 Variables of interest:
 BMI, BP, LDL, TC, HDL, GLU, AGE,
 -We are interested in the association between TC and BMI categories. (Total chol (TC) = outcome and glucose (main predictor))
 
-NOTE: lm ignoes NAs (check this again though).  Make a note of this in the write up of the lesson. 
-
-BLOOD PRESSURE CATEGORIES:
-https://www.heart.org/-/media/data-import/downloadables/pe-abh-what-is-high-blood-pressure-ucm_300310.pdf
- 
-
-~~~
-bp_cat <- function(sbp, dbp) {
- if (is.na(sbp) | is.na(dbp)){
-   return(NA)
- }
-  if (sbp>=180 | dbp >=120) {
-    return("Hypertensive Crisis")
-  }
-if (sbp>=140 | dbp >=90) {
-    return("Hypertension Stage 2")
-  }
-
-if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) {
-    return("Hypertension Stage 1")
-  }
-
- if ((sbp>=120 & sbp<=129) &  dbp <80) {
-    return("Elevated")
-  }
-
-  if (sbp < 120 & dbp <80) {
-    return("Normal") 
-  }
-} 
-~~~
-{: .language-r}
-  
-Analysis:
-Linear Regression of outcome with each of variables of interest. 
-
+1. After merging, first look at NAs and summaries of variables.
 
 ~~~
 # Look at descriptive statistics of all independent variables
-summary(merge_df$LBXTC) # total chol
+
+summary(merge_df$LBXTC) # total chol --> outcome variable.
 ~~~
 {: .language-r}
 
@@ -124,6 +96,20 @@ summary(merge_df$LBXTC) # total chol
 
 ~~~
 Error in summary(merge_df$LBXTC): object 'merge_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+sd(merge_df$LBXTC, na.rm = TRUE) # gives standard deviation; removes na values (na.rm=TRUE)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(x): object 'merge_df' not found
 ~~~
 {: .error}
 
@@ -169,12 +155,261 @@ Error in summary(merge_df$RIDAGEYR): object 'merge_df' not found
 ~~~
 {: .error}
 
+2. Next, let's look at these variables in detail with graphs:
+
+~~~
+hist(merge_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)",  main = "Distribution of Total Cholesterol") # looks normal overall
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in hist(merge_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)", : object 'merge_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+hist(merge_df$LBXGLU, breaks = 100) # right skewed
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in hist(merge_df$LBXGLU, breaks = 100): object 'merge_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+boxplot(merge_df$LBXGLU) # looking at outliers of IV
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in boxplot(merge_df$LBXGLU): object 'merge_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+hist(merge_df$BMXBMI, breaks = 50) # slightly right skewed
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in hist(merge_df$BMXBMI, breaks = 50): object 'merge_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+boxplot(merge_df$BMXBMI) # looking at outliers of IV
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in boxplot(merge_df$BMXBMI): object 'merge_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+hist(merge_df$RIDAGEYR, breaks = 50) # if you ignore >=80 category and <=10, it's normal looking. 
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in hist(merge_df$RIDAGEYR, breaks = 50): object 'merge_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+#TODO Create histograms etc of Blood pressure variables here (for continuous)
+~~~
+{: .language-r}
+
+3. Let's drop anyone under the age of 25 b/c changes in TC may not be apparent in the younger age groups. 
+
+~~~
+merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<80)) #& LBXGLU<=200)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in merge_df %>% filter((RIDAGEYR >= 25 & RIDAGEYR < 80)): could not find function "%>%"
+~~~
+{: .error}
+
+
+
+~~~
+boxplot(merge25_df$LBXGLU) # looking at outliers again in this new dataset
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in boxplot(merge25_df$LBXGLU): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+boxplot(merge25_df$BMXBMI) # looking at outliers again
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in boxplot(merge25_df$BMXBMI): object 'merge25_df' not found
+~~~
+{: .error}
+
+4.Let's do scatter plots to see linear relationship between predictors and outcome variable:
+
+~~~
+scatter.smooth(merge25_df$LBXGLU, merge25_df$LBXTC, xlab = "Glucose levels (mg/dl)", ylab = "Total Cholesterol (mg/dl)")
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in xy.coords(x, y, xlabel, ylabel): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+scatter.smooth(merge25_df$BMXBMI, merge25_df$LBXTC, xlab = "BMI", ylab = "Total Cholesterol (mg/dl)")
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in xy.coords(x, y, xlabel, ylabel): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+scatter.smooth(merge25_df$RIDAGEYR, merge25_df$LBXTC, xlab = "Age (years)", ylab = "Total Cholesterol (mg/dl)")
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in xy.coords(x, y, xlabel, ylabel): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+scatter.smooth(merge25_df$LBDHDD, merge25_df$LBXTC, xlab = "HDL", ylab = "Total Cholesterol (mg/dl)")
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in xy.coords(x, y, xlabel, ylabel): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+scatter.smooth(merge25_df$LBDLDL, merge25_df$LBXTC, xlab = "LDL", ylab = "Total Cholesterol (mg/dl)")
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in xy.coords(x, y, xlabel, ylabel): object 'merge25_df' not found
+~~~
+{: .error}
+
+5. Let's do a correlation matrix now
+
+~~~
+cor(merge25_df[ , c("LBXGLU", "BMXBMI", "RIDAGEYR", "LBDHDD", "LBDLDL")], use = "complete.obs") # everything looks like below 27% multicollinearity.
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(x): object 'merge25_df' not found
+~~~
+{: .error}
+
+BLOOD PRESSURE CATEGORIES:
+https://www.heart.org/-/media/data-import/downloadables/pe-abh-what-is-high-blood-pressure-ucm_300310.pdf
+
+6. Let's create catgegories for variables we are intersted in.
+
+~~~
+bp_cat <- function(sbp, dbp) {
+ if (is.na(sbp) | is.na(dbp)){
+   return(NA)
+ }
+  #if (sbp>=180 | dbp >=120) {
+   # return("Hypertensive Crisis")
+  #}
+if (sbp>=140 | dbp >=90) {
+    return("Hypertension Stage 2+")
+  }
+
+if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) {
+    return("Hypertension Stage 1")
+  }
+
+ if ((sbp>=120 & sbp<=129) &  dbp <80) {
+    return("Elevated")
+  }
+
+  if (sbp < 120 & dbp <80) {
+    return("Normal") 
+  }
+} 
+~~~
+{: .language-r}
+
 
 
 ~~~
 # Converting Blood pressure into categories
-# merge_df <- merge_df %>% mutate(bp_category = bp_cat(BPXSY1, BPXDI1))
-merge_df$bp_category <- mapply(bp_cat, merge_df$BPXSY1, merge_df$BPXDI1)
+# merge25_df <- merge25_df %>% mutate(bp_category = bp_cat(BPXSY1, BPXDI1))
+merge25_df$bp_category <- mapply(bp_cat, merge25_df$BPXSY1, merge25_df$BPXDI1)
 ~~~
 {: .language-r}
 
@@ -183,43 +418,276 @@ Let's first make sure that everything looks okay.  There are over 50 variables, 
 
 ~~~
 # See what the range of text vales is
-unique(merge_df$bp_category)
+unique(merge25_df$bp_category)
 
 # Look at just the pertinent columns
-just_bp <- merge_df %>% select(BPXSY1, BPXDI1, bp_category) # check to make sure no NULL values and categories are correctly created
+just_bp <- merge25_df %>% select(BPXSY1, BPXDI1, bp_category) # check to make sure no NULL values and categories are correctly created
 ~~~
 {: .language-r}
 
 
 ~~~
 # Converting to factor 
-merge_df$bp_category <- as.factor(merge_df$bp_category) 
-str(merge_df$bp_category)  # Observe that it's a factor
-table(merge_df$bp_category, useNA = "ifany")  # Inspect the values
+merge25_df$bp_category <- as.factor(merge25_df$bp_category) 
+merge25_df$bp_category <- relevel(merge25_df$bp_category, "Normal") #sets "normal" as reference.
+str(merge25_df$bp_category)  # Observe that it's a factor
+table(merge25_df$bp_category, useNA = "ifany")  # Inspect the values
 
-barplot(table(merge_df$bp_category)) #TODO reorder so it looks ordinal
+barplot(table(merge25_df$bp_category)) #TODO reorder so it looks ordinal
 ~~~
 {: .language-r}
 
 
 ~~~
 # Convert BMI into categories
-merge_df$BMI_category <- cut(merge_df$BMXBMI, breaks = c(0, 18.5, 25.0, 30.0, 35.0, 40, 100), labels = c("Underweight", "Normal weight", "Pre-obese", "Obesity I", "Obesity II", "Obesity III"), right = FALSE)
-summary(merge_df$BMI_category)
+merge25_df$BMI_category <- cut(merge25_df$BMXBMI, breaks = c(0, 18.5, 25.0, 30.0, 35.0, 40, 100), labels = c("Underweight", "Normal", "Pre-obese", "Obesity I", "Obesity II", "Obesity III"), right = FALSE)
+
+merge25_df$BMI_category <- relevel(merge25_df$BMI_category, "Normal") #this sets "normal" as the reference category.
+
+summary(merge25_df$BMI_category)
+~~~
+{: .language-r}
+
+NOTE: lm ignoes NAs (check this again though).  Make a note of this in the write up of the lesson. 
+
+7. Simple linear regression models:
+
+~~~
+#TODO: Set appropriate reference levels in factor variables (for BP and BMI)
+
+# glucose
+lm_gluc <- lm(LBXTC ~ LBXGLU, data = merge25_df) 
 ~~~
 {: .language-r}
 
 
 
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
 
 
 ~~~
-#TODO: Set appropriate reference levels in factor variables
-
-lm_gluc <- lm(LBXTC ~ LBXGLU, data = merge_df) 
 summary(lm_gluc)
-lm_sbp <- lm(LBXTC ~ BPXSY1, data = merge_df)
-summary(lm_sbp)
 ~~~
 {: .language-r}
+
+
+
+~~~
+Error in summary(lm_gluc): object 'lm_gluc' not found
+~~~
+{: .error}
+
+
+
+~~~
+# bmi
+lm_bmi <- lm(LBXTC ~ BMXBMI, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(lm_bmi)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(lm_bmi): object 'lm_bmi' not found
+~~~
+{: .error}
+
+
+
+~~~
+# bmi categorical
+lm_bmicat <- lm(LBXTC ~ BMI_category, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(lm_bmicat)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(lm_bmicat): object 'lm_bmicat' not found
+~~~
+{: .error}
+
+
+
+~~~
+# age
+lm_age <- lm(LBXTC ~ RIDAGEYR, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(lm_age)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(lm_age): object 'lm_age' not found
+~~~
+{: .error}
+
+
+
+~~~
+# hdl
+lm_hdl <- lm(LBXTC ~ LBDHDD, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(lm_hdl)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(lm_hdl): object 'lm_hdl' not found
+~~~
+{: .error}
+
+
+
+~~~
+# ldl
+lm_ldl <- lm(LBXTC ~ LBDLDL, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(lm_ldl)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(lm_ldl): object 'lm_ldl' not found
+~~~
+{: .error}
+
+
+
+~~~
+# BP categorical
+lm_bp <- lm(LBXTC ~ bp_category, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(lm_bp)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(lm_bp): object 'lm_bp' not found
+~~~
+{: .error}
+
+#TODO  INTERACTION TERMS, look at literature to see which ones need to be created. 
+
+Next: Just creating one big model just to see for now.
+
+~~~
+lm_model <- lm(LBXTC ~ LBXGLU + BMI_category + LBDHDD + LBDLDL + RIDAGEYR + bp_category, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(lm_model)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(lm_model): object 'lm_model' not found
+~~~
+{: .error}
+
+
+
+
+
+
 
