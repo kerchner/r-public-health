@@ -26,6 +26,8 @@ Text
 ```{r, eval=TRUE}
 library(SASxport)
 library(tidyverse)
+library(survey) # for using survey weights
+# survey::svydesign, svymean, svyglm
 ```
 
 ```{r, eval=TRUE}
@@ -65,8 +67,31 @@ merge_df <- merge(merge_df, glu_df[ , c("SEQN", "LBXGLU")])
 write.csv(merge_df, file = 'data_out/merge.csv', row.names = FALSE)
 ```
 
+Import the merge_df so we don't have to merge everytime.
 ```{r, eval=TRUE}
 merge_df <- read.csv("data_out/merge.csv")
+```
+
+Select variables of interest only.  This also have sampling weight vars.
+```{r, eval=TRUE}
+merge_df <- merge_df %>% select(SEQN, BMXBMI, RIDAGEYR, BPXSY1, BPXDI1, LBDLDL, LBXTC, LBDHDD, LBXGLU, WTINT2YR, WTMEC2YR, SDMVPSU, SDMVSTRA)
+```
+
+Weights: Use "svydesign" to assign the weights
+```{r, eval=TRUE}
+merge_df <- svydesign(id = ~SDMVPSU,
+                      strata = ~SDMVSTRA,
+                      weights = ~WTMEC2YR, #TODO also try adding WTINT2YR
+                      nest = TRUE,
+                      data = merge_df)
+```
+
+# let's subset on age:
+```{r, eval=TRUE}
+# merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<80)) 
+# looks like filter doesn't work once you use svydesign so have to subset.
+merge25_df <- subset(merge_df, RIDAGEYR>=25 & 
+                                RIDAGEYR<80) 
 ```
 
 Variables of interest:
@@ -77,30 +102,32 @@ BMI, BP, LDL, TC, HDL, GLU, AGE,
 ```{r, eval=TRUE}
 # Look at descriptive statistics of all independent variables
 
-summary(merge_df$LBXTC) # total chol --> outcome variable.
-sd(merge_df$LBXTC, na.rm = TRUE) # gives standard deviation; removes na values (na.rm=TRUE)
-summary(merge_df$LBXGLU) # glucose
-summary(merge_df$BMXBMI) # BMI
-summary(merge_df$RIDAGEYR) #TODO exclude people <18yo now. 
+summary(merge25_df$LBXTC) # total chol --> outcome variable.
+sd(merge25_df$LBXTC, na.rm = TRUE) # gives standard deviation; removes na values (na.rm=TRUE)
+summary(merge25_df$LBXGLU) # glucose
+summary(merge25_df$BMXBMI) # BMI
+summary(merge25_df$RIDAGEYR) #TODO exclude people <18yo now. 
 ```
 
 2. Next, let's look at these variables in detail with graphs:
 ```{r, eval=TRUE}
-hist(merge_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)",  main = "Distribution of Total Cholesterol") # looks normal overall
-hist(merge_df$LBXGLU, breaks = 100) # right skewed
-boxplot(merge_df$LBXGLU) # looking at outliers of IV
-hist(merge_df$BMXBMI, breaks = 50) # slightly right skewed
-boxplot(merge_df$BMXBMI) # looking at outliers of IV
-hist(merge_df$RIDAGEYR, breaks = 50) # if you ignore >=80 category and <=10, it's normal looking. 
+#TODO will have to use svyhist
+hist(merge25_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)",  main = "Distribution of Total Cholesterol") # looks normal
+hist(merge25_df$LBXGLU, breaks = 100) # right skewed
+boxplot(merge25_df$LBXGLU) # looking at outliers of IV
+hist(merge25_df$BMXBMI, breaks = 50) # slightly right skewed
+boxplot(merge25_df$BMXBMI) # looking at outliers of IV
+hist(merge25_df$RIDAGEYR, breaks = 50) # if you ignore >=80 category and <=10, it's normal looking. 
 
 #TODO Create histograms etc of Blood pressure variables here (for continuous)
 ```
 
-3. Let's drop anyone under the age of 25 b/c changes in TC may not be apparent in the younger age groups. 
+
+# I think we don't need this chunck.  Just hash out for now.
 ```{r, eval=TRUE}
-merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<80)) #& LBXGLU<=200)
-boxplot(merge25_df$LBXGLU) # looking at outliers again in this new dataset
-boxplot(merge25_df$BMXBMI) # looking at outliers again
+#merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<80)) #& LBXGLU<=200)
+#boxplot(merge25_df$LBXGLU) # looking at outliers again in this new dataset
+#boxplot(merge25_df$BMXBMI) # looking at outliers again
 ```
 
 4.Let's do scatter plots to see linear relationship between predictors and outcome variable:
