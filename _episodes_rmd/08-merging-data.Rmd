@@ -56,7 +56,7 @@ HERE WE NEED TO CONSIDER DPLYR FOR JOINING. #TODO
 ```{r, eval=TRUE}
 merge_df <- merge(demographics, bmi_df[ ,c("SEQN", "BMXBMI")])
 merge_df <- merge (merge_df, bp_df[ ,c("SEQN", "BPXSY1", "BPXDI1")])
-merge_df <- merge(merge_df, tg_df[ , c("SEQN", "LBXTR", "LBDLDL")])
+merge_df <- merge(merge_df, tg_df[ , c("SEQN", "LBXTR", "LBDLDL", "WTSAF2YR")])
 merge_df <- merge(merge_df, tc_df[ , c("SEQN", "LBXTC")])
 merge_df <- merge(merge_df, hdl_df[ , c("SEQN", "LBDHDD")])
 merge_df <- merge(merge_df, cbc_df[ , c("SEQN", "LBXWBCSI")])
@@ -74,74 +74,8 @@ merge_df <- read.csv("data_out/merge.csv")
 
 Select variables of interest only.  This also have sampling weight vars.
 ```{r, eval=TRUE}
-merge_df <- merge_df %>% select(SEQN, BMXBMI, RIDAGEYR, BPXSY1, BPXDI1, LBDLDL, LBXTC, LBDHDD, LBXGLU, WTINT2YR, WTMEC2YR, SDMVPSU, SDMVSTRA)
-```
-
-Weights: Use "svydesign" to assign the weights
-```{r, eval=TRUE}
-merge_df <- svydesign(id = ~SDMVPSU,
-                      strata = ~SDMVSTRA,
-                      weights = ~WTMEC2YR, #TODO also try adding WTINT2YR
-                      nest = TRUE,
-                      data = merge_df)
-```
-
-# let's subset on age:
-```{r, eval=TRUE}
-# merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<80)) 
-# looks like filter doesn't work once you use svydesign so have to subset.
-merge25_df <- subset(merge_df, RIDAGEYR>=25 & 
-                                RIDAGEYR<80) 
-```
-
-Variables of interest:
-BMI, BP, LDL, TC, HDL, GLU, AGE,
--We are interested in the association between TC and BMI categories. (Total chol (TC) = outcome and glucose (main predictor))
-
-1. After merging, first look at NAs and summaries of variables.
-```{r, eval=TRUE}
-# Look at descriptive statistics of all independent variables
-
-summary(merge25_df$LBXTC) # total chol --> outcome variable.
-sd(merge25_df$LBXTC, na.rm = TRUE) # gives standard deviation; removes na values (na.rm=TRUE)
-summary(merge25_df$LBXGLU) # glucose
-summary(merge25_df$BMXBMI) # BMI
-summary(merge25_df$RIDAGEYR) #TODO exclude people <18yo now. 
-```
-
-2. Next, let's look at these variables in detail with graphs:
-```{r, eval=TRUE}
-#TODO will have to use svyhist
-hist(merge25_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)",  main = "Distribution of Total Cholesterol") # looks normal
-hist(merge25_df$LBXGLU, breaks = 100) # right skewed
-boxplot(merge25_df$LBXGLU) # looking at outliers of IV
-hist(merge25_df$BMXBMI, breaks = 50) # slightly right skewed
-boxplot(merge25_df$BMXBMI) # looking at outliers of IV
-hist(merge25_df$RIDAGEYR, breaks = 50) # if you ignore >=80 category and <=10, it's normal looking. 
-
-#TODO Create histograms etc of Blood pressure variables here (for continuous)
-```
-
-
-# I think we don't need this chunck.  Just hash out for now.
-```{r, eval=TRUE}
-#merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<80)) #& LBXGLU<=200)
-#boxplot(merge25_df$LBXGLU) # looking at outliers again in this new dataset
-#boxplot(merge25_df$BMXBMI) # looking at outliers again
-```
-
-4.Let's do scatter plots to see linear relationship between predictors and outcome variable:
-```{r, eval=TRUE}
-scatter.smooth(merge25_df$LBXGLU, merge25_df$LBXTC, xlab = "Glucose levels (mg/dl)", ylab = "Total Cholesterol (mg/dl)")
-scatter.smooth(merge25_df$BMXBMI, merge25_df$LBXTC, xlab = "BMI", ylab = "Total Cholesterol (mg/dl)")
-scatter.smooth(merge25_df$RIDAGEYR, merge25_df$LBXTC, xlab = "Age (years)", ylab = "Total Cholesterol (mg/dl)")
-scatter.smooth(merge25_df$LBDHDD, merge25_df$LBXTC, xlab = "HDL", ylab = "Total Cholesterol (mg/dl)")
-scatter.smooth(merge25_df$LBDLDL, merge25_df$LBXTC, xlab = "LDL", ylab = "Total Cholesterol (mg/dl)")
-```
-
-5. Let's do a correlation matrix now
-```{r, eval=TRUE}
-cor(merge25_df[ , c("LBXGLU", "BMXBMI", "RIDAGEYR", "LBDHDD", "LBDLDL")], use = "complete.obs") # everything looks like below 27% multicollinearity.
+merge_df <- merge_df %>% select(SEQN, BMXBMI, RIDAGEYR, BPXSY1, BPXDI1, LBDLDL, LBXTC, LBDHDD, LBXGLU, WTSAF2YR,  SDMVPSU, SDMVSTRA) # WTINT2YR, WTMEC2YR --> not using these 2 weigths.  Instead we are using WTSAF2YR b/c it belongs to the smallest subset.
+# see: https://wwwn.cdc.gov/nchs/nhanes/tutorials/module3.aspx
 ```
 
 BLOOD PRESSURE CATEGORIES:
@@ -178,7 +112,7 @@ if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) {
 ```{r, eval=TRUE}
 # Converting Blood pressure into categories
 # merge25_df <- merge25_df %>% mutate(bp_category = bp_cat(BPXSY1, BPXDI1))
-merge25_df$bp_category <- mapply(bp_cat, merge25_df$BPXSY1, merge25_df$BPXDI1)
+merge_df$bp_category <- mapply(bp_cat, merge_df$BPXSY1, merge_df$BPXDI1)
 ```
 
 Let's first make sure that everything looks okay.  There are over 50 variables, so scrolling through the data frame in the viewer is not a great option.
@@ -211,6 +145,87 @@ merge25_df$BMI_category <- relevel(merge25_df$BMI_category, "Normal") #this sets
 summary(merge25_df$BMI_category)
 
 ```
+
+
+
+
+Weights: Use "svydesign" to assign the weights
+```{r, eval=TRUE}
+tg_design <- svydesign(id = ~SDMVPSU,
+                      strata = ~SDMVSTRA,
+                      weights = ~WTSAF2YR, 
+                      nest = TRUE,
+                      data = merge_df)
+# The svydesign object combines a data frame and all the survey design information needed to analyse it.
+# tg for triglycerides
+```
+
+# let's subset on age:
+```{r, eval=TRUE}
+# merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<80)) 
+# looks like filter doesn't work once you use svydesign so have to subset.
+tg_design2 <- subset(tg_design, RIDAGEYR>=25 & 
+                                RIDAGEYR<80) 
+```
+
+Variables of interest:
+BMI, BP, LDL, TC, HDL, GLU, AGE,
+-We are interested in the association between TC and BMI categories. (Total chol (TC) = outcome and glucose (main predictor))
+
+1. After merging, first look at NAs and summaries of variables.
+```{r, eval=TRUE}
+# Look at descriptive statistics of all independent variables
+svymean(~RIDAGEYR, tg_design2, na.rm = TRUE) # RIDAGEYR Mean:49.24 SE:0.6123
+summary(tg_design2) # let's not worry about the output from here at the moment. 
+
+
+#
+summary(merge25_df$LBXTC) # total chol --> outcome variable.
+sd(merge25_df$LBXTC, na.rm = TRUE) # gives standard deviation; removes na values (na.rm=TRUE)
+summary(merge25_df$LBXGLU) # glucose
+summary(merge25_df$BMXBMI) # BMI
+summary(merge25_df$RIDAGEYR) #TODO exclude people <18yo now. 
+```
+
+2. Next, let's look at these variables in detail with graphs:
+```{r, eval=TRUE}
+#TODO will have to use svyhist
+#TODO do a q-q plot to check for normality of IVs.
+svyhist(~LBXTC, tg_design2, breaks = 30)
+
+#TODO Convert all of these to svyhist.
+hist(merge25_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)",  main = "Distribution of Total Cholesterol") # looks normal
+hist(merge25_df$LBXGLU, breaks = 100) # right skewed
+boxplot(merge25_df$LBXGLU) # looking at outliers of IV
+hist(merge25_df$BMXBMI, breaks = 50) # slightly right skewed
+boxplot(merge25_df$BMXBMI) # looking at outliers of IV
+hist(merge25_df$RIDAGEYR, breaks = 50) # if you ignore >=80 category and <=10, it's normal looking. 
+
+#TODO Create histograms etc of Blood pressure variables here (for continuous)
+```
+
+
+4.Let's do scatter plots to see linear relationship between predictors and outcome variable:
+```{r, eval=TRUE}
+svyplot(LBXTC ~ LBXGLU, tg_design2, xlab = "Glucose levels (mg/dl)", ylab = "Total Cholesterol (mg/dl)", main = "TC vs. Glucose")
+
+#TODO: Change all of these to svyplot as above
+#TODO: Look at plot.svysmooth
+scatter.smooth(merge25_df$LBXGLU, merge25_df$LBXTC, xlab = "Glucose levels (mg/dl)", ylab = "Total Cholesterol (mg/dl)")
+scatter.smooth(merge25_df$BMXBMI, merge25_df$LBXTC, xlab = "BMI", ylab = "Total Cholesterol (mg/dl)")
+scatter.smooth(merge25_df$RIDAGEYR, merge25_df$LBXTC, xlab = "Age (years)", ylab = "Total Cholesterol (mg/dl)")
+scatter.smooth(merge25_df$LBDHDD, merge25_df$LBXTC, xlab = "HDL", ylab = "Total Cholesterol (mg/dl)")
+scatter.smooth(merge25_df$LBDLDL, merge25_df$LBXTC, xlab = "LDL", ylab = "Total Cholesterol (mg/dl)")
+```
+
+5. Let's do a correlation matrix now
+```{r, eval=TRUE}
+
+#TODO figure out how to do a correlation matrix. Maybe we can just show it in the non-design weight part and skip it here. 
+svycor(tg_design2[ , c("LBXGLU", "BMXBMI", "RIDAGEYR", "LBDHDD", "LBDLDL")], use = "complete.obs") # everything looks like below 27% multicollinearity.
+```
+
+
 
 NOTE: lm ignoes NAs (check this again though).  Make a note of this in the write up of the lesson. 
 
