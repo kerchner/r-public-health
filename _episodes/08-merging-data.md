@@ -18,110 +18,24 @@ exercises: 10
 
 
 
-## Introduction goes here
+## Combining data from multiple files
 
-Text
+Often, the observations of the study participants may be distributed across many different data files.  For example, one file might contain a table with demographics, with one row per participant.  Another file might contain laboratory measurements for some or all of those participants.
+
+To perform your analysis, though, you probably want all of the demographics and laboratory data of interest in a single table which has one row for each participant.
+
+In order to do this, first we'll need to load each of the separate data files into data.frame objects in R.  Once we've done that, we'll be able to use R functions to combine them.
+
+First, let's get the libraries/packages we'll need:
+
 
 
 ~~~
 library(SASxport)
 library(tidyverse)
-~~~
-{: .language-r}
-
-
-
-~~~
-── Attaching packages ───────────────────────────────────────────────────────── tidyverse 1.2.1 ──
-~~~
-{: .output}
-
-
-
-~~~
-✔ ggplot2 3.2.1     ✔ purrr   0.3.2
-✔ tibble  2.1.3     ✔ dplyr   0.8.3
-✔ tidyr   1.0.0     ✔ stringr 1.4.0
-✔ readr   1.3.1     ✔ forcats 0.4.0
-~~~
-{: .output}
-
-
-
-~~~
-── Conflicts ──────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-~~~
-{: .output}
-
-
-
-~~~
 library(survey) # for using survey weights
-~~~
-{: .language-r}
-
-
-
-~~~
-Loading required package: grid
-~~~
-{: .output}
-
-
-
-~~~
-Loading required package: Matrix
-~~~
-{: .output}
-
-
-
-~~~
-
-Attaching package: 'Matrix'
-~~~
-{: .output}
-
-
-
-~~~
-The following objects are masked from 'package:tidyr':
-
-    expand, pack, unpack
-~~~
-{: .output}
-
-
-
-~~~
-Loading required package: survival
-~~~
-{: .output}
-
-
-
-~~~
-
-Attaching package: 'survey'
-~~~
-{: .output}
-
-
-
-~~~
-The following object is masked from 'package:graphics':
-
-    dotchart
-~~~
-{: .output}
-
-
-
-~~~
 # survey::svydesign, svymean, svyglm
-library(jtools)
+library(jtools) # for svycor
 ~~~
 {: .language-r}
 
@@ -146,7 +60,10 @@ You might also be wondering: But I thought I installed `tidyverse`, not `dplyr`!
 
 
 ~~~
+# Demographics data file
 demographics <- read.xport('data/DEMO_I.XPT')
+
+# Laboratory data files
 bmi_df <- read.xport('data/BMX_I.XPT') 
 bp_df <- read.xport('data/BPX_I.XPT')
 cbc_df <- read.xport('data/CBC_I.XPT')
@@ -158,7 +75,52 @@ tc_df <- read.xport('data/TCHOL_I.XPT')
 ~~~
 {: .language-r}
 
+Let's take a quick look at the variables in the demographics file:
+
+~~~
+colnames(demographics)
+~~~
+{: .language-r}
+
+
+
+~~~
+ [1] "SEQN"     "SDDSRVYR" "RIDSTATR" "RIAGENDR" "RIDAGEYR" "RIDAGEMN"
+ [7] "RIDRETH1" "RIDRETH3" "RIDEXMON" "RIDEXAGM" "DMQMILIZ" "DMQADFC" 
+[13] "DMDBORN4" "DMDCITZN" "DMDYRSUS" "DMDEDUC3" "DMDEDUC2" "DMDMARTL"
+[19] "RIDEXPRG" "SIALANG"  "SIAPROXY" "SIAINTRP" "FIALANG"  "FIAPROXY"
+[25] "FIAINTRP" "MIALANG"  "MIAPROXY" "MIAINTRP" "AIALANGA" "DMDHHSIZ"
+[31] "DMDFMSIZ" "DMDHHSZA" "DMDHHSZB" "DMDHHSZE" "DMDHRGND" "DMDHRAGE"
+[37] "DMDHRBR4" "DMDHREDU" "DMDHRMAR" "DMDHSEDU" "WTINT2YR" "WTMEC2YR"
+[43] "SDMVPSU"  "SDMVSTRA" "INDHHIN2" "INDFMIN2" "INDFMPIR"
+~~~
+{: .output}
+
+And now let's take a quick look at one of the other files to see which variables are in it:
+
+~~~
+colnames(bmi_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+ [1] "SEQN"     "BMDSTATS" "BMXWT"    "BMIWT"    "BMXRECUM" "BMIRECUM"
+ [7] "BMXHEAD"  "BMIHEAD"  "BMXHT"    "BMIHT"    "BMXBMI"   "BMDBMIC" 
+[13] "BMXLEG"   "BMILEG"   "BMXARML"  "BMIARML"  "BMXARMC"  "BMIARMC" 
+[19] "BMXWAIST" "BMIWAIST" "BMXSAD1"  "BMXSAD2"  "BMXSAD3"  "BMXSAD4" 
+[25] "BMDAVSAD" "BMDSADCM"
+~~~
+{: .output}
+
+While it's great that the study measured 25 variables for each participant (idenfied by their SEQN value), we'll end up with a lot of varibles that we don't need for our analysis if we merge the entire table and all of its variables onto our demographics data.  Sometimes you want to keep all of the variables, but many times you only want some.
+
+
 Now that we have all the files read in, let's merge.
+
+
+
 From bmi_df we are keeping: BMXBMI
 from bp_df: PBXPLS (pules), BPXSY1 (SBP), PBXDI1 (DPB),
 tg_df : LBXTR (triglycerides mg/dL), LBDLDL (LDL mg/dL)
@@ -319,7 +281,7 @@ svyboxplot(LBXTC~1, tg_design2) # 1 says it's just that one variable. B/c the se
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-08-unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
 
 ~~~
 #TODO WE NEED TO DO THIS ON ALL THE OTHER VARIABLES OF INTEREST.
@@ -385,7 +347,7 @@ svyhist(~LBXTC, tg_design2, breaks = 30)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-08-unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
 
 ~~~
 #TODO Convert all of these to svyhist.
@@ -485,28 +447,28 @@ svyplot(LBXTC ~ LBXGLU, tg_design2, xlab = "Glucose levels (mg/dl)", ylab = "Tot
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-08-unnamed-chunk-13-1.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" width="612" style="display: block; margin: auto;" />
 
 ~~~
 svyplot(LBXTC ~ BMXBMI, tg_design2, xlab = "BMI", ylab = "Total Cholesterol (mg/dl)", main = "TC vs. BMI")
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-12-2.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-08-unnamed-chunk-13-2.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" width="612" style="display: block; margin: auto;" />
 
 ~~~
 svyplot(LBXTC ~ LBDLDL, tg_design2, xlab = "LDL", ylab = "Total Cholesterol (mg/dl)", main = "TC vs. LDL")
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-12-3.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-08-unnamed-chunk-13-3.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" width="612" style="display: block; margin: auto;" />
 
 ~~~
 svyplot(LBXTC ~ LBDHDD, tg_design2, xlab = "HDL", ylab = "Total Cholesterol (mg/dl)", main = "TC vs. HDL")
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-12-4.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-08-unnamed-chunk-13-4.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" width="612" style="display: block; margin: auto;" />
 
 ~~~
 #TODO: Change all of these to svyplot as above

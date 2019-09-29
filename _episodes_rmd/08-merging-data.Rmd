@@ -16,19 +16,26 @@ exercises: 10
 
 ```{r, include=FALSE}
 source("../bin/chunk-options.R")
-knitr_fig_path("01-")
+knitr_fig_path("08-")
 ```
 
-## Introduction goes here
+## Combining data from multiple files
 
-Text
+Often, the observations of the study participants may be distributed across many different data files.  For example, one file might contain a table with demographics, with one row per participant.  Another file might contain laboratory measurements for some or all of those participants.
 
-```{r, eval=TRUE}
+To perform your analysis, though, you probably want all of the demographics and laboratory data of interest in a single table which has one row for each participant.
+
+In order to do this, first we'll need to load each of the separate data files into data.frame objects in R.  Once we've done that, we'll be able to use R functions to combine them.
+
+First, let's get the libraries/packages we'll need:
+
+
+```{r load_libraries, message=FALSE}
 library(SASxport)
 library(tidyverse)
 library(survey) # for using survey weights
 # survey::svydesign, svymean, svyglm
-library(jtools)
+library(jtools) # for svycor
 
 ```
 
@@ -52,7 +59,11 @@ Now what if you still want to use `filter()` from `stats`?  Well, there's a hint
 You might also be wondering: But I thought I installed `tidyverse`, not `dplyr`!  Packages can have **dependencies**, meaning that one package needs, or depends on, another.  In this case, `tidyverse` has several dependencies, one of which is `dplyr`, so when you install `tidyverse`, several other packages are installed with it:  `dplyr`, `magrittr`, `ggplot2`, and others.  You definitely _can_ just install the ones you want, instead of the `tidyverse` package which brings all of them in.
 
 ```{r, eval=TRUE}
+
+# Demographics data file
 demographics <- read.xport('data/DEMO_I.XPT')
+
+# Laboratory data files
 bmi_df <- read.xport('data/BMX_I.XPT') 
 bp_df <- read.xport('data/BPX_I.XPT')
 cbc_df <- read.xport('data/CBC_I.XPT')
@@ -63,7 +74,23 @@ tc_df <- read.xport('data/TCHOL_I.XPT')
 # smk_df <- read.xport('data/SMQ_I.XPT')
 ```
 
+Let's take a quick look at the variables in the demographics file:
+```{r}
+colnames(demographics)
+```
+
+And now let's take a quick look at one of the other files to see which variables are in it:
+```{r}
+colnames(bmi_df)
+```
+
+While it's great that the study measured 25 variables for each participant (idenfied by their SEQN value), we'll end up with a lot of varibles that we don't need for our analysis if we merge the entire table and all of its variables onto our demographics data.  Sometimes you want to keep all of the variables, but many times you only want some.
+
+
 Now that we have all the files read in, let's merge.
+
+
+
 From bmi_df we are keeping: BMXBMI
 from bp_df: PBXPLS (pules), BPXSY1 (SBP), PBXDI1 (DPB),
 tg_df : LBXTR (triglycerides mg/dL), LBDLDL (LDL mg/dL)
