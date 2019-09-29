@@ -32,7 +32,7 @@ library(tidyverse)
 
 
 ~~~
-── Attaching packages ───────────────────────────────────────────────────── tidyverse 1.2.1 ──
+── Attaching packages ───────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 ~~~
 {: .output}
 
@@ -41,7 +41,7 @@ library(tidyverse)
 ~~~
 ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
 ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-✔ tidyr   0.8.3     ✔ stringr 1.4.0
+✔ tidyr   1.0.0     ✔ stringr 1.4.0
 ✔ readr   1.3.1     ✔ forcats 0.4.0
 ~~~
 {: .output}
@@ -49,11 +49,100 @@ library(tidyverse)
 
 
 ~~~
-── Conflicts ──────────────────────────────────────────────────────── tidyverse_conflicts() ──
+── Conflicts ──────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ~~~
 {: .output}
+
+
+
+~~~
+library(survey) # for using survey weights
+~~~
+{: .language-r}
+
+
+
+~~~
+Loading required package: grid
+~~~
+{: .output}
+
+
+
+~~~
+Loading required package: Matrix
+~~~
+{: .output}
+
+
+
+~~~
+
+Attaching package: 'Matrix'
+~~~
+{: .output}
+
+
+
+~~~
+The following objects are masked from 'package:tidyr':
+
+    expand, pack, unpack
+~~~
+{: .output}
+
+
+
+~~~
+Loading required package: survival
+~~~
+{: .output}
+
+
+
+~~~
+
+Attaching package: 'survey'
+~~~
+{: .output}
+
+
+
+~~~
+The following object is masked from 'package:graphics':
+
+    dotchart
+~~~
+{: .output}
+
+
+
+~~~
+# survey::svydesign, svymean, svyglm
+library(jtools)
+~~~
+{: .language-r}
+
+## A word about packages -- interpreting warnings, masking, and more
+
+Notice that when you ran `library(tidyverse)`, some warnings showed up on the console.  The red Xs might have made you think something went wrong!
+
+Let's break that part of the output down a bit:
+
+TODO: Replace with screenshot or figure out how to colorize text: 
+~~~
+── Conflicts ────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+~~~
+
+This is telling us that two functions, `filter()` and `log()` from the `dplyr` package **masked** two functions with the same names in the `stats` package, which is always available in R (you don't need to run `install.packages` or `library` to use it).  By **masking**, this means that if you have code that uses the `filter()` function, R is going to give precedence to the package you installed later, and R will assume you meant `filter()` from `dplyr`.
+
+Now what if you still want to use `filter()` from `stats`?  Well, there's a hint in the output above.  You can call it by being more explicit and including the package name, referencing it as `stats::filter()`.
+
+You might also be wondering: But I thought I installed `tidyverse`, not `dplyr`!  Packages can have **dependencies**, meaning that one package needs, or depends on, another.  In this case, `tidyverse` has several dependencies, one of which is `dplyr`, so when you install `tidyverse`, several other packages are installed with it:  `dplyr`, `magrittr`, `ggplot2`, and others.  You definitely _can_ just install the ones you want, instead of the `tidyverse` package which brings all of them in.
 
 
 ~~~
@@ -84,7 +173,7 @@ HERE WE NEED TO CONSIDER DPLYR FOR JOINING. #TODO
 ~~~
 merge_df <- merge(demographics, bmi_df[ ,c("SEQN", "BMXBMI")])
 merge_df <- merge (merge_df, bp_df[ ,c("SEQN", "BPXSY1", "BPXDI1")])
-merge_df <- merge(merge_df, tg_df[ , c("SEQN", "LBXTR", "LBDLDL")])
+merge_df <- merge(merge_df, tg_df[ , c("SEQN", "LBXTR", "LBDLDL", "WTSAF2YR")])
 merge_df <- merge(merge_df, tc_df[ , c("SEQN", "LBXTC")])
 merge_df <- merge(merge_df, hdl_df[ , c("SEQN", "LBDHDD")])
 merge_df <- merge(merge_df, cbc_df[ , c("SEQN", "LBXWBCSI")])
@@ -98,9 +187,41 @@ write.csv(merge_df, file = 'data_out/merge.csv', row.names = FALSE)
 ~~~
 {: .language-r}
 
+Import the merge_df so we don't have to merge everytime.
 
 ~~~
 merge_df <- read.csv("data_out/merge.csv")
+~~~
+{: .language-r}
+
+Select variables of interest only.  This also have sampling weight vars.
+
+~~~
+merge_df <- merge_df %>% select(SEQN, BMXBMI, RIDAGEYR, BPXSY1, BPXDI1, LBDLDL, LBXTC, LBDHDD, LBXGLU, WTSAF2YR,  SDMVPSU, SDMVSTRA) # WTINT2YR, WTMEC2YR --> not using these 2 weigths.  Instead we are using WTSAF2YR b/c it belongs to the smallest subset.
+# see: https://wwwn.cdc.gov/nchs/nhanes/tutorials/module3.aspx
+~~~
+{: .language-r}
+
+Weights: Use "svydesign" to assign the weights
+
+~~~
+tg_design <- svydesign(id = ~SDMVPSU,
+                      strata = ~SDMVSTRA,
+                      weights = ~WTSAF2YR, 
+                      nest = TRUE,
+                      data = merge_df)
+# The svydesign object combines a data frame and all the survey design information needed to analyse it.
+# tg for triglycerides
+~~~
+{: .language-r}
+
+# let's subset on age:
+
+~~~
+# merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<80)) 
+# looks like filter doesn't work once you use svydesign so have to subset.
+tg_design2 <- subset(tg_design, RIDAGEYR>=25 & 
+                                RIDAGEYR<80) 
 ~~~
 {: .language-r}
 
@@ -112,199 +233,318 @@ BMI, BP, LDL, TC, HDL, GLU, AGE,
 
 ~~~
 # Look at descriptive statistics of all independent variables
-
-summary(merge_df$LBXTC) # total chol --> outcome variable.
+svymean(~RIDAGEYR, tg_design2, na.rm = TRUE) # RIDAGEYR Mean:49.24 SE:0.6123
 ~~~
 {: .language-r}
 
 
 
 ~~~
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-   80.0   153.0   181.0   184.2   209.0   545.0     238 
+          mean     SE
+RIDAGEYR 49.24 0.6123
 ~~~
 {: .output}
 
 
 
 ~~~
-sd(merge_df$LBXTC, na.rm = TRUE) # gives standard deviation; removes na values (na.rm=TRUE)
+summary(tg_design2) # let's not worry about the output from here at the moment. 
 ~~~
 {: .language-r}
 
 
 
 ~~~
-[1] 42.85437
+Stratified 1 - level Cluster Sampling design (with replacement)
+With (30) clusters.
+subset(tg_design, RIDAGEYR >= 25 & RIDAGEYR < 80)
+Probabilities:
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+1.917e-06 1.020e-05 1.775e-05       Inf 3.175e-05       Inf 
+Stratum Sizes: 
+           119 120 121 122 123 124 125 126 127 128 129 130 131 132 133
+obs        102 128 150 123 133 158 173 144 163 150 165 154 171 180 151
+design.PSU   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+actual.PSU   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2
+Data variables:
+ [1] "SEQN"     "BMXBMI"   "RIDAGEYR" "BPXSY1"   "BPXDI1"   "LBDLDL"  
+ [7] "LBXTC"    "LBDHDD"   "LBXGLU"   "WTSAF2YR" "SDMVPSU"  "SDMVSTRA"
 ~~~
 {: .output}
 
 
 
 ~~~
-summary(merge_df$LBXGLU) # glucose
+# LBXTC is total chol = OUTCOME variable.
+# Quantiles/quartiles based on median not mean.
+svyquantile(~LBXTC, tg_design2, c(0.25, 0.5, 0.75), ci = TRUE,interval.type = "betaWald", na.rm = TRUE)
 ~~~
 {: .language-r}
 
 
 
 ~~~
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-   21.0    94.0   101.0   110.6   111.0   479.0     219 
+$quantiles
+         0.25 0.5 0.75
+LBXTC 165.171 191  220
+
+$CIs
+, , LBXTC
+
+       0.25 0.5 0.75
+(lower  162 187  213
+upper)  169 195  225
 ~~~
 {: .output}
 
 
 
 ~~~
-summary(merge_df$BMXBMI) # BMI
+svymean(~LBXTC, tg_design2, na.rm = TRUE) # 194.41
 ~~~
 {: .language-r}
 
 
 
 ~~~
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-  14.10   23.40   27.50   28.49   32.30   64.50      37 
+        mean     SE
+LBXTC 194.41 1.7313
 ~~~
 {: .output}
 
 
 
 ~~~
-summary(merge_df$RIDAGEYR) #TODO exclude people <18yo now. 
-~~~
-{: .language-r}
-
-
-
-~~~
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  12.00   25.00   43.00   43.81   61.00   80.00 
-~~~
-{: .output}
-
-2. Next, let's look at these variables in detail with graphs:
-
-~~~
-hist(merge_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)",  main = "Distribution of Total Cholesterol") # looks normal overall
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
-
-~~~
-hist(merge_df$LBXGLU, breaks = 100) # right skewed
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-unnamed-chunk-8-2.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
-
-~~~
-boxplot(merge_df$LBXGLU) # looking at outliers of IV
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-unnamed-chunk-8-3.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
-
-~~~
-hist(merge_df$BMXBMI, breaks = 50) # slightly right skewed
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-unnamed-chunk-8-4.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
-
-~~~
-boxplot(merge_df$BMXBMI) # looking at outliers of IV
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-unnamed-chunk-8-5.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
-
-~~~
-hist(merge_df$RIDAGEYR, breaks = 50) # if you ignore >=80 category and <=10, it's normal looking. 
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-unnamed-chunk-8-6.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
-
-~~~
-#TODO Create histograms etc of Blood pressure variables here (for continuous)
-~~~
-{: .language-r}
-
-3. Let's drop anyone under the age of 25 b/c changes in TC may not be apparent in the younger age groups. 
-
-~~~
-merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<80)) #& LBXGLU<=200)
-boxplot(merge25_df$LBXGLU) # looking at outliers again in this new dataset
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-unnamed-chunk-9-1.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" width="612" style="display: block; margin: auto;" />
-
-~~~
-boxplot(merge25_df$BMXBMI) # looking at outliers again
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-unnamed-chunk-9-2.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" width="612" style="display: block; margin: auto;" />
-
-4.Let's do scatter plots to see linear relationship between predictors and outcome variable:
-
-~~~
-scatter.smooth(merge25_df$LBXGLU, merge25_df$LBXTC, xlab = "Glucose levels (mg/dl)", ylab = "Total Cholesterol (mg/dl)")
+svyboxplot(LBXTC~1, tg_design2) # 1 says it's just that one variable. B/c the setup here requies 2 variables otherwise.
 ~~~
 {: .language-r}
 
 <img src="../fig/rmd-01-unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
 
 ~~~
-scatter.smooth(merge25_df$BMXBMI, merge25_df$LBXTC, xlab = "BMI", ylab = "Total Cholesterol (mg/dl)")
+#TODO WE NEED TO DO THIS ON ALL THE OTHER VARIABLES OF INTEREST.
+sd(merge25_df$LBXTC, na.rm = TRUE) # gives standard deviation; removes na values (na.rm=TRUE)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-10-2.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
+
 
 ~~~
-scatter.smooth(merge25_df$RIDAGEYR, merge25_df$LBXTC, xlab = "Age (years)", ylab = "Total Cholesterol (mg/dl)")
+Error in is.data.frame(x): object 'merge25_df' not found
 ~~~
-{: .language-r}
+{: .error}
 
-<img src="../fig/rmd-01-unnamed-chunk-10-3.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
 
-~~~
-scatter.smooth(merge25_df$LBDHDD, merge25_df$LBXTC, xlab = "HDL", ylab = "Total Cholesterol (mg/dl)")
-~~~
-{: .language-r}
-
-<img src="../fig/rmd-01-unnamed-chunk-10-4.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
 
 ~~~
-scatter.smooth(merge25_df$LBDLDL, merge25_df$LBXTC, xlab = "LDL", ylab = "Total Cholesterol (mg/dl)")
+summary(merge25_df$LBXGLU) # glucose
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-10-5.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+Error in summary(merge25_df$LBXGLU): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(merge25_df$BMXBMI) # BMI
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(merge25_df$BMXBMI): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(merge25_df$RIDAGEYR) #TODO exclude people <18yo now. 
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(merge25_df$RIDAGEYR): object 'merge25_df' not found
+~~~
+{: .error}
+
+2. Next, let's look at these variables in detail with graphs:
+
+~~~
+#TODO will have to use svyhist
+#TODO do a q-q plot to check for normality of IVs.
+svyhist(~LBXTC, tg_design2, breaks = 30)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-01-unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
+
+~~~
+#TODO Convert all of these to svyhist.
+hist(merge25_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)",  main = "Distribution of Total Cholesterol") # looks normal
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in hist(merge25_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)", : object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+hist(merge25_df$LBXGLU, breaks = 100) # right skewed
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in hist(merge25_df$LBXGLU, breaks = 100): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+boxplot(merge25_df$LBXGLU) # looking at outliers of IV
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in boxplot(merge25_df$LBXGLU): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+hist(merge25_df$BMXBMI, breaks = 50) # slightly right skewed
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in hist(merge25_df$BMXBMI, breaks = 50): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+boxplot(merge25_df$BMXBMI) # looking at outliers of IV
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in boxplot(merge25_df$BMXBMI): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+hist(merge25_df$RIDAGEYR, breaks = 50) # if you ignore >=80 category and <=10, it's normal looking. 
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in hist(merge25_df$RIDAGEYR, breaks = 50): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
+#TODO Create histograms etc of Blood pressure variables here (for continuous)
+~~~
+{: .language-r}
+
+
+4.Let's do scatter plots to see linear relationship between predictors and outcome variable:
+
+~~~
+svyplot(LBXTC ~ LBXGLU, tg_design2, xlab = "Glucose levels (mg/dl)", ylab = "Total Cholesterol (mg/dl)", main = "TC vs. Glucose")
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-01-unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+
+~~~
+svyplot(LBXTC ~ BMXBMI, tg_design2, xlab = "BMI", ylab = "Total Cholesterol (mg/dl)", main = "TC vs. BMI")
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-01-unnamed-chunk-12-2.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+
+~~~
+svyplot(LBXTC ~ LBDLDL, tg_design2, xlab = "LDL", ylab = "Total Cholesterol (mg/dl)", main = "TC vs. LDL")
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-01-unnamed-chunk-12-3.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+
+~~~
+svyplot(LBXTC ~ LBDHDD, tg_design2, xlab = "HDL", ylab = "Total Cholesterol (mg/dl)", main = "TC vs. HDL")
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-01-unnamed-chunk-12-4.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+
+~~~
+#TODO: Change all of these to svyplot as above
+#TODO: Look at plot.svysmooth
+# scatter.smooth(merge25_df$LBXGLU, merge25_df$LBXTC, xlab = "Glucose levels (mg/dl)", ylab = "Total Cholesterol (mg/dl)")
+# scatter.smooth(merge25_df$BMXBMI, merge25_df$LBXTC, xlab = "BMI", ylab = "Total Cholesterol (mg/dl)")
+# scatter.smooth(merge25_df$RIDAGEYR, merge25_df$LBXTC, xlab = "Age (years)", ylab = "Total Cholesterol (mg/dl)")
+# scatter.smooth(merge25_df$LBDHDD, merge25_df$LBXTC, xlab = "HDL", ylab = "Total Cholesterol (mg/dl)")
+# scatter.smooth(merge25_df$LBDLDL, merge25_df$LBXTC, xlab = "LDL", ylab = "Total Cholesterol (mg/dl)")
+~~~
+{: .language-r}
 
 5. Let's do a correlation matrix now
 
 ~~~
-cor(merge25_df[ , c("LBXGLU", "BMXBMI", "RIDAGEYR", "LBDHDD", "LBDLDL")], use = "complete.obs") # everything looks like below 27% multicollinearity.
+#TODO figure out how to do a correlation matrix. Maybe we can just show it in the non-design weight part and skip it here.
+svycor(~ LBXTC + LBXGLU, digits = 2,  design = tg_design2) # everything looks like below 27% multicollinearity.
 ~~~
 {: .language-r}
 
 
 
 ~~~
-              LBXGLU      BMXBMI    RIDAGEYR      LBDHDD      LBDLDL
-LBXGLU    1.00000000  0.16705420  0.18523715 -0.18053407  0.04221152
-BMXBMI    0.16705420  1.00000000  0.04706262 -0.28242817  0.04512733
-RIDAGEYR  0.18523715  0.04706262  1.00000000  0.05690830 -0.01627925
-LBDHDD   -0.18053407 -0.28242817  0.05690830  1.00000000 -0.09626362
-LBDLDL    0.04221152  0.04512733 -0.01627925 -0.09626362  1.00000000
+Warning in cov2cor(v): diag(.) had 0 or NA entries; non-finite result is
+doubtful
+~~~
+{: .error}
+
+
+
+~~~
+       LBXTC LBXGLU
+LBXTC      1       
+LBXGLU            1
 ~~~
 {: .output}
+
+
 
 BLOOD PRESSURE CATEGORIES:
 https://www.heart.org/-/media/data-import/downloadables/pe-abh-what-is-high-blood-pressure-ucm_300310.pdf
@@ -343,7 +583,7 @@ if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) {
 ~~~
 # Converting Blood pressure into categories
 # merge25_df <- merge25_df %>% mutate(bp_category = bp_cat(BPXSY1, BPXDI1))
-merge25_df$bp_category <- mapply(bp_cat, merge25_df$BPXSY1, merge25_df$BPXDI1)
+merge_df$bp_category <- mapply(bp_cat, merge_df$BPXSY1, merge_df$BPXDI1)
 ~~~
 {: .language-r}
 
@@ -359,10 +599,9 @@ unique(merge25_df$bp_category)
 
 
 ~~~
-[1] "Hypertension Stage 2+" "Hypertension Stage 1"  "Normal"               
-[4] "Elevated"              NA                     
+Error in unique(merge25_df$bp_category): object 'merge25_df' not found
 ~~~
-{: .output}
+{: .error}
 
 
 
@@ -373,10 +612,43 @@ just_bp <- merge25_df %>% select(BPXSY1, BPXDI1, bp_category) # check to make su
 {: .language-r}
 
 
+
+~~~
+Error in eval(lhs, parent, parent): object 'merge25_df' not found
+~~~
+{: .error}
+
+
 ~~~
 # Converting to factor 
 merge25_df$bp_category <- as.factor(merge25_df$bp_category) 
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.factor(x): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
 merge25_df$bp_category <- relevel(merge25_df$bp_category, "Normal") #sets "normal" as reference.
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in relevel(merge25_df$bp_category, "Normal"): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
 str(merge25_df$bp_category)  # Observe that it's a factor
 ~~~
 {: .language-r}
@@ -384,9 +656,9 @@ str(merge25_df$bp_category)  # Observe that it's a factor
 
 
 ~~~
- Factor w/ 4 levels "Normal","Elevated",..: 4 3 1 1 1 2 3 3 3 1 ...
+Error in str(merge25_df$bp_category): object 'merge25_df' not found
 ~~~
-{: .output}
+{: .error}
 
 
 
@@ -398,13 +670,9 @@ table(merge25_df$bp_category, useNA = "ifany")  # Inspect the values
 
 
 ~~~
-
-               Normal              Elevated  Hypertension Stage 1 
-                  825                   359                   482 
-Hypertension Stage 2+                  <NA> 
-                  448                   131 
+Error in table(merge25_df$bp_category, useNA = "ifany"): object 'merge25_df' not found
 ~~~
-{: .output}
+{: .error}
 
 
 
@@ -413,15 +681,44 @@ barplot(table(merge25_df$bp_category)) #TODO reorder so it looks ordinal
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+Error in table(merge25_df$bp_category): object 'merge25_df' not found
+~~~
+{: .error}
 
 
 ~~~
 # Convert BMI into categories
 merge25_df$BMI_category <- cut(merge25_df$BMXBMI, breaks = c(0, 18.5, 25.0, 30.0, 35.0, 40, 100), labels = c("Underweight", "Normal", "Pre-obese", "Obesity I", "Obesity II", "Obesity III"), right = FALSE)
+~~~
+{: .language-r}
 
+
+
+~~~
+Error in cut(merge25_df$BMXBMI, breaks = c(0, 18.5, 25, 30, 35, 40, 100), : object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
 merge25_df$BMI_category <- relevel(merge25_df$BMI_category, "Normal") #this sets "normal" as the reference category.
+~~~
+{: .language-r}
 
+
+
+~~~
+Error in relevel(merge25_df$BMI_category, "Normal"): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
 summary(merge25_df$BMI_category)
 ~~~
 {: .language-r}
@@ -429,12 +726,15 @@ summary(merge25_df$BMI_category)
 
 
 ~~~
-     Normal Underweight   Pre-obese   Obesity I  Obesity II Obesity III 
-        564          30         716         480         244         187 
-       NA's 
-         24 
+Error in summary(merge25_df$BMI_category): object 'merge25_df' not found
 ~~~
-{: .output}
+{: .error}
+
+
+
+
+
+
 
 NOTE: lm ignoes NAs (check this again though).  Make a note of this in the write up of the lesson. 
 
@@ -445,6 +745,19 @@ NOTE: lm ignoes NAs (check this again though).  Make a note of this in the write
 
 # glucose
 lm_gluc <- lm(LBXTC ~ LBXGLU, data = merge25_df) 
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
 summary(lm_gluc)
 ~~~
 {: .language-r}
@@ -452,33 +765,28 @@ summary(lm_gluc)
 
 
 ~~~
-
-Call:
-lm(formula = LBXTC ~ LBXGLU, data = merge25_df)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--116.135  -29.713   -1.865   24.378  234.568 
-
-Coefficients:
-             Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 189.67106    2.62569  72.237   <2e-16 ***
-LBXGLU        0.03042    0.02150   1.415    0.157    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 42 on 2109 degrees of freedom
-  (134 observations deleted due to missingness)
-Multiple R-squared:  0.0009479,	Adjusted R-squared:  0.0004742 
-F-statistic: 2.001 on 1 and 2109 DF,  p-value: 0.1573
+Error in summary(lm_gluc): object 'lm_gluc' not found
 ~~~
-{: .output}
+{: .error}
 
 
 
 ~~~
 # bmi
 lm_bmi <- lm(LBXTC ~ BMXBMI, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
 summary(lm_bmi)
 ~~~
 {: .language-r}
@@ -486,33 +794,28 @@ summary(lm_bmi)
 
 
 ~~~
-
-Call:
-lm(formula = LBXTC ~ BMXBMI, data = merge25_df)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--114.24  -29.44   -2.30   23.57  351.37 
-
-Coefficients:
-            Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 196.9837     4.0465  48.680   <2e-16 ***
-BMXBMI       -0.1214     0.1325  -0.916     0.36    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 42.67 on 2093 degrees of freedom
-  (150 observations deleted due to missingness)
-Multiple R-squared:  0.0004009,	Adjusted R-squared:  -7.673e-05 
-F-statistic: 0.8393 on 1 and 2093 DF,  p-value: 0.3597
+Error in summary(lm_bmi): object 'lm_bmi' not found
 ~~~
-{: .output}
+{: .error}
 
 
 
 ~~~
 # bmi categorical
 lm_bmicat <- lm(LBXTC ~ BMI_category, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
 summary(lm_bmicat)
 ~~~
 {: .language-r}
@@ -520,37 +823,28 @@ summary(lm_bmicat)
 
 
 ~~~
-
-Call:
-lm(formula = LBXTC ~ BMI_category, data = merge25_df)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--110.01  -29.15   -2.56   23.85  347.99 
-
-Coefficients:
-                        Estimate Std. Error t value Pr(>|t|)    
-(Intercept)             190.0115     1.8589 102.219  < 2e-16 ***
-BMI_categoryUnderweight  -5.8329     8.2535  -0.707  0.47982    
-BMI_categoryPre-obese     6.9944     2.4695   2.832  0.00467 ** 
-BMI_categoryObesity I     6.3129     2.7397   2.304  0.02131 *  
-BMI_categoryObesity II    0.1381     3.3456   0.041  0.96707    
-BMI_categoryObesity III  -2.4465     3.6993  -0.661  0.50847    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 42.55 on 2089 degrees of freedom
-  (150 observations deleted due to missingness)
-Multiple R-squared:  0.007771,	Adjusted R-squared:  0.005396 
-F-statistic: 3.272 on 5 and 2089 DF,  p-value: 0.006014
+Error in summary(lm_bmicat): object 'lm_bmicat' not found
 ~~~
-{: .output}
+{: .error}
 
 
 
 ~~~
 # age
 lm_age <- lm(LBXTC ~ RIDAGEYR, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
 summary(lm_age)
 ~~~
 {: .language-r}
@@ -558,33 +852,28 @@ summary(lm_age)
 
 
 ~~~
-
-Call:
-lm(formula = LBXTC ~ RIDAGEYR, data = merge25_df)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--112.50  -29.56   -2.00   24.13  351.88 
-
-Coefficients:
-             Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 190.13344    3.26640  58.209   <2e-16 ***
-RIDAGEYR      0.06225    0.06193   1.005    0.315    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 42.72 on 2111 degrees of freedom
-  (132 observations deleted due to missingness)
-Multiple R-squared:  0.0004784,	Adjusted R-squared:  4.925e-06 
-F-statistic:  1.01 on 1 and 2111 DF,  p-value: 0.3149
+Error in summary(lm_age): object 'lm_age' not found
 ~~~
-{: .output}
+{: .error}
 
 
 
 ~~~
 # hdl
 lm_hdl <- lm(LBXTC ~ LBDHDD, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
 summary(lm_hdl)
 ~~~
 {: .language-r}
@@ -592,33 +881,28 @@ summary(lm_hdl)
 
 
 ~~~
-
-Call:
-lm(formula = LBXTC ~ LBDHDD, data = merge25_df)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--108.86  -29.68   -3.08   24.27  360.06 
-
-Coefficients:
-             Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 171.61577    2.98889  57.418  < 2e-16 ***
-LBDHDD        0.39181    0.05145   7.616 3.93e-14 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 42.15 on 2111 degrees of freedom
-  (132 observations deleted due to missingness)
-Multiple R-squared:  0.02674,	Adjusted R-squared:  0.02628 
-F-statistic:    58 on 1 and 2111 DF,  p-value: 3.925e-14
+Error in summary(lm_hdl): object 'lm_hdl' not found
 ~~~
-{: .output}
+{: .error}
 
 
 
 ~~~
 # ldl
 lm_ldl <- lm(LBXTC ~ LBDLDL, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
 summary(lm_ldl)
 ~~~
 {: .language-r}
@@ -626,33 +910,28 @@ summary(lm_ldl)
 
 
 ~~~
-
-Call:
-lm(formula = LBXTC ~ LBDLDL, data = merge25_df)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--43.374 -11.644  -2.058   9.076 159.757 
-
-Coefficients:
-            Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 72.18126    1.23227   58.58   <2e-16 ***
-LBDLDL       1.04783    0.01026  102.17   <2e-16 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 16.37 on 1938 degrees of freedom
-  (305 observations deleted due to missingness)
-Multiple R-squared:  0.8434,	Adjusted R-squared:  0.8433 
-F-statistic: 1.044e+04 on 1 and 1938 DF,  p-value: < 2.2e-16
+Error in summary(lm_ldl): object 'lm_ldl' not found
 ~~~
-{: .output}
+{: .error}
 
 
 
 ~~~
 # BP categorical
 lm_bp <- lm(LBXTC ~ bp_category, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
 summary(lm_bp)
 ~~~
 {: .language-r}
@@ -660,29 +939,9 @@ summary(lm_bp)
 
 
 ~~~
-
-Call:
-lm(formula = LBXTC ~ bp_category, data = merge25_df)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--108.18  -28.18   -2.72   23.93  350.93 
-
-Coefficients:
-                                 Estimate Std. Error t value Pr(>|t|)    
-(Intercept)                       187.288      1.514 123.718  < 2e-16 ***
-bp_categoryElevated                 6.779      2.733   2.480   0.0132 *  
-bp_categoryHypertension Stage 1     9.896      2.487   3.979 7.17e-05 ***
-bp_categoryHypertension Stage 2+   11.081      2.557   4.333 1.55e-05 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 42.14 on 1988 degrees of freedom
-  (253 observations deleted due to missingness)
-Multiple R-squared:  0.01278,	Adjusted R-squared:  0.01129 
-F-statistic: 8.578 on 3 and 1988 DF,  p-value: 1.17e-05
+Error in summary(lm_bp): object 'lm_bp' not found
 ~~~
-{: .output}
+{: .error}
 
 #TODO  INTERACTION TERMS, look at literature to see which ones need to be created. 
 
@@ -690,6 +949,19 @@ Next: Just creating one big model just to see for now.
 
 ~~~
 lm_model <- lm(LBXTC ~ LBXGLU + BMI_category + LBDHDD + LBDLDL + RIDAGEYR + bp_category, data = merge25_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'merge25_df' not found
+~~~
+{: .error}
+
+
+
+~~~
 summary(lm_model)
 ~~~
 {: .language-r}
@@ -697,38 +969,8 @@ summary(lm_model)
 
 
 ~~~
-
-Call:
-lm(formula = LBXTC ~ LBXGLU + BMI_category + LBDHDD + LBDLDL + 
-    RIDAGEYR + bp_category, data = merge25_df)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--26.206  -7.420  -2.292   4.651  57.194 
-
-Coefficients:
-                                  Estimate Std. Error t value Pr(>|t|)    
-(Intercept)                      22.562631   1.803854  12.508  < 2e-16 ***
-LBXGLU                            0.031392   0.006605   4.753 2.16e-06 ***
-BMI_categoryUnderweight           1.784421   2.504000   0.713 0.476168    
-BMI_categoryPre-obese             2.414522   0.727692   3.318 0.000924 ***
-BMI_categoryObesity I             2.127979   0.818348   2.600 0.009389 ** 
-BMI_categoryObesity II            3.492399   0.997929   3.500 0.000477 ***
-BMI_categoryObesity III           1.052192   1.108853   0.949 0.342797    
-LBDHDD                            0.696874   0.016537  42.141  < 2e-16 ***
-LBDLDL                            1.072123   0.007573 141.570  < 2e-16 ***
-RIDAGEYR                          0.040554   0.019706   2.058 0.039734 *  
-bp_categoryElevated               1.133793   0.796636   1.423 0.154843    
-bp_categoryHypertension Stage 1   0.867193   0.733768   1.182 0.237426    
-bp_categoryHypertension Stage 2+  2.151590   0.790372   2.722 0.006546 ** 
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 11.4 on 1812 degrees of freedom
-  (420 observations deleted due to missingness)
-Multiple R-squared:  0.9227,	Adjusted R-squared:  0.9222 
-F-statistic:  1802 on 12 and 1812 DF,  p-value: < 2.2e-16
+Error in summary(lm_model): object 'lm_model' not found
 ~~~
-{: .output}
+{: .error}
 
 

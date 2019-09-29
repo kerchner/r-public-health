@@ -32,6 +32,25 @@ library(jtools)
 
 ```
 
+## A word about packages -- interpreting warnings, masking, and more
+
+Notice that when you ran `library(tidyverse)`, some warnings showed up on the console.  The red Xs might have made you think something went wrong!
+
+Let's break that part of the output down a bit:
+
+TODO: Replace with screenshot or figure out how to colorize text: 
+~~~
+── Conflicts ────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+~~~
+
+This is telling us that two functions, `filter()` and `log()` from the `dplyr` package **masked** two functions with the same names in the `stats` package, which is always available in R (you don't need to run `install.packages` or `library` to use it).  By **masking**, this means that if you have code that uses the `filter()` function, R is going to give precedence to the package you installed later, and R will assume you meant `filter()` from `dplyr`.
+
+Now what if you still want to use `filter()` from `stats`?  Well, there's a hint in the output above.  You can call it by being more explicit and including the package name, referencing it as `stats::filter()`.
+
+You might also be wondering: But I thought I installed `tidyverse`, not `dplyr`!  Packages can have **dependencies**, meaning that one package needs, or depends on, another.  In this case, `tidyverse` has several dependencies, one of which is `dplyr`, so when you install `tidyverse`, several other packages are installed with it:  `dplyr`, `magrittr`, `ggplot2`, and others.  You definitely _can_ just install the ones you want, instead of the `tidyverse` package which brings all of them in.
+
 ```{r, eval=TRUE}
 demographics <- read.xport('data/DEMO_I.XPT')
 bmi_df <- read.xport('data/BMX_I.XPT') 
