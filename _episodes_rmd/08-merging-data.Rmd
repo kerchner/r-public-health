@@ -81,6 +81,8 @@ summary(merge_df$LBXTC) # total chol --> outcome variable.
 sd(merge_df$LBXTC, na.rm = TRUE) # gives standard deviation; removes na values (na.rm=TRUE)
 summary(merge_df$LBXGLU) # glucose
 summary(merge_df$BMXBMI) # BMI
+summary(merge_df$BPXSY1)
+summary(merge_df$BPXDI1) # has 0s
 summary(merge_df$RIDAGEYR) #TODO exclude people <18yo now. 
 ```
 
@@ -92,15 +94,23 @@ boxplot(merge_df$LBXGLU) # looking at outliers of IV
 hist(merge_df$BMXBMI, breaks = 50) # slightly right skewed
 boxplot(merge_df$BMXBMI) # looking at outliers of IV
 hist(merge_df$RIDAGEYR, breaks = 50) # if you ignore >=80 category and <=10, it's normal looking. 
+hist(merge_df$BPXSY1, breaks = 50) # normally distributed
+hist(merge_df$BPXDI1, breaks = 50) # normally distributed 
 
-#TODO Create histograms etc of Blood pressure variables here (for continuous)
+
 ```
 
 3. Let's drop anyone under the age of 25 b/c changes in TC may not be apparent in the younger age groups. 
 ```{r, eval=TRUE}
-merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<80)) #& LBXGLU<=200)
-boxplot(merge25_df$LBXGLU) # looking at outliers again in this new dataset
-boxplot(merge25_df$BMXBMI) # looking at outliers again
+merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<=80)) #& LBXGLU<=200)
+boxplot(merge25_df$LBXGLU) # looking at outliers again for outcome variable in this new dataset
+hist(merge25_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)",  main = "Distribution of Total Cholesterol") # Sill very right skewed but overall normal?
+
+boxplot(merge25_df$BMXBMI) # looking at outliers again for BMI
+
+# GOOOD EXERCIZE TO DO IN CLASS
+# We note the outliers here based on the skewness of TC variable. 
+#tc_outliers <- merge25_df %>% filter(LBXTC>350)
 ```
 
 4.Let's do scatter plots to see linear relationship between predictors and outcome variable:
@@ -108,13 +118,16 @@ boxplot(merge25_df$BMXBMI) # looking at outliers again
 scatter.smooth(merge25_df$LBXGLU, merge25_df$LBXTC, xlab = "Glucose levels (mg/dl)", ylab = "Total Cholesterol (mg/dl)")
 scatter.smooth(merge25_df$BMXBMI, merge25_df$LBXTC, xlab = "BMI", ylab = "Total Cholesterol (mg/dl)")
 scatter.smooth(merge25_df$RIDAGEYR, merge25_df$LBXTC, xlab = "Age (years)", ylab = "Total Cholesterol (mg/dl)")
+scatter.smooth(merge25_df$BPXSY1, merge25_df$LBXTC, xlab = "SBP", ylab = "Total Cholesterol (mg/dl)")
+scatter.smooth(merge25_df$BPXDI1, merge25_df$LBXTC, xlab = "DBP", ylab = "Total Cholesterol (mg/dl)")
 scatter.smooth(merge25_df$LBDHDD, merge25_df$LBXTC, xlab = "HDL", ylab = "Total Cholesterol (mg/dl)")
 scatter.smooth(merge25_df$LBDLDL, merge25_df$LBXTC, xlab = "LDL", ylab = "Total Cholesterol (mg/dl)")
 ```
 
 5. Let's do a correlation matrix now
 ```{r, eval=TRUE}
-cor(merge25_df[ , c("LBXGLU", "BMXBMI", "RIDAGEYR", "LBDHDD", "LBDLDL")], use = "complete.obs") # everything looks like below 27% multicollinearity.
+cor(merge25_df[ , c("LBXGLU", "BMXBMI", "RIDAGEYR", "BPXDI1", "BPXSY1", "LBDHDD", "LBDLDL")], use = "complete.obs") # everything looks like below 28% multicollinearity 
+# except BP sytolic and Age - is 40% corr.
 ```
 
 BLOOD PRESSURE CATEGORIES:
