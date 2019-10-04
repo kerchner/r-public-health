@@ -86,6 +86,7 @@ summary(merge_df$BPXDI1) # has 0s
 summary(merge_df$RIDAGEYR) #TODO exclude people <18yo now. 
 ```
 
+
 2. Next, let's look at these variables in detail with graphs:
 ```{r, eval=TRUE}
 hist(merge_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)",  main = "Distribution of Total Cholesterol") # looks normal overall
@@ -97,12 +98,23 @@ hist(merge_df$RIDAGEYR, breaks = 50) # if you ignore >=80 category and <=10, it'
 hist(merge_df$BPXSY1, breaks = 50) # normally distributed
 hist(merge_df$BPXDI1, breaks = 50) # normally distributed 
 
+```
 
+What's with very low BPXDI1 values?
+```{r}
+low_di <- merge_df %>% filter(BPXDI1 < 40) %>% select(BPXSY1, BPXDI1)
+```
+
+Let's at least get rid of the 0's:
+
+```{r}
+merge_df <- merge_df %>% filter(BPXDI1 > 0)
 ```
 
 3. Let's drop anyone under the age of 25 b/c changes in TC may not be apparent in the younger age groups. 
 ```{r, eval=TRUE}
-merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<=80)) #& LBXGLU<=200)
+merge25_df <- merge_df %>% filter(RIDAGEYR>=25 & RIDAGEYR<=80) #& LBXGLU<=200)
+
 boxplot(merge25_df$LBXGLU) # looking at outliers again for outcome variable in this new dataset
 hist(merge25_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)",  main = "Distribution of Total Cholesterol") # Sill very right skewed but overall normal?
 
@@ -123,6 +135,7 @@ scatter.smooth(merge25_df$BPXDI1, merge25_df$LBXTC, xlab = "DBP", ylab = "Total 
 scatter.smooth(merge25_df$LBDHDD, merge25_df$LBXTC, xlab = "HDL", ylab = "Total Cholesterol (mg/dl)")
 scatter.smooth(merge25_df$LBDLDL, merge25_df$LBXTC, xlab = "LDL", ylab = "Total Cholesterol (mg/dl)")
 ```
+
 
 5. Let's do a correlation matrix now
 ```{r, eval=TRUE}
@@ -195,7 +208,7 @@ merge25_df$BMI_category <- cut(merge25_df$BMXBMI, breaks = c(0, 18.5, 25.0, 30.0
 merge25_df$BMI_category <- relevel(merge25_df$BMI_category, "Normal") #this sets "normal" as the reference category.
 
 summary(merge25_df$BMI_category)
-
+barplot(table(merge25_df$BMI_category))
 ```
 
 NOTE: lm ignoes NAs (check this again though).  Make a note of this in the write up of the lesson. 
