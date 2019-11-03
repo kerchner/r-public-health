@@ -17,7 +17,34 @@ source: Rmd
 
 ```{r, include=FALSE}
 source("../bin/chunk-options.R")
-knitr_fig_path("01-")
+knitr_fig_path("07-")
 ```
 
 # TODO
+
+Hide this:
+```{r}
+swan_df <- read.delim('data/SWAN.tsv')
+```
+
+# Table 1
+
+Creating a "Table 1" is an almost-universal step in conducting an analysis in public health data.  Fortunately for us, there are now some R libraries we can use to make this task easier.  Let's use the `tableone` library:
+
+```{r}
+#install.packages('tableone')
+library(tableone)
+```
+
+#TODO: Move this to episode 5
+```{r}
+swan_df$HEART <- as.factor(swan_df$HEART)
+levels(swan_df$HEART) <- c('No', 'Yes')
+```
+
+
+Let's take a look at the help for `tableone`
+```{r}
+CreateTableOne(data = swan_df, vars = c('ARTHRIT', 'DEGREE'),
+               strata = 'HEART')
+```

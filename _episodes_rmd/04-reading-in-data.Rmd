@@ -7,7 +7,8 @@ questions:
 - "Once I've loaded in my data, how do I look at it?"
 objectives:
 - "Read a CSV file into a `data.frame`"
-- "Read data files from other format: SPSS, SAS, Excel"
+- "Read data files from other formats: SPSS, SAS, Excel"
+- "Read a TSV file into a `data.frame`"
 - "Explore a newly loaded data.frame -- number of rows, columns... preview before merging"
 - "Understand the variable types of imported data"
 - "Install R packages"
@@ -143,6 +144,28 @@ colnames(demographics)
 
 glu_df <- read.xport('data/GLU_I.XPT')
 sleep_df <- read.xport('data/SLQ_I.XPT')
+
+
+### Reading in a TSV File
+
+Now we'd like to read in a TSV file.  TSV files are like CSV files, except that the separator between data files is the tab character.  We'll use the `read.delim` function, which is almost identical to `read.csv`.  In fact, both are slightly different derivatives of `read.table`.
+
+```{r}
+swan_df <- read.delim('data/SWAN.tsv')
+```
+
+This data set has 111 different variables!  When we look at it in the viewer, there are too many variables to easily look through.  Yes, the RStudio viewer has horizontal pagination (with the << and >> buttons), but that's still a bit clunky.
+
+#TODO:  Note that `read.delim` didn't treat any of the variables as factors.
+
+One option is to use the `colnames()` or `names()` function to get a vector of all the column names:
+
+```{r}
+names(swan_df)
+```
+
+
+
 
 ### A word about reproducibility
 

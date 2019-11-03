@@ -9,7 +9,8 @@ questions:
 - "Once I've loaded in my data, how do I look at it?"
 objectives:
 - "Read a CSV file into a `data.frame`"
-- "Read data files from other format: SPSS, SAS, Excel"
+- "Read data files from other formats: SPSS, SAS, Excel"
+- "Read a TSV file into a `data.frame`"
 - "Explore a newly loaded data.frame -- number of rows, columns... preview before merging"
 - "Understand the variable types of imported data"
 - "Install R packages"
@@ -200,6 +201,61 @@ colnames(demographics)
 
 glu_df <- read.xport('data/GLU_I.XPT')
 sleep_df <- read.xport('data/SLQ_I.XPT')
+
+
+### Reading in a TSV File
+
+Now we'd like to read in a TSV file.  TSV files are like CSV files, except that the separator between data files is the tab character.  We'll use the `read.delim` function, which is almost identical to `read.csv`.  In fact, both are slightly different derivatives of `read.table`.
+
+
+~~~
+swan_df <- read.delim('data/SWAN.tsv')
+~~~
+{: .language-r}
+
+This data set has 111 different variables!  When we look at it in the viewer, there are too many variables to easily look through.  Yes, the RStudio viewer has horizontal pagination (with the << and >> buttons), but that's still a bit clunky.
+
+#TODO:  Note that `read.delim` didn't treat any of the variables as factors.
+
+One option is to use the `colnames()` or `names()` function to get a vector of all the column names:
+
+
+~~~
+names(swan_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+  [1] "SWANID"     "HEALTH"     "LVISIT"     "HIGH_BP"    "MHIGHBP"   
+  [6] "DIABETE"    "MDIABET"    "HEART"      "MHEART"     "ARTHRIT"   
+ [11] "MARTHR"     "OSTEOPR"    "MOSTEOP"    "FIBROID"    "MFIBROD"   
+ [16] "CANCER"     "MCANCER"    "DIFFISLP"   "NISWEAT"    "STIFF"     
+ [21] "HEADACH"    "HOTFLASH"   "FORGET"     "TENSE"      "DEPRESS"   
+ [26] "DRYNESS"    "IRRITAB"    "HEARTBO"    "URINE"      "LIMITED"   
+ [31] "V_ACTI"     "M_ACTI"     "LIFTING"    "CLIMB1"     "CLIMBS"    
+ [36] "BENDING"    "WALK1"      "WALKS"      "WALKM"      "BATHING"   
+ [41] "PHY_ACT"    "TALLINCH"   "TALLCM"     "WT_LBS"     "WT_KGS"    
+ [46] "SMOKED"     "SMOKE_R"    "NO_CIG"     "HYSTERE"    "OVARIES"   
+ [51] "MENS_12"    "MEDISTOP"   "WT_STOP"    "ST_MENS"    "MENS_3"    
+ [56] "BC_PILLS"   "PILLSYR"    "HORMONE"    "HORMYR"     "CHILDREN"  
+ [61] "MENOPS"     "OLD_VAL"    "ATTRACT"    "FREE"       "NO_MED"    
+ [66] "H_NOTICE"   "POSITIVE"   "WORSE"      "MENODEPR"   "REGRET"    
+ [71] "EXPECT"     "MISSION"    "FAITH"      "DIFFICU"    "QUALITY"   
+ [76] "CONTROL"    "CONFIDE"    "YOURWAY"    "OVERCOME"   "HELPTALK"  
+ [81] "CLOSE"      "WORK"       "TOTALHRS"   "MARITALGP"  "HOW_HARD"  
+ [86] "RACE"       "IND_1A"     "IND_1B"     "IND_1C"     "IND_1D"    
+ [91] "IND_1E"     "AGE"        "LMPMOS"     "STATUS"     "MEN_FLAG"  
+ [96] "HORMEVER"   "SMOKER"     "SMOKING"    "NUM_CIG"    "DEGREE"    
+[101] "P_STRESS"   "SF36PF"     "NSF36"      "DISABLE"    "BMI"       
+[106] "BMI_FLAG"   "WTKGGP"     "AGE_R_HYST" "AGE_R_OOPH" "AGE_R_LMP" 
+[111] "NUMCHILD"  
+~~~
+{: .output}
+
+
+
 
 ### A word about reproducibility
 

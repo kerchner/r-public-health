@@ -21,6 +21,13 @@ source: Rmd
 
 
 
+
+~~~
+swan_df <- read.delim('data/SWAN.tsv')
+~~~
+{: .language-r}
+
+
 ## Introduction goes here
 
 Histograms
@@ -32,4 +39,101 @@ some basic filtering - for example, filter just to women of childbearing age, ch
 Checking normality of continuous 
 
 Data cleanliness - boxplots, look for outliers
+
+
+
+
+
+We can start to ask questions like:  How many women in this data set have diabetes?  For categorical data, the `table()` function is quite handy.
+
+
+~~~
+table(swan_df$DIABETE)
+~~~
+{: .language-r}
+
+
+
+~~~
+
+    1     2 
+15018  1060 
+~~~
+{: .output}
+
+If we wanted these proportions as percentages, we can take the result of `table()` and apply the `prop.table()` function:
+
+~~~
+prop.table(table(swan_df$DIABETE))
+~~~
+{: .language-r}
+
+
+
+~~~
+
+        1         2 
+0.9340714 0.0659286 
+~~~
+{: .output}
+
+Contingency table between osteoporosis and arthritis - #TODO Need some words here
+
+
+~~~
+table(swan_df$ARTHRIT, swan_df$OSTEOPR)
+~~~
+{: .language-r}
+
+
+
+~~~
+   
+        1     2
+  1 12229   166
+  2  3379   252
+~~~
+{: .output}
+
+## Doing it with `with()`
+
+HEART = "Have you ever been told by a doctor that you had a heart attack or angina?"
+MHEART = "Are you currently taking heart medication?"
+ARTHRIT = "Have you ever been told by a doctor that you have arthritis?"
+MARTHR = "Are you currently taking medication for arthritis?"
+HIGH_BP
+AGE
+PHY_ACT = 
+SMOKE_R = "Do you smoke cigarettes now?"
+MEN_OPT = "Do you think you are: (1) Without any sign of menopause (2) Just beginning menopause (3) In the middle (4) Near the end (5) All through (-8) Don't know (.) Missing"
+BMI
+
+
+
+~~~
+with(swan_df, table(ARTHRIT, HEART))
+~~~
+{: .language-r}
+
+
+
+~~~
+       HEART
+ARTHRIT     1     2
+      1 12184   225
+      2  3402   242
+~~~
+{: .output}
+
+
+~~~
+hist(swan_df$AGE)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-05-unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="612" style="display: block; margin: auto;" />
+
+
+
+
 

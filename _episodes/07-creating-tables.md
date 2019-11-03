@@ -20,3 +20,49 @@ source: Rmd
 
 
 # TODO
+
+Hide this:
+
+~~~
+swan_df <- read.delim('data/SWAN.tsv')
+~~~
+{: .language-r}
+
+# Table 1
+
+Creating a "Table 1" is an almost-universal step in conducting an analysis in public health data.  Fortunately for us, there are now some R libraries we can use to make this task easier.  Let's use the `tableone` library:
+
+
+~~~
+#install.packages('tableone')
+library(tableone)
+~~~
+{: .language-r}
+
+#TODO: Move this to episode 5
+
+~~~
+swan_df$HEART <- as.factor(swan_df$HEART)
+levels(swan_df$HEART) <- c('No', 'Yes')
+~~~
+{: .language-r}
+
+
+Let's take a look at the help for `tableone`
+
+~~~
+CreateTableOne(data = swan_df, vars = c('ARTHRIT', 'DEGREE'),
+               strata = 'HEART')
+~~~
+{: .language-r}
+
+
+
+~~~
+                     Stratified by HEART
+                      No           Yes         p      test
+  n                   15612         467                   
+  ARTHRIT (mean (SD))  1.22 (0.41) 1.52 (0.50) <0.001     
+  DEGREE (mean (SD))   3.03 (1.21) 2.53 (1.14) <0.001     
+~~~
+{: .output}
