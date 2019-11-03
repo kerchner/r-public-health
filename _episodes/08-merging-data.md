@@ -32,7 +32,7 @@ library(tidyverse)
 
 
 ~~~
-── Attaching packages ───────────────────────────────────────────────────── tidyverse 1.2.1 ──
+── Attaching packages ───────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 ~~~
 {: .output}
 
@@ -41,7 +41,7 @@ library(tidyverse)
 ~~~
 ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
 ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-✔ tidyr   0.8.3     ✔ stringr 1.4.0
+✔ tidyr   1.0.0     ✔ stringr 1.4.0
 ✔ readr   1.3.1     ✔ forcats 0.4.0
 ~~~
 {: .output}
@@ -49,7 +49,7 @@ library(tidyverse)
 
 
 ~~~
-── Conflicts ──────────────────────────────────────────────────────── tidyverse_conflicts() ──
+── Conflicts ──────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ~~~
@@ -172,6 +172,36 @@ summary(merge_df$BMXBMI) # BMI
 
 
 ~~~
+summary(merge_df$BPXSY1)
+~~~
+{: .language-r}
+
+
+
+~~~
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+   78.0   110.0   120.0   123.2   132.0   236.0     188 
+~~~
+{: .output}
+
+
+
+~~~
+summary(merge_df$BPXDI1) # has 0s
+~~~
+{: .language-r}
+
+
+
+~~~
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+    0.0    60.0    68.0    67.5    76.0   120.0     188 
+~~~
+{: .output}
+
+
+
+~~~
 summary(merge_df$RIDAGEYR) #TODO exclude people <18yo now. 
 ~~~
 {: .language-r}
@@ -183,6 +213,7 @@ summary(merge_df$RIDAGEYR) #TODO exclude people <18yo now.
   12.00   25.00   43.00   43.81   61.00   80.00 
 ~~~
 {: .output}
+
 
 2. Next, let's look at these variables in detail with graphs:
 
@@ -229,26 +260,65 @@ hist(merge_df$RIDAGEYR, breaks = 50) # if you ignore >=80 category and <=10, it'
 <img src="../fig/rmd-01-unnamed-chunk-8-6.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
 
 ~~~
-#TODO Create histograms etc of Blood pressure variables here (for continuous)
+hist(merge_df$BPXSY1, breaks = 50) # normally distributed
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-01-unnamed-chunk-8-7.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
+
+~~~
+hist(merge_df$BPXDI1, breaks = 50) # normally distributed 
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-01-unnamed-chunk-8-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
+
+What's with very low BPXDI1 values?
+
+~~~
+low_di <- merge_df %>% filter(BPXDI1 < 40) %>% select(BPXSY1, BPXDI1)
+~~~
+{: .language-r}
+
+Let's at least get rid of the 0's:
+
+
+~~~
+merge_df <- merge_df %>% filter(BPXDI1 > 0)
 ~~~
 {: .language-r}
 
 3. Let's drop anyone under the age of 25 b/c changes in TC may not be apparent in the younger age groups. 
 
 ~~~
-merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<80)) #& LBXGLU<=200)
-boxplot(merge25_df$LBXGLU) # looking at outliers again in this new dataset
+merge25_df <- merge_df %>% filter(RIDAGEYR>=25 & RIDAGEYR<=80) #& LBXGLU<=200)
+
+boxplot(merge25_df$LBXGLU) # looking at outliers again for outcome variable in this new dataset
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-9-1.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-01-unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
 
 ~~~
-boxplot(merge25_df$BMXBMI) # looking at outliers again
+hist(merge25_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)",  main = "Distribution of Total Cholesterol") # Sill very right skewed but overall normal?
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-9-2.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-01-unnamed-chunk-11-2.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
+
+~~~
+boxplot(merge25_df$BMXBMI) # looking at outliers again for BMI
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-01-unnamed-chunk-11-3.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
+
+~~~
+# GOOOD EXERCIZE TO DO IN CLASS
+# We note the outliers here based on the skewness of TC variable. 
+#tc_outliers <- merge25_df %>% filter(LBXTC>350)
+~~~
+{: .language-r}
 
 4.Let's do scatter plots to see linear relationship between predictors and outcome variable:
 
@@ -257,54 +327,86 @@ scatter.smooth(merge25_df$LBXGLU, merge25_df$LBXTC, xlab = "Glucose levels (mg/d
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-01-unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
 
 ~~~
 scatter.smooth(merge25_df$BMXBMI, merge25_df$LBXTC, xlab = "BMI", ylab = "Total Cholesterol (mg/dl)")
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-10-2.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-01-unnamed-chunk-12-2.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
 
 ~~~
 scatter.smooth(merge25_df$RIDAGEYR, merge25_df$LBXTC, xlab = "Age (years)", ylab = "Total Cholesterol (mg/dl)")
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-10-3.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-01-unnamed-chunk-12-3.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+
+~~~
+scatter.smooth(merge25_df$BPXSY1, merge25_df$LBXTC, xlab = "SBP", ylab = "Total Cholesterol (mg/dl)")
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-01-unnamed-chunk-12-4.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+
+~~~
+scatter.smooth(merge25_df$BPXDI1, merge25_df$LBXTC, xlab = "DBP", ylab = "Total Cholesterol (mg/dl)")
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-01-unnamed-chunk-12-5.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
 
 ~~~
 scatter.smooth(merge25_df$LBDHDD, merge25_df$LBXTC, xlab = "HDL", ylab = "Total Cholesterol (mg/dl)")
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-10-4.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-01-unnamed-chunk-12-6.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
 
 ~~~
 scatter.smooth(merge25_df$LBDLDL, merge25_df$LBXTC, xlab = "LDL", ylab = "Total Cholesterol (mg/dl)")
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-10-5.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-01-unnamed-chunk-12-7.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+
 
 5. Let's do a correlation matrix now
 
 ~~~
-cor(merge25_df[ , c("LBXGLU", "BMXBMI", "RIDAGEYR", "LBDHDD", "LBDLDL")], use = "complete.obs") # everything looks like below 27% multicollinearity.
+cor(merge25_df[ , c("LBXGLU", "BMXBMI", "RIDAGEYR", "BPXDI1", "BPXSY1", "LBDHDD", "LBDLDL")], use = "complete.obs") # everything looks like below 28% multicollinearity 
 ~~~
 {: .language-r}
 
 
 
 ~~~
-              LBXGLU      BMXBMI    RIDAGEYR      LBDHDD      LBDLDL
-LBXGLU    1.00000000  0.16705420  0.18523715 -0.18053407  0.04221152
-BMXBMI    0.16705420  1.00000000  0.04706262 -0.28242817  0.04512733
-RIDAGEYR  0.18523715  0.04706262  1.00000000  0.05690830 -0.01627925
-LBDHDD   -0.18053407 -0.28242817  0.05690830  1.00000000 -0.09626362
-LBDLDL    0.04221152  0.04512733 -0.01627925 -0.09626362  1.00000000
+              LBXGLU       BMXBMI     RIDAGEYR      BPXDI1      BPXSY1
+LBXGLU    1.00000000  0.172882463  0.169505022  0.06399179  0.17509119
+BMXBMI    0.17288246  1.000000000  0.008561159  0.15742277  0.11216191
+RIDAGEYR  0.16950502  0.008561159  1.000000000 -0.15656576  0.39985042
+BPXDI1    0.06399179  0.157422766 -0.156565758  1.00000000  0.33173251
+BPXSY1    0.17509119  0.112161914  0.399850424  0.33173251  1.00000000
+LBDHDD   -0.17661922 -0.279511555  0.089615670 -0.05395787 -0.02633031
+LBDLDL    0.02601963  0.065196088 -0.067610459  0.14634340  0.04705106
+              LBDHDD      LBDLDL
+LBXGLU   -0.17661922  0.02601963
+BMXBMI   -0.27951155  0.06519609
+RIDAGEYR  0.08961567 -0.06761046
+BPXDI1   -0.05395787  0.14634340
+BPXSY1   -0.02633031  0.04705106
+LBDHDD    1.00000000 -0.08961191
+LBDLDL   -0.08961191  1.00000000
 ~~~
 {: .output}
+
+
+
+~~~
+# except BP sytolic and Age - is 40% corr.
+~~~
+{: .language-r}
 
 BLOOD PRESSURE CATEGORIES:
 https://www.heart.org/-/media/data-import/downloadables/pe-abh-what-is-high-blood-pressure-ucm_300310.pdf
@@ -360,7 +462,7 @@ unique(merge25_df$bp_category)
 
 ~~~
 [1] "Hypertension Stage 2+" "Hypertension Stage 1"  "Normal"               
-[4] "Elevated"              NA                     
+[4] "Elevated"             
 ~~~
 {: .output}
 
@@ -384,7 +486,7 @@ str(merge25_df$bp_category)  # Observe that it's a factor
 
 
 ~~~
- Factor w/ 4 levels "Normal","Elevated",..: 4 3 1 1 1 2 3 3 3 1 ...
+ Factor w/ 4 levels "Normal","Elevated",..: 4 3 1 1 1 2 3 3 4 3 ...
 ~~~
 {: .output}
 
@@ -400,9 +502,9 @@ table(merge25_df$bp_category, useNA = "ifany")  # Inspect the values
 ~~~
 
                Normal              Elevated  Hypertension Stage 1 
-                  825                   359                   482 
-Hypertension Stage 2+                  <NA> 
-                  448                   131 
+                  844                   382                   504 
+Hypertension Stage 2+ 
+                  528 
 ~~~
 {: .output}
 
@@ -413,7 +515,7 @@ barplot(table(merge25_df$bp_category)) #TODO reorder so it looks ordinal
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-01-unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-01-unnamed-chunk-17-1.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" width="612" style="display: block; margin: auto;" />
 
 
 ~~~
@@ -430,11 +532,20 @@ summary(merge25_df$BMI_category)
 
 ~~~
      Normal Underweight   Pre-obese   Obesity I  Obesity II Obesity III 
-        564          30         716         480         244         187 
+        565          28         748         487         238         170 
        NA's 
-         24 
+         22 
 ~~~
 {: .output}
+
+
+
+~~~
+barplot(table(merge25_df$BMI_category))
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-01-unnamed-chunk-18-1.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" width="612" style="display: block; margin: auto;" />
 
 NOTE: lm ignoes NAs (check this again though).  Make a note of this in the write up of the lesson. 
 
@@ -458,19 +569,19 @@ lm(formula = LBXTC ~ LBXGLU, data = merge25_df)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--116.135  -29.713   -1.865   24.378  234.568 
+-111.684  -29.446   -1.544   23.505  238.231 
 
 Coefficients:
              Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 189.67106    2.62569  72.237   <2e-16 ***
-LBXGLU        0.03042    0.02150   1.415    0.157    
+(Intercept) 190.06181    2.63391  72.160   <2e-16 ***
+LBXGLU        0.01634    0.02154   0.759    0.448    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 42 on 2109 degrees of freedom
-  (134 observations deleted due to missingness)
-Multiple R-squared:  0.0009479,	Adjusted R-squared:  0.0004742 
-F-statistic: 2.001 on 1 and 2109 DF,  p-value: 0.1573
+Residual standard error: 41.68 on 2118 degrees of freedom
+  (138 observations deleted due to missingness)
+Multiple R-squared:  0.0002716,	Adjusted R-squared:  -0.0002004 
+F-statistic: 0.5755 on 1 and 2118 DF,  p-value: 0.4482
 ~~~
 {: .output}
 
@@ -492,19 +603,19 @@ lm(formula = LBXTC ~ BMXBMI, data = merge25_df)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--114.24  -29.44   -2.30   23.57  351.37 
+-112.31  -29.31   -1.92   23.14  352.80 
 
 Coefficients:
-            Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 196.9837     4.0465  48.680   <2e-16 ***
-BMXBMI       -0.1214     0.1325  -0.916     0.36    
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 192.80024    4.12811   46.70   <2e-16 ***
+BMXBMI       -0.02175    0.13623   -0.16    0.873    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 42.67 on 2093 degrees of freedom
-  (150 observations deleted due to missingness)
-Multiple R-squared:  0.0004009,	Adjusted R-squared:  -7.673e-05 
-F-statistic: 0.8393 on 1 and 2093 DF,  p-value: 0.3597
+Residual standard error: 42.34 on 2102 degrees of freedom
+  (154 observations deleted due to missingness)
+Multiple R-squared:  1.213e-05,	Adjusted R-squared:  -0.0004636 
+F-statistic: 0.02549 on 1 and 2102 DF,  p-value: 0.8732
 ~~~
 {: .output}
 
@@ -526,23 +637,23 @@ lm(formula = LBXTC ~ BMI_category, data = merge25_df)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--110.01  -29.15   -2.56   23.85  347.99 
+-109.49  -29.08   -2.11   23.51  350.89 
 
 Coefficients:
                         Estimate Std. Error t value Pr(>|t|)    
-(Intercept)             190.0115     1.8589 102.219  < 2e-16 ***
-BMI_categoryUnderweight  -5.8329     8.2535  -0.707  0.47982    
-BMI_categoryPre-obese     6.9944     2.4695   2.832  0.00467 ** 
-BMI_categoryObesity I     6.3129     2.7397   2.304  0.02131 *  
-BMI_categoryObesity II    0.1381     3.3456   0.041  0.96707    
-BMI_categoryObesity III  -2.4465     3.6993  -0.661  0.50847    
+(Intercept)             189.4885     1.8549 102.157   <2e-16 ***
+BMI_categoryUnderweight  -3.6423     8.5001  -0.429   0.6683    
+BMI_categoryPre-obese     4.6189     2.4364   1.896   0.0581 .  
+BMI_categoryObesity I     5.5952     2.7169   2.059   0.0396 *  
+BMI_categoryObesity II   -0.1507     3.3597  -0.045   0.9642    
+BMI_categoryObesity III  -0.6709     3.8331  -0.175   0.8611    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 42.55 on 2089 degrees of freedom
-  (150 observations deleted due to missingness)
-Multiple R-squared:  0.007771,	Adjusted R-squared:  0.005396 
-F-statistic: 3.272 on 5 and 2089 DF,  p-value: 0.006014
+Residual standard error: 42.3 on 2098 degrees of freedom
+  (154 observations deleted due to missingness)
+Multiple R-squared:  0.003964,	Adjusted R-squared:  0.001591 
+F-statistic:  1.67 on 5 and 2098 DF,  p-value: 0.1385
 ~~~
 {: .output}
 
@@ -564,19 +675,19 @@ lm(formula = LBXTC ~ RIDAGEYR, data = merge25_df)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--112.50  -29.56   -2.00   24.13  351.88 
+-112.82  -29.98   -1.68   23.98  352.67 
 
 Coefficients:
              Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 190.13344    3.26640  58.209   <2e-16 ***
-RIDAGEYR      0.06225    0.06193   1.005    0.315    
+(Intercept) 194.70073    3.11701  62.464   <2e-16 ***
+RIDAGEYR     -0.04948    0.05676  -0.872    0.383    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 42.72 on 2111 degrees of freedom
-  (132 observations deleted due to missingness)
-Multiple R-squared:  0.0004784,	Adjusted R-squared:  4.925e-06 
-F-statistic:  1.01 on 1 and 2111 DF,  p-value: 0.3149
+Residual standard error: 42.37 on 2119 degrees of freedom
+  (137 observations deleted due to missingness)
+Multiple R-squared:  0.0003585,	Adjusted R-squared:  -0.0001133 
+F-statistic: 0.7599 on 1 and 2119 DF,  p-value: 0.3835
 ~~~
 {: .output}
 
@@ -598,19 +709,19 @@ lm(formula = LBXTC ~ LBDHDD, data = merge25_df)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--108.86  -29.68   -3.08   24.27  360.06 
+-107.32  -29.15   -2.89   24.11  361.85 
 
 Coefficients:
              Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 171.61577    2.98889  57.418  < 2e-16 ***
-LBDHDD        0.39181    0.05145   7.616 3.93e-14 ***
+(Intercept) 169.00182    2.94626   57.36  < 2e-16 ***
+LBDHDD        0.41623    0.05051    8.24 2.97e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 42.15 on 2111 degrees of freedom
-  (132 observations deleted due to missingness)
-Multiple R-squared:  0.02674,	Adjusted R-squared:  0.02628 
-F-statistic:    58 on 1 and 2111 DF,  p-value: 3.925e-14
+Residual standard error: 41.72 on 2119 degrees of freedom
+  (137 observations deleted due to missingness)
+Multiple R-squared:  0.03105,	Adjusted R-squared:  0.03059 
+F-statistic: 67.91 on 1 and 2119 DF,  p-value: 2.968e-16
 ~~~
 {: .output}
 
@@ -632,19 +743,19 @@ lm(formula = LBXTC ~ LBDLDL, data = merge25_df)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--43.374 -11.644  -2.058   9.076 159.757 
+-43.345 -11.734  -2.138   9.132 159.410 
 
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 72.18126    1.23227   58.58   <2e-16 ***
-LBDLDL       1.04783    0.01026  102.17   <2e-16 ***
+(Intercept) 72.67059    1.23937   58.63   <2e-16 ***
+LBDLDL       1.04562    0.01045  100.07   <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 16.37 on 1938 degrees of freedom
-  (305 observations deleted due to missingness)
-Multiple R-squared:  0.8434,	Adjusted R-squared:  0.8433 
-F-statistic: 1.044e+04 on 1 and 1938 DF,  p-value: < 2.2e-16
+Residual standard error: 16.54 on 1943 degrees of freedom
+  (313 observations deleted due to missingness)
+Multiple R-squared:  0.8375,	Adjusted R-squared:  0.8374 
+F-statistic: 1.001e+04 on 1 and 1943 DF,  p-value: < 2.2e-16
 ~~~
 {: .output}
 
@@ -666,21 +777,21 @@ lm(formula = LBXTC ~ bp_category, data = merge25_df)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--108.18  -28.18   -2.72   23.93  350.93 
+-109.73  -28.11   -2.49   24.27  351.27 
 
 Coefficients:
                                  Estimate Std. Error t value Pr(>|t|)    
-(Intercept)                       187.288      1.514 123.718  < 2e-16 ***
-bp_categoryElevated                 6.779      2.733   2.480   0.0132 *  
-bp_categoryHypertension Stage 1     9.896      2.487   3.979 7.17e-05 ***
-bp_categoryHypertension Stage 2+   11.081      2.557   4.333 1.55e-05 ***
+(Intercept)                       187.106      1.500 124.741  < 2e-16 ***
+bp_categoryElevated                 6.625      2.673   2.478 0.013277 *  
+bp_categoryHypertension Stage 1     9.380      2.450   3.829 0.000132 ***
+bp_categoryHypertension Stage 2+    7.623      2.426   3.142 0.001703 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 42.14 on 1988 degrees of freedom
-  (253 observations deleted due to missingness)
-Multiple R-squared:  0.01278,	Adjusted R-squared:  0.01129 
-F-statistic: 8.578 on 3 and 1988 DF,  p-value: 1.17e-05
+Residual standard error: 42.21 on 2117 degrees of freedom
+  (137 observations deleted due to missingness)
+Multiple R-squared:  0.008736,	Adjusted R-squared:  0.007331 
+F-statistic: 6.219 on 3 and 2117 DF,  p-value: 0.000334
 ~~~
 {: .output}
 
@@ -704,30 +815,30 @@ lm(formula = LBXTC ~ LBXGLU + BMI_category + LBDHDD + LBDLDL +
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--26.206  -7.420  -2.292   4.651  57.194 
+-25.902  -7.464  -2.258   4.757  57.056 
 
 Coefficients:
                                   Estimate Std. Error t value Pr(>|t|)    
-(Intercept)                      22.562631   1.803854  12.508  < 2e-16 ***
-LBXGLU                            0.031392   0.006605   4.753 2.16e-06 ***
-BMI_categoryUnderweight           1.784421   2.504000   0.713 0.476168    
-BMI_categoryPre-obese             2.414522   0.727692   3.318 0.000924 ***
-BMI_categoryObesity I             2.127979   0.818348   2.600 0.009389 ** 
-BMI_categoryObesity II            3.492399   0.997929   3.500 0.000477 ***
-BMI_categoryObesity III           1.052192   1.108853   0.949 0.342797    
-LBDHDD                            0.696874   0.016537  42.141  < 2e-16 ***
-LBDLDL                            1.072123   0.007573 141.570  < 2e-16 ***
-RIDAGEYR                          0.040554   0.019706   2.058 0.039734 *  
-bp_categoryElevated               1.133793   0.796636   1.423 0.154843    
-bp_categoryHypertension Stage 1   0.867193   0.733768   1.182 0.237426    
-bp_categoryHypertension Stage 2+  2.151590   0.790372   2.722 0.006546 ** 
+(Intercept)                      22.113935   1.740514  12.705  < 2e-16 ***
+LBXGLU                            0.032012   0.006559   4.881 1.14e-06 ***
+BMI_categoryUnderweight           1.450383   2.476584   0.586 0.558187    
+BMI_categoryPre-obese             2.078078   0.698570   2.975 0.002969 ** 
+BMI_categoryObesity I             1.979823   0.787786   2.513 0.012047 *  
+BMI_categoryObesity II            3.286414   0.971098   3.384 0.000728 ***
+BMI_categoryObesity III           1.023284   1.091259   0.938 0.348512    
+LBDHDD                            0.706332   0.015771  44.788  < 2e-16 ***
+LBDLDL                            1.072459   0.007284 147.230  < 2e-16 ***
+RIDAGEYR                          0.039687   0.017918   2.215 0.026879 *  
+bp_categoryElevated               1.177434   0.771930   1.525 0.127346    
+bp_categoryHypertension Stage 1   0.978239   0.713527   1.371 0.170538    
+bp_categoryHypertension Stage 2+  2.172865   0.752865   2.886 0.003944 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 11.4 on 1812 degrees of freedom
-  (420 observations deleted due to missingness)
-Multiple R-squared:  0.9227,	Adjusted R-squared:  0.9222 
-F-statistic:  1802 on 12 and 1812 DF,  p-value: < 2.2e-16
+Residual standard error: 11.29 on 1919 degrees of freedom
+  (326 observations deleted due to missingness)
+Multiple R-squared:  0.9245,	Adjusted R-squared:  0.924 
+F-statistic:  1958 on 12 and 1919 DF,  p-value: < 2.2e-16
 ~~~
 {: .output}
 
