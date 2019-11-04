@@ -23,13 +23,27 @@ keypoints:
 ## What are the typical steps involved with public health data analysis?
 
 
-## Reasons for using R versus other statistical software
+## Reasons for using R versus other statistical software, Python, etc.
 
 - Expensive licenses, proprietary formats -- do these go against the ideas of reproducible (& collaborative) sceince?  Do these exclude scientists in parts of the world and/or institutions with less funding?
+- Script/code versus "point & click" (only apples )
 - versus other open-source options (e.g. Python).   Depends what people in your field are using.  What are people in Public Health using?   Best might be to learn multiple tools and get a feel for what to reach for for a given problem.  Good for different problems and for being able to participate in a wider range of projects.
+- Support for all* operating systems (See https://en.wikipedia.org/wiki/Comparison_of_statistical_packages#Operating_system_support)
 - what else?
 
-### Bring in the "reproducible science" paper and follow the main points through the lesson.  Bring them in here.
+> ## To think about: What do you want to make sure you're able to do in R?
+>
+> If you've never done any programming before, what research goals are you hoping that learning
+> to program in R will help you achieve?
+>
+> If you have experience using other statistical software packages, what are some things you like
+> about the packages you've used?  What are some things you didn't like?
+>
+{: .callout}
+
+### R for Reproducible Science
+
+Bring in the "reproducible science" paper and follow the main points through the lesson.  Bring them in here.
 
 ### What else?
 
