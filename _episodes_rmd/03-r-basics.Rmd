@@ -25,3 +25,19 @@ keypoints:
 - "Use `install.packages()` to install packages (libraries)."
 source: Rmd
 ---
+
+## Variables in R
+
+We can use *variables* to store data that we can then reference.  A variable has a name, which is like a label, and a value.
+
+Let's look at an R expression that assigns a value to a variable:
+
+```{r}
+height_cm <- 140
+```
+
+This statement has several parts:
+
+* An assignment operator `<-` which assigns the value on the right to the variable on the left.
+* A variable name (`height_cm`)
+* A value (`140`)
