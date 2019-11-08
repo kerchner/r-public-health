@@ -41,3 +41,5 @@ This statement has several parts:
 * An assignment operator `<-` which assigns the value on the right to the variable on the left.
 * A variable name (`height_cm`)
 * A value (`140`)
+
+Let's take a look at what happened.
