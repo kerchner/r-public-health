@@ -39,6 +39,7 @@ Checking normality of continuous
 
 Data cleanliness - boxplots, look for outliers
 
+#NOTE: We will look at the association between Outcome Osteoporosis and Exposure Diabetes
 
 
 
@@ -46,22 +47,46 @@ Data cleanliness - boxplots, look for outliers
 We can start to ask questions like:  How many women in this data set have diabetes?  For categorical data, the `table()` function is quite handy.
 
 ```{r}
-table(swan_df$DIABETE)
+table(swan_df$DIABETE) # Frequency of Diabetes
 ```
 
 If we wanted these proportions as percentages, we can take the result of `table()` and apply the `prop.table()` function:
 ```{r}
-prop.table(table(swan_df$DIABETE))
+100*prop.table(table(swan_df$DIABETE)) #Shows 6.6% of women have diabetes
 ```
 
 Contingency table between osteoporosis and arthritis - #TODO Need some words here
 
 ```{r}
-table(swan_df$ARTHRIT, swan_df$OSTEOPR)
+100*prop.table(table(swan_df$ARTHRIT, swan_df$OSTEOPR)) #Col are osteoporosis (OP), rows are arthritis. 76.3% of women have OP and ART. 21% have OP but no ART. 
 ```
+
+```{r}
+library(dplyr)
+swan_df <- swan_df %>% filter(OSTEOPR >=0)
+
+unique(swan_df$OSTEOPR)
+swan_df$OSTEOPR <- as.factor(swan_df$OSTEOPR)
+swan_df$ARTHRIT <- as.factor(swan_df$ARTHRIT)
+swan_df$DIABETE <- as.factor(swan_df$DIABETE)
+```
+
+#TODO Let's do a TableOne to look at baseline characterisitics.
+
+NOTE: All swan data is from a single visit so we don't have to filter on anything.
+
+# Logisitic regression:
+```{r}
+glm_logit <- glm(ARTHRIT ~ DIABETE, data=swan_df, family = "binomial")
+summary(glm_logit)
+exp(coef(glm_logit))
+```
+
+#TODO: Now look at Project 2 from Ada Youk's Regression class.
 
 ## Doing it with `with()`
 
+LVISIT - Last visit to doctor
 HEART = "Have you ever been told by a doctor that you had a heart attack or angina?"
 MHEART = "Are you currently taking heart medication?"
 ARTHRIT = "Have you ever been told by a doctor that you have arthritis?"
