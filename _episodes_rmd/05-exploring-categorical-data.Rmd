@@ -25,7 +25,7 @@ knitr_fig_path("05-")
 ```{r}
 swan_df <- read.delim('data/SWAN.tsv')
 ```
-
+#TODO create a small exercise for students with filter and NA values.
 
 ## Introduction goes here
 
@@ -77,7 +77,13 @@ NOTE: All swan data is from a single visit so we don't have to filter on anythin
 
 # Logisitic regression:
 ```{r}
-glm_logit <- glm(ARTHRIT ~ DIABETE, data=swan_df, family = "binomial")
+# Outcome
+glm_logit <- glm(ARTHRIT ~ DIABETE + AGE, data=swan_df, family = "binomial")
+summary(glm_logit)
+exp(coef(glm_logit))
+
+
+glm_logit <- glm(ARTHRIT ~ DIABETE + AGE, data=swan_df, family = "binomial")
 summary(glm_logit)
 exp(coef(glm_logit))
 ```
