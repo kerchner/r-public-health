@@ -20,6 +20,7 @@ keypoints:
 source("../bin/chunk-options.R")
 knitr_fig_path("01-")
 ```
+# TODO For Fouzia: Describe what framingham dataset is. 
 
 ## Reading in Data
 
@@ -111,7 +112,7 @@ So, there's a second step involved to _load_ a package that you've installed.  M
 To install the `SASxport` package:
 
 ```{r}
-install.packages('SASxport')
+#install.packages('SASxport')
 ```
 Go to the **Packages** pane in RStudio.  Do you see that `SASxport` is now in the list of available packages?  You'll also notice that some of the packages are checked, and some, like SASxport, are not checked (yet).
 
@@ -121,8 +122,9 @@ You'll also notice Version numbers for all of the packages #Reproducibility
 
 The next thing we need to do is load in the library for this particular project, using the `library()` function:
 
-```{r}
+```{r, message=FALSE}
 library(SASxport)
+library(dplyr)
 ```
 
 Notice that `SASxport` is now checked in the Packages pane.
@@ -132,17 +134,93 @@ We can open up the documentation page for `SASxport` in our Help pane by running
 `DEMO_I.XPT` contains demographic data for study subjects.
 
 ```{r}
-demographics <- read.xport('data/DEMO_I.XPT')
+framingham <- read.csv('data/frmgham2.csv')
 ```
 
-After reading in our dataset into the `demographics` dataframe, we can inspect the shape and size of the data, such as: colname(df), head(df), tail(df)
+After reading in our dataset into the `framingham` dataframe, we can inspect the shape and size of the data, such as: colname(df), head(df), tail(df)
 
 ```{r}
-colnames(demographics)
+colnames(framingham)
 ```
 
-glu_df <- read.xport('data/GLU_I.XPT')
-sleep_df <- read.xport('data/SLQ_I.XPT')
+# Variables of interest:
+TCHOL
+```{r}
+framingham <- framingham %>% filter(PERIOD == 1) # should we do period 1 2 or 3? 
+summary(framingham$AGE)
+summary(framingham$SEX)
+framingham$SEX <- as.factor(framingham$SEX)
+# BMI
+framingham$BMI_cat <- cut(framingham$BMI, breaks = c(0, 18.5, 25.0, 30.0, 35.0, 40, 100), labels = c("Underweight", "Normal", "Pre-obese", "Obesity I", "Obesity II", "Obesity III"), right = FALSE)
+levels(framingham$BMI_cat)
+summary(framingham$BMI_cat)# COMBINE OBESE II AND OBESE III CATEGORIES
+#eventhough this categorical variable is already created by framingham, this will be a good exercise for class to do to create one themselves.  Perhaps then subset the dataframe with the one we create and the one that's already available to make sure it's created properly???
+framingham$BMI_cat <- relevel(framingham$BMI_cat, "Normal") # sets "normal" as the reference category.
+#NOTE
+summary(framingham$BMI_cate) # this is already created by Framingham
+```
+
+# BP categories:
+```{r}
+#BLOOD PRESSURE:
+framingham$SYSBP # Systolic blood pressure
+framingham$DIABP # diastolic blood pressure
+
+# Let's create catgegories for variables we are intersted in.
+bp_category <- function(sbp, dbp) {
+ if (is.na(sbp) | is.na(dbp)){
+   return(NA)
+ }
+  #if (sbp>=180 | dbp >=120) {
+   # return("Hypertensive Crisis")
+  #}
+if (sbp>=140 | dbp >=90) {
+    return("Hypertension Stage 2+")
+  }
+
+if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) {
+    return("Hypertension Stage 1")
+  }
+
+ if ((sbp>=120 & sbp<=129) &  dbp <80) {
+    return("Elevated")
+  }
+
+  if (sbp < 120 & dbp <80) {
+    return("Normal") 
+  }
+} 
+
+# Converting Blood pressure into categories
+framingham$bp_cat <- mapply(bp_category, framingham$SYSBP, framingham$DIABP)
+levels(factor(framingham$bp_cat))  # NOT Working
+class(framingham$bp_cat)# shows it's a LIST so has to be converted to a dataframe:
+framingham$bp_cat <- as.data.frame(lapply(framingham$bp_cat, unlist)) #this is not working
+
+# Converting to factor 
+framingham$bp_cat <- as.factor(framingham$bp_cat) # This conversion is not working b/c class of this variable is a LIST
+framingham$bp_cat <- relevel(framingham$bp_cat, "Normal") #sets "normal" as reference.
+str(framingham$bp_cat)  # Observe that it's a factor
+
+table(framingham$bp_cat, useNA = "ifany")  # Inspect the values
+
+barplot(table(framingham$bp_category)) #TODO reorder so it looks ordinal
+``` 
+
+# REGRESSIONS:
+glm_tchol <- glm(TOTCHOL ~ BMI, data = framingham, family = gaussian(link = "identity")) # MAKE Categories of BMI
+glm_tchol <- glm(TOTCHOL~ DIABETES, data = framingham, family = gaussian(link = "identity"))
+glm_tchol <- glm(TOTCHOL ~ AGE, data = framingham, family = gaussian(link = "identity"))
+glm_tchol <- glm(TOTCHOL ~ SEX, data = framingham, family = gaussian(link = "identity")) # has to be converted to a factor var
+glm_tchol <- glm(TOTCHOL ~ CURSMOKE, data = framingham, family = gaussian(link = "identity")) # has to be factor
+glm_tchol <- glm(TOTCHOL ~ CIGPDAY, data = framingham, family = gaussian(link = "identity"))
+glm_tchol <- glm(TOTCHOL ~ SYSBP, data = framingham, family = gaussian(link = "identity"))
+glm_tchol <- glm(TOTCHOL ~ DIABP, data = framingham, family = gaussian(link = "identity"))
+
+glm_tchol <- glm(TOTCHOL ~ BMI_cat + AGE + SEX + DIABETES, data = framingham, family = gaussian(link = "identity"))
+summary(glm_tchol)
+exp(coef(glm_tchol))
+```
 
 ### A word about reproducibility
 
