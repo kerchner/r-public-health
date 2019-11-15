@@ -160,6 +160,11 @@ framingham$BMI_cat <- relevel(framingham$BMI_cat, "Normal") # sets "normal" as t
 summary(framingham$BMI_cate) # this is already created by Framingham
 ```
 
+# Writing an equations:
+\[
+  \hat{y} = \beta_0 + \beta_1x_1 + \beta_2x_2\ + \varepsilon
+  \]
+
 # BP categories:
 ```{r}
 #BLOOD PRESSURE:
@@ -208,6 +213,7 @@ barplot(table(framingham$bp_category)) #TODO reorder so it looks ordinal
 ``` 
 
 # REGRESSIONS:
+```{r}
 glm_tchol <- glm(TOTCHOL ~ BMI, data = framingham, family = gaussian(link = "identity")) # MAKE Categories of BMI
 glm_tchol <- glm(TOTCHOL~ DIABETES, data = framingham, family = gaussian(link = "identity"))
 glm_tchol <- glm(TOTCHOL ~ AGE, data = framingham, family = gaussian(link = "identity"))
