@@ -1,0 +1,100 @@
+---
+title: "Analysis"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE}
+# install.packages('SASxport')
+library(SASxport)
+library(dplyr)
+health_demo <- read.xport('data/health_demo.XPT')
+
+health_lab <- read.csv('data/health_lab.csv')
+```
+# Merge
+
+```{r}
+colnames(health_demo)
+```
+
+```{r}
+colnames(health_lab)
+```
+
+```{r}
+health_df <- merge(health_demo, health_lab, by.x="STUDY.ID", by.y="STUDY_ID",
+                   all.x=FALSE, all.y=TRUE)
+```
+
+```{r}
+health_df$RACE <- as.factor(health_df$RACE)
+levels(health_df$RACE) <- c('Mexican American', 'Other Hispanic', 'Non-Hispanic White', 'Non-Hispanic Black', 'Non-Hispanic Asian', 'Other Race - Including Multi-Racial')
+
+health_df$GENDER <- as.factor(health_df$GENDER)
+levels(health_df$GENDER) <- c('male', 'female')
+```
+
+# Exercise: Fix education level
+
+# Renaming variables
+
+```{r}
+health_df <- rename(health_df, Marital_Status = MARITALS) 
+```
+
+# "Dropping"/Keeping variables
+
+```{r}
+
+analysis_df <- health_df %>% select(STUDY.ID, GENDER, AGE, RACE, BMI, SBP, DBP, Triglycerides, LDL, Tot_chol, HDL, WBC, FastGlucose)
+
+str(analysis_df)
+  
+```
+
+```{r}
+summary(analysis_df)
+```
+```{r}
+nrow(analysis_df)
+```
+
+
+Note that we have ages 12-81.
+
+```{r}
+analysis_df <- analysis_df %>% filter((AGE >= 25) & (AGE <= 75))
+nrow(analysis_df)
+```
+
+```{r}
+summary(analysis_df)
+```
+
+ Note some extreme values that don't look right - data cleaning needed
+ e.g. BMI = 61.70
+ DBP = 0
+ Triglycerides = 2141
+ HDL = 226?
+ WBC = 44.8 ?
+ 
+ Note NAs
+
+```{r}
+hist(analysis_df$AGE)
+```
+
+```{r}
+hist(analysis_df$AGE, breaks = 30)
+```
+
+```{r}
+hist(analysis_df$BMI, breaks = 30)
+```
+
+slightly right skewed
+
