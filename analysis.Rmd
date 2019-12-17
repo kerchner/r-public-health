@@ -3,9 +3,9 @@ title: "Analysis"
 output: pdf_document
 ---
 #TODO:
-Drop zeros in DBP etc.
+table one
 Do interaction terms
-collinearity
+collinearity - vif? 
 Model selection
 Show model to predict
 
@@ -56,7 +56,6 @@ health_df <- rename(health_df, Marital_Status = MARITALS)
 # "Dropping"/Keeping variables
 
 ```{r}
-
 analysis_df <- health_df %>% select(STUDY.ID, GENDER, AGE, RACE, BMI, SBP, DBP, Triglycerides, LDL, Tot_chol, HDL, WBC, FastGlucose)
 
 str(analysis_df)
@@ -66,16 +65,19 @@ str(analysis_df)
 ```{r}
 summary(analysis_df)
 ```
+
 ```{r}
 nrow(analysis_df)
 ```
-
-
 Note that we have ages 12-81.
-
 ```{r}
 analysis_df <- analysis_df %>% filter((AGE >= 25) & (AGE <= 75))
 nrow(analysis_df)
+```
+
+Data cleaning: drop values <=0 for DBP
+```{r}
+analysis_df <- analysis_df %>% filter(DBP>0)
 ```
 
 ```{r}
@@ -119,21 +121,19 @@ hist(analysis_df$HDL, breaks = 30)
 hist(analysis_df$WBC, breaks = 50) # some very high values
 ```
 
+Relevel race: 
+```{r}
+analysis_df$RACE <- relevel(analysis_df$RACE, "Non-Hispanic White")
+```
+
 ```{r drop_na}
-analysis_df <- analysis_df %>% drop_na(SBP, DBP, AGE, BMI, HDL, FastGlucose, LDL)
+analysis_df <- analysis_df %>% drop_na(SBP, DBP, AGE, BMI, HDL, FastGlucose, LDL, RACE)
 ```
 
 ```{r}
 analysis_df$BMI_cat <- cut(analysis_df$BMI, breaks = c(0, 18.5, 25.0, 30.0, 35.0, 40, 100), labels = c("Underweight", "Normal", "Pre-obese", "Obesity I", "Obesity II", "Obesity III"), right = FALSE)
 
 analysis_df$BMI_cat <- relevel(analysis_df$BMI_cat, "Normal") #this sets "normal" as the reference category.
-
-
-
-
-#analysis_df$BMI_cat <- cut(analysis_df$BMI, breaks = c(0, 18.5, 25.0, 30.0, 100), labels = c("Underweight", "Normal", "Pre-obese", "Obese"), right = FALSE)
-
-# analysis_df$BMI_cat <- relevel(analysis_df$BMI_cat, "Normal") #this sets "normal" as the reference category.
 
 summary(analysis_df$BMI_cat)
 ```
@@ -182,15 +182,56 @@ analysis_df$bp_category <- as.factor(analysis_df$bp_category)
 analysis_df$bp_category <- relevel(analysis_df$bp_category, "Normal") #this sets "normal" as the reference category.
 
 ```
-Do interactions
 
-
-
-
-# Regression
-Outcome: Total cholesterol
+***Regression Models***
+Outcome: Fasting glucose - continuous
+Use cut-off of 0.20
 ```{r}
-full_model <- glm(FastGlucose ~ bp_category  + AGE  + BMI_cat + HDL_LDL , data = analysis_df)
+glm_bp <- glm(FastGlucose ~ bp_category, data = analysis_df)
+summary(glm_bp) # p<0.001 --> KEEP
+
+glm_age <- glm(FastGlucose ~ AGE, data = analysis_df)
+summary(glm_age) # p<0.001 --> KEEP
+
+glm_gender <- glm(FastGlucose ~ GENDER, data = analysis_df)
+summary(glm_gender) # p<0.001 --> KEEP
+
+glm_bmi <- glm(FastGlucose ~ BMI_cat, data = analysis_df)
+summary(glm_bmi) # p<0.001 --> KEEP
+
+glm_hdl_ldl <- glm(FastGlucose ~ HDL_LDL, data = analysis_df)
+summary(glm_hdl_ldl) # p<0.001 --> KEEP
+# NOTE: since we are creating a ratio of HDL to LDL, we dont even need to evaluate LDL and HDL alone.
+
+glm_race <- glm(FastGlucose ~ RACE, data = analysis_df)
+summary(glm_race) # p=0.207 is the smallest --> can keep but can also drop. let's see what the stepwise does. 
+
+glm_tri <- glm(FastGlucose ~ Triglycerides, data = analysis_df)
+summary(glm_tri) # p<0.001 --> KEEP
+
+glm_tot_chol <- glm(FastGlucose ~ Tot_chol, data = analysis_df)
+summary(glm_tot_chol) # p<0.039 --> DO NOT KEEP
+
+# **** REMOVE BOTH OF THESE HDL AND LDL MODELS*********
+glm_hdl <- glm(FastGlucose ~ HDL, data = analysis_df)
+summary(glm_hdl) # p<0.001 --> KEEP
+
+glm_ldl <- glm(FastGlucose ~ LDL, data = analysis_df)
+summary(glm_ldl) # p=0.013--> KEEP --> this might drop out
+
+```
+
+***INTERACTION TERMS***
+```{r}
+analysis_df$age_hdl_ldl <- analysis_df$HDL_LDL * analysis_df$AGE
+```
+
+
+
+*Full Models*
+```{r}
+full_model <- glm(FastGlucose ~ BMI_cat + bp_category  + AGE + GENDER +
+                    HDL_LDL + RACE + age_hdl_ldl, data = analysis_df)
 summary(full_model)
 ```
 
@@ -218,7 +259,8 @@ Dropping outliers
 ```{r}
 analysis_df2 <- analysis_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd)
 
-full_model <- glm(FastGlucose ~ bp_category  + AGE  + BMI_cat + HDL_LDL , data = analysis_df2)
+full_model <- glm(FastGlucose ~ BMI_cat + bp_category  + AGE + GENDER +
+                    HDL_LDL + RACE, data = analysis_df2)
 summary(full_model)
 ```
 
@@ -233,3 +275,63 @@ qqnorm(rst, ylab = "Standardized Residuals",
        xlab = "Normal Scores")
 qqline(rst)
 ```
+
+
+Cleaning data even further: 
+remove:
+triglycerides > 500 mg/dl
+HDL > 100 mg/dl
+Fasting glucose >=126 mg/dl
+```{r}
+analysis_df <- analysis_df %>% filter(DBP>0 & 
+                                        Triglycerides <=500 & HDL <=100 &
+                                        FastGlucose <126)
+# dropping HDL >100 b/c that high level is actually bad for the heart - genetic issue
+#fasting glycose of >=126 mg/dl is considered T2D
+nrow(analysis_df)
+
+
+full_model <- glm(FastGlucose ~ BMI_cat + bp_category  + AGE + GENDER +
+                    HDL_LDL + RACE, data = analysis_df2)
+summary(full_model)
+```
+
+Dropping outliers
+```{r}
+analysis_df2 <- analysis_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd)
+
+full_model <- glm(FastGlucose ~ BMI_cat + bp_category  + AGE + GENDER +
+                    HDL_LDL + RACE, data = analysis_df2)
+summary(full_model)
+```
+
+```{r}
+rst <- rstandard(full_model)
+qqnorm(rst, ylab = "Standardized Residuals", 
+       xlab = "Normal Scores")
+qqline(rst)
+```
+
+```{r}
+library(MASS)
+# Stepwise regression model
+step.model <- stepAIC(full_model, direction = "backward", 
+                      trace = TRUE )
+summary(step.model)
+```
+
+```{r}
+rst <- rstandard(full_model)
+qqnorm(rst, ylab = "Standardized Residuals", 
+       xlab = "Normal Scores")
+qqline(rst)
+
+library(car)
+
+vif(glm(FastGlucose ~ BMI_cat + bp_category  + AGE + GENDER +
+                    HDL_LDL + RACE + Triglycerides + HDL + LDL, data=analysis_df2))
+# VIF has to be <=1 ???
+
+pairs(analysis_df2 %>% dplyr::select(AGE,  HDL_LDL))
+```
+
