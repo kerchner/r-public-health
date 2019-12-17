@@ -106,7 +106,7 @@ str(analysis_swan_df)
 str(analysis_swan_df$RACE)
 analysis_swan_df$RACE <- as.factor(analysis_swan_df$RACE)
 levels(analysis_swan_df$RACE)
-levels(analysis_swan_df$RACE) <- c('Black', 'Chinese', 
+levels(analysis_swan_df$RACE) <- c('Black','Chinese', 
                           'Japanese', 'Caucasian',
                           'Hispanic')
 ```
@@ -120,92 +120,86 @@ levels(analysis_swan_df$SMOKERE6) <- c(NA, NA, "No", "Yes")
 ```
 
 # Renaming variables
-
+*#TODO* create exercise for renaming 
 ```{r}
-health_df <- rename(health_df, Marital_Status = MARITALS) 
-```
-
-
-
-```{r}
-summary(analysis_df)
+analysis_swan_df <- rename(analysis_swan_df, Glucose = GLUCRES6, LDL = LDLRESU6, 
+                           HDL = HDLRESU6, CRP =  CRPRESU6, DBP = DIABP16, SBP = SYSBP16)
 ```
 
 ```{r}
-nrow(analysis_df)
+summary(analysis_swan_df)
 ```
-Note that we have ages 12-81.
+
 ```{r}
-analysis_df <- analysis_df %>% filter((AGE >= 25) & (AGE <= 75))
-nrow(analysis_df)
+# analysis_df <- analysis_df %>% filter((AGE >= 25) & (AGE <= 75))
+# nrow(analysis_swan_df)
 ```
 
 Data cleaning: drop values <=0 for DBP
 ```{r}
-analysis_df <- analysis_df %>% filter(DBP>0)
+# analysis_df <- analysis_df %>% filter(DBP>0)
 ```
 
 ```{r}
-summary(analysis_df)
+# summary(analysis_df)
 ```
 
  Note some extreme values that don't look right - data cleaning needed
- e.g. BMI = 61.70
- DBP = 0
- Triglycerides = 2141
- HDL = 226?
- WBC = 44.8 ?
+ e.g. BMI = 
+ DBP = 
+ Triglycerides =
+ HDL = 
+ WBC = 
  
  Note NAs
 
 ```{r}
-hist(analysis_df$AGE)
+hist(analysis_swan_df$AGE6)
 ```
 
 ```{r}
-hist(analysis_df$AGE, breaks = 30)
+hist(analysis_swan_df$AGE6, breaks = 30)
 ```
 
 ```{r}
-hist(analysis_df$BMI, breaks = 30) #slightly right skewed
+str(analysis_swan_df$)
+hist(analysis_swan_df$BMI6, breaks = 30) #slightly right skewed
 
-hist(analysis_df$SBP, breaks = 30) # looks Normal
-hist(analysis_df$DBP, breaks = 30) # looks Normal
+hist(analysis_swan_df$SBP, breaks = 30) # looks Normal
+hist(analysis_swan_df$DBP, breaks = 30) # looks Normal
 
-hist((analysis_df$FastGlucose), breaks = 30) # go with log transformation instead. 
-hist(log(analysis_df$FastGlucose), breaks = 30)
+hist((analysis_swan_df$Glucose), breaks = 30) # go with log transformation instead. 
+hist(log(analysis_swan_df$Glucose), breaks = 30)
 
-hist(analysis_df$Tot_chol, breaks = 30) #We see some values above 350ish in total chol.
+hist(analysis_swan_df$LDL, breaks = 30) # looks normal
 
-hist(analysis_df$LDL, breaks = 30) # looks normal
+hist(analysis_swan_df$HDL, breaks = 30) # looks normal
 
-hist(analysis_df$Triglycerides, breaks = 50) # NOT normal
+barplot(table(analysis_swan_df$SMOKERE6))
+barplot(table(analysis_swan_df$EXERCIS6)) #TODO REMOVE -7
 
-hist(analysis_df$HDL, breaks = 30)
-
-hist(analysis_df$WBC, breaks = 50) # some very high values
 ```
 
 Relevel race: 
 ```{r}
-analysis_df$RACE <- relevel(analysis_df$RACE, "Non-Hispanic White")
+analysis_swan_df$RACE <- relevel(analysis_swan_df$RACE, "Caucasian")
 ```
 
 ```{r drop_na}
-analysis_df <- analysis_df %>% drop_na(SBP, DBP, AGE, BMI, HDL, FastGlucose, LDL, RACE)
+analysis_swan_df <- analysis_swan_df %>% drop_na(SBP, DBP, AGE6, BMI6, HDL, 
+                                                 Glucose, LDL, RACE, SMOKERE6, EXERCIS6)
 ```
 
 ```{r}
-analysis_df$BMI_cat <- cut(analysis_df$BMI, breaks = c(0, 18.5, 25.0, 30.0, 35.0, 40, 100), labels = c("Underweight", "Normal", "Pre-obese", "Obesity I", "Obesity II", "Obesity III"), right = FALSE)
+analysis_swan_df$BMI_cat <- cut(analysis_swan_df$BMI6, breaks = c(0, 18.5, 25.0, 30.0, 35.0, 40, 100), labels = c("Underweight", "Normal", "Pre-obese", "Obesity I", "Obesity II", "Obesity III"), right = FALSE)
 
-analysis_df$BMI_cat <- relevel(analysis_df$BMI_cat, "Normal") #this sets "normal" as the reference category.
+analysis_swan_df$BMI_cat <- relevel(analysis_swan_df$BMI_cat, "Normal") #this sets "normal" as the reference category.
 
-summary(analysis_df$BMI_cat)
+summary(analysis_swan_df$BMI_cat)
 ```
 ```{r create_new_var}
-analysis_df$HDL_LDL <- (analysis_df$HDL/analysis_df$LDL)
+analysis_swan_df$HDL_LDL <- (analysis_swan_df$HDL/analysis_swan_df$LDL)
 ```
-
 
 BLOOD PRESSURE CATEGORIES:
 https://www.heart.org/-/media/data-import/downloadables/pe-abh-what-is-high-blood-pressure-ucm_300310.pdf
@@ -240,63 +234,62 @@ if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) {
 
 ```{r, eval=TRUE}
 # Converting Blood pressure into categories
-analysis_df$bp_category <- mapply(bp_cat, analysis_df$SBP, analysis_df$DBP)
+analysis_swan_df$bp_category <- mapply(bp_cat, analysis_swan_df$SBP, analysis_swan_df$DBP)
 
-str(analysis_df$bp_category)
-analysis_df$bp_category <- as.factor(analysis_df$bp_category)
-analysis_df$bp_category <- relevel(analysis_df$bp_category, "Normal") #this sets "normal" as the reference category.
-
+str(analysis_swan_df$bp_category)
+analysis_swan_df$bp_category <- as.factor(analysis_swan_df$bp_category)
+analysis_swan_df$bp_category <- relevel(analysis_swan_df$bp_category, "Normal") #this sets "normal" as the reference category.
 ```
 
 ***Regression Models***
 Outcome: Fasting glucose - continuous
 Use cut-off of 0.20
 ```{r}
-glm_bp <- glm(FastGlucose ~ bp_category, data = analysis_df)
+glm_bp <- glm(Glucose ~ bp_category, data = analysis_swan_df)
 summary(glm_bp) # p<0.001 --> KEEP
 
-glm_age <- glm(FastGlucose ~ AGE, data = analysis_df)
+glm_age <- glm(Glucose ~ AGE6, data = analysis_swan_df)
 summary(glm_age) # p<0.001 --> KEEP
 
-glm_gender <- glm(FastGlucose ~ GENDER, data = analysis_df)
-summary(glm_gender) # p<0.001 --> KEEP
-
-glm_bmi <- glm(FastGlucose ~ BMI_cat, data = analysis_df)
+glm_bmi <- glm(Glucose ~ BMI_cat, data = analysis_swan_df)
 summary(glm_bmi) # p<0.001 --> KEEP
 
-glm_hdl_ldl <- glm(FastGlucose ~ HDL_LDL, data = analysis_df)
+glm_hdl_ldl <- glm(Glucose ~ HDL_LDL, data = analysis_swan_df)
 summary(glm_hdl_ldl) # p<0.001 --> KEEP
 # NOTE: since we are creating a ratio of HDL to LDL, we dont even need to evaluate LDL and HDL alone.
 
-glm_race <- glm(FastGlucose ~ RACE, data = analysis_df)
+glm_race <- glm(Glucose ~ RACE, data = analysis_swan_df)
 summary(glm_race) # p=0.207 is the smallest --> can keep but can also drop. let's see what the stepwise does. 
 
-glm_tri <- glm(FastGlucose ~ Triglycerides, data = analysis_df)
-summary(glm_tri) # p<0.001 --> KEEP
+glm_exercise <- glm(Glucose ~ EXERCIS6, data = analysis_swan_df)
+summary(glm_exercise) # p<0.001 --> KEEP
 
-glm_tot_chol <- glm(FastGlucose ~ Tot_chol, data = analysis_df)
-summary(glm_tot_chol) # p<0.039 --> DO NOT KEEP
+glm_crp <- glm(Glucose ~ CRP, data = analysis_swan_df)
+summary(glm_crp) # p<0.001 --> KEEP
+
+glm_smoke <- glm(Glucose ~ SMOKERE6, data = analysis_swan_df)
+summary(glm_smoke) # p=0.0329 --> KEEP B/C LESS THAN 0.05
 
 # **** REMOVE BOTH OF THESE HDL AND LDL MODELS*********
-glm_hdl <- glm(FastGlucose ~ HDL, data = analysis_df)
+glm_hdl <- glm(Glucose ~ HDL, data = analysis_swan_df)
 summary(glm_hdl) # p<0.001 --> KEEP
 
-glm_ldl <- glm(FastGlucose ~ LDL, data = analysis_df)
-summary(glm_ldl) # p=0.013--> KEEP --> this might drop out
+glm_ldl <- glm(Glucose ~ LDL, data = analysis_swan_df)
+summary(glm_ldl) # p=0.55--> DO NOT KEEP 
 
 ```
 
 ***INTERACTION TERMS***
 ```{r}
-analysis_df$age_hdl_ldl <- analysis_df$HDL_LDL * analysis_df$AGE
+analysis_swan_df$age_hdl_ldl <- analysis_swan_df$HDL_LDL * analysis_swan_df$AGE6
 ```
 
 
 
 *Full Models*
 ```{r}
-full_model <- glm(FastGlucose ~ BMI_cat + bp_category  + AGE + GENDER +
-                    HDL_LDL + RACE + age_hdl_ldl, data = analysis_df)
+full_model <- glm(Glucose ~ BMI_cat + bp_category  + AGE6 +
+                    HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl, data = analysis_swan_df)
 summary(full_model)
 ```
 
@@ -313,19 +306,20 @@ qqline(rst)
 ```
 
 ```{r}
-analysis_df$cooksd <- cooks.distance(full_model)
-cooksd_cutoff <- 4/nrow(analysis_df)
+analysis_swan_df$cooksd <- cooks.distance(full_model)
+cooksd_cutoff <- 4/nrow(analysis_swan_df)
 
-plot(analysis_df$cooksd)
+plot(analysis_swan_df$cooksd)
 abline(cooksd_cutoff, 0)
 ```
 
 Dropping outliers
 ```{r}
-analysis_df2 <- analysis_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd)
+analysis_swan_df2 <- analysis_swan_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd)
 
-full_model <- glm(FastGlucose ~ BMI_cat + bp_category  + AGE + GENDER +
-                    HDL_LDL + RACE, data = analysis_df2)
+full_model <- glm(Glucose ~ BMI_cat + bp_category  + AGE6 +
+                    HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl, 
+                    data = analysis_swan_df2)
 summary(full_model)
 ```
 
@@ -348,25 +342,27 @@ triglycerides > 500 mg/dl
 HDL > 100 mg/dl
 Fasting glucose >=126 mg/dl
 ```{r}
-analysis_df <- analysis_df %>% filter(DBP>0 & 
-                                        Triglycerides <=500 & HDL <=100 &
-                                        FastGlucose <126)
+analysis_swan_df <- analysis_swan_df %>% filter(DBP>0 & 
+                                       HDL <=100 &
+                                        Glucose <126)
 # dropping HDL >100 b/c that high level is actually bad for the heart - genetic issue
 #fasting glycose of >=126 mg/dl is considered T2D
-nrow(analysis_df)
+nrow(analysis_swan_df)
 
 
-full_model <- glm(FastGlucose ~ BMI_cat + bp_category  + AGE + GENDER +
-                    HDL_LDL + RACE, data = analysis_df2)
+full_model <- glm(Glucose ~ BMI_cat + bp_category  + AGE6 +
+                    HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl,
+                    data = analysis_swan_df2)
 summary(full_model)
 ```
 
 Dropping outliers
 ```{r}
-analysis_df2 <- analysis_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd)
+analysis_swan_df2 <- analysis_swan_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd)
 
-full_model <- glm(FastGlucose ~ BMI_cat + bp_category  + AGE + GENDER +
-                    HDL_LDL + RACE, data = analysis_df2)
+full_model <- glm(Glucose ~ BMI_cat + bp_category  + AGE6 +
+                    HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl, 
+                  data = analysis_swan_df2)
 summary(full_model)
 ```
 
@@ -393,10 +389,10 @@ qqline(rst)
 
 library(car)
 
-vif(glm(FastGlucose ~ BMI_cat + bp_category  + AGE + GENDER +
-                    HDL_LDL + RACE + Triglycerides + HDL + LDL, data=analysis_df2))
+vif(glm(Glucose ~ BMI_cat + bp_category  + AGE6 +HDL_LDL + RACE + CRP + 
+          SMOKERE6 + EXERCIS6, data=analysis_swan_df2))
 # VIF has to be <=1 ???
 
-pairs(analysis_df2 %>% dplyr::select(AGE,  HDL_LDL))
+pairs(analysis_swan_df2 %>% dplyr::select(AGE6,  HDL_LDL))
 ```
 
