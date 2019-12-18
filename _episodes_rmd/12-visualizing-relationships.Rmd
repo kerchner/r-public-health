@@ -1,0 +1,35 @@
+---
+title: "Building a regression model"
+teaching: 45
+exercises: 10
+questions:
+- "How can I perform a univariate regression (one x variable)?"
+- "How do I interpret the results of a regression?"
+- "How can I make a graph of my regression?"
+- "How can I look at residuals?"
+- "How would I perform a logistic regresion?"
+- "How can I build a multivariate model and perform regression?"
+- "How can I perform model selection?"
+- "How can I assess and remove outliers?"
+objectives:
+- TODO: These need updating
+- "Make a scatterplot"
+- "`cor()`"
+- "Learn how to run regressions with `lm()` and `glm()`"
+- "Learn how to isolate parts of the matrix that `lm()` returns"
+- "Learn how to run `t.test()` - get p-value, CI, etc."
+- "Assess interactions between variables"
+keypoints:
+- "FIXME"
+source: Rmd
+---
+
+```{r, include=FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("12-")
+```
+
+## Introduction goes here
+
+
+
