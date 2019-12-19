@@ -1,0 +1,151 @@
+---
+title: "Exploring Continuous Data"
+teaching: 45
+exercises: 10
+questions:
+- "How can I calculate basic statistics of a variable?"
+- "How can I see the distribution of a variable?"
+objectives:
+- "Learn how to view mean, quartiles, standard deviation"
+- "Techniques for dealing with null values in R -- ex. null might be represented in the data as `999`"
+keypoints:
+- "Use `hist()` to view a histogram"
+- "Use `boxplot()`"
+source: Rmd
+---
+
+```{r, include=FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("06-")
+```
+
+```{r, include=FALSE}
+analysis_swan_df <- read.csv('data_out/analysis_swan_df_06.csv')
+```
+
+## Getting to know our data
+
+One of the first ways to start getting to know our data is to get some basic statistics.  Let's see what the `summary()` function does:
+
+
+```{r}
+summary(analysis_swan_df)
+```
+
+We see that in addition to calculating mean, median, minimum, maximum, and the 1st and 3rd quartiles for each variable, `summary()` also includes a tally of the number of `NA`s in each variable.
+
+Not only does this give us a quick sense for the range of values for each variable, it can also give us a clue as to problems in the data.
+
+```{r, include=FALSE}
+height_df <- data.frame(month = c(1, 2, 2, 5, 9, 10, 19, 12, 11, 9), day = c(0, 1, 1, 5, 5, 9, 12, 31, 14, 2), height_cm=c(-2, 0, 72, 60, 69, 73, NA, 55, 59, 61))
+```
+
+> ## Exercise
+> 
+> What potential problems might there be with a data frame where `summary()` results in the following:
+> > ```{r, message=FALSE}
+> > summary(height_df)
+> > ```
+> 
+> 
+> > ## Solution
+> >
+> > * There might be problems in `month` because the maximum is 19.
+> > * There might be problems in `day` because the minimum is 0.
+> > * There might be issues with `height_cm` beacuse the minimum is a negative value.
+> >
+> {: .solution}
+{: .challenge}
+
+## Computing individual statistics
+
+#TODO: Use of mean(), stdev() etc.
+
+
+## Visualizations of single variables
+
+Even though some of our variables aren't really continuous (we'll deal with those soon), we can start looking at the continuous variables.
+
+Visualizations of single variables might include histograms, boxplots, or other types of plots.
+
+Let's take a look at the DBP (diastolic blood pressure) of the subjects in our data.
+
+A basic histogram, created with `hist()` with no optional parameters, gives us a starting point:
+
+```{r}
+hist(analysis_swan_df$DBP)
+```
+
+What are some of the parameters we can control?  We can learn more about `hist()` either by typing `?hist` at the Console, or by searching for it using the search bar in the Help pane.
+
+The help documentation includes a "default" method that shows not only the possible parameters we might use, but also their default values if we don't override them:
+
+```
+## Default S3 method:
+hist(x, breaks = "Sturges",
+     freq = NULL, probability = !freq,
+     include.lowest = TRUE, right = TRUE,
+     density = NULL, angle = 45, col = NULL, border = NULL,
+     main = paste("Histogram of" , xname),
+     xlim = range(breaks), ylim = NULL,
+     xlab = xname, ylab,
+     axes = TRUE, plot = TRUE, labels = FALSE,
+     nclass = NULL, warn.unused = TRUE, ...)
+```
+
+We can read further to learn about how to use each of the parameters.  For example, if we wanted to control the breakpoints between the bins, we can specify a value for the `breaks` parameter:
+
+```
+breaks    one of:
+
+          * a vector giving the breakpoints between histogram cells,
+          * a function to compute the vector of breakpoints,
+          * a single number giving the number of cells for the histogram,
+          * a character string naming an algorithm to compute the number of cells (see ‘Details’),
+          * a function to compute the number of cells.
+```
+
+Let's try passing `hist()` a single number giving the number of cells or bins:
+
+```{r}
+hist(analysis_swan_df$DBP, breaks = 50, col = 'pink')
+```
+
+#TODO: Consider other parameters
+
+> ## Exercise
+> 
+> Try adding a main title, and X and Y axis titles to the histogram above.
+> 
+> Try filling the bars with a color.
+> 
+> > ## Solution
+> >
+> > ```{r}
+> > hist(analysis_swan_df$DBP, breaks = 50, main = 'Title goes here',
+> >      xlab = 'Diastolic blood pressure (mmHg)', ylab = 'Frequency',
+> >      color = 'pink')
+> > ```
+> >
+> {: .solution}
+{: .challenge}
+
+
+# TODO: Show horizontal
+
+```{r}
+boxplot(analysis_swan_df$Age)
+```
+
+```{r}
+
+```
+
+Looking for null values
+
+some basic filtering - for example, filter just to women of childbearing age, check for % of NA to pregnancy question
+
+Checking normality of continuous 
+
+Data cleanliness - boxplots, look for outliers
+
