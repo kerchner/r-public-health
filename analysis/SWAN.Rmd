@@ -162,8 +162,8 @@ hist(analysis_swan_df$AGE6, breaks = 30)
 ```
 
 ```{r}
-str(analysis_swan_df$)
-hist(analysis_swan_df$BMI6, breaks = 30) #slightly right skewed
+#str(analysis_swan_df$)
+hist(analysis_swan_df$BMI, breaks = 30) #slightly right skewed
 
 hist(analysis_swan_df$SBP, breaks = 30) # looks Normal
 hist(analysis_swan_df$DBP, breaks = 30) # looks Normal

@@ -20,6 +20,23 @@ source: Rmd
 
 
 
+# Continuous Variables and Linear Regression
+
+#TODO:  Better wording
+
+To perform an analysis that assesses whether one or more predictor variables might explain a response or outcome variable, we need to check whether the data meets certain assumptions if we'd like to use linear regression to prove our hypothesis about the relationship between the predictors and the outcome.
+
+The assumptions that the data must meet in order to build a valid linear regression model are:
+1. A linear relationship between each continuous predictor (X), and the outcome variable (Y)
+2. Each continuous predictor has a normal distribution
+3. No collinearity between predictors
+4. No auto-correlation (residuals are not related to each other)
+5. Homoscedasticity (no pattern in the residuals)
+
+In this episode, we'll be using R to investigate these assumptions.
+
+# Checking normality
+
 ## Getting to know our data
 
 One of the first ways to start getting to know our data is to get some basic statistics.  Let's see what the `summary()` function does:
@@ -164,7 +181,7 @@ Let's try passing `hist()` a single number giving the number of cells or bins:
 
 
 ~~~
-hist(analysis_swan_df$DBP, breaks = 50, col = 'pink')
+hist(analysis_swan_df$DBP, breaks = 50)
 ~~~
 {: .language-r}
 
@@ -184,39 +201,9 @@ hist(analysis_swan_df$DBP, breaks = 50, col = 'pink')
 > > ~~~
 > > hist(analysis_swan_df$DBP, breaks = 50, main = 'Title goes here',
 > >      xlab = 'Diastolic blood pressure (mmHg)', ylab = 'Frequency',
-> >      color = 'pink')
+> >      col = 'pink')
 > > ~~~
 > > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > Warning in plot.window(xlim, ylim, "", ...): "color" is not a graphical
-> > parameter
-> > ~~~
-> > {: .error}
-> > 
-> > 
-> > 
-> > ~~~
-> > Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
-> > "color" is not a graphical parameter
-> > ~~~
-> > {: .error}
-> > 
-> > 
-> > 
-> > ~~~
-> > Warning in axis(1, ...): "color" is not a graphical parameter
-> > ~~~
-> > {: .error}
-> > 
-> > 
-> > 
-> > ~~~
-> > Warning in axis(2, ...): "color" is not a graphical parameter
-> > ~~~
-> > {: .error}
 > > 
 > > <img src="../fig/rmd-07-unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
 > >
@@ -224,15 +211,60 @@ hist(analysis_swan_df$DBP, breaks = 50, col = 'pink')
 {: .challenge}
 
 
-# TODO: Show horizontal
+#TODO: Show horizontal
 
 
 ~~~
-boxplot(analysis_swan_df$Age)
+boxplot(analysis_swan_df$Glucose)
 ~~~
 {: .language-r}
 
 <img src="../fig/rmd-07-unnamed-chunk-9-1.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" width="612" style="display: block; margin: auto;" />
+
+# Plotting the relationship between two continuous variables
+
+We would now like to verify that any relationship between each X and Y is roughly linear.  We can use the `plot()` function in R to quickly create a scatterplot.
+
+
+~~~
+plot(y = analysis_swan_df$Glucose, x = analysis_swan_df$BMI)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-07-unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
+
+
+In this case, we see there may be some outliers where Glucose levels are high.  Given that a glucose level of over 126 mg/dL is considered Type II Diabetic, we can take a look at the scatterplot with those data excluded.
+
+We'll make a subset, then redraw the scatterplot:
+
+
+~~~
+swan_non_diabetic <- analysis_swan_df %>% filter(Glucose < 126)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in analysis_swan_df %>% filter(Glucose < 126): could not find function "%>%"
+~~~
+{: .error}
+
+
+
+~~~
+plot(y = swan_non_diabetic$Glucose, x = swan_non_diabetic$BMI)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in plot(y = swan_non_diabetic$Glucose, x = swan_non_diabetic$BMI): object 'swan_non_diabetic' not found
+~~~
+{: .error}
+
 
 
 

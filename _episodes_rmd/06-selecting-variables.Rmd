@@ -1,5 +1,5 @@
 ---
-title: "Selecting and Renaming Variables"
+title: "Selecting and Renaming Variables, and Subsetting"
 teaching: 15
 exercises: 2
 questions:
@@ -12,6 +12,7 @@ objectives:
 keypoints:
 - "Use `select()` to create a subset of a data frame based on columns"
 - "Use `rename()` to rename columns"
+- "Use `filter()` to filter rows"
 source: Rmd
 ---
 
@@ -108,3 +109,5 @@ str(analysis_swan_df)
 ```{r, include=FALSE}
 write.csv(analysis_swan_df, 'data_out/analysis_swan_df_06.csv')
 ```
+
+#TODO:  As its own episode, show use of `filter()`
