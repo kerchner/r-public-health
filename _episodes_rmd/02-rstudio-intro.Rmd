@@ -35,15 +35,8 @@ knitr_fig_path("01-")
 
 ## Motivation
 
-Science is a multi-step process: once you've designed an experiment and collected
-data, the real fun begins! This lesson will teach you how to start this process using
-R and RStudio. We will begin with raw data, perform exploratory analyses, and learn
-how to plot results graphically. This example starts with a dataset from
-[gapminder.org](https://www.gapminder.org) containing population information for many
-countries through time. Can you read the data into R? Can you plot the population for
-Senegal? Can you calculate the average income for countries on the continent of Asia?
-By the end of these lessons you will be able to do things like plot the populations
-for all of these countries in under a minute!
+Now that we've clarified some of the reasons why we might be using R versus (or in addition to) other statistical software packages, let's get comfortable with the basic mechanics of using R in the RStudio environment.   After we learn the basics, we'll move on to the next lessons, where we'll read in data sets, explore them, analyze them, and create some data visualizations!
+
 
 ## Before Starting The Workshop
 
@@ -52,38 +45,36 @@ Please ensure you have the latest version of R and RStudio installed on your mac
 [Download and install the latest version of R here](https://www.r-project.org/)
 [Download and install RStudio here](https://www.rstudio.com/)
 
+If you already have R and RStudio installed, you may want to make sure you have updated each of them to the latest version.  Sometimes there are slight differences in how they look or function, and using the latest versions will minimize differences between what you see on your screen versus what the instructor's screen shows.
+
 ## Introduction to RStudio
 
-Welcome to the R portion of the Software Carpentry workshop.
+R is the **language** we'll be programming in, and RStudio is a popular software package that makes it easier for you to work in R, and which we'll be using in this workshop.  RStudio is a free, open source R [integrated development environment](https://en.wikipedia.org/wiki/Integrated_development_environment) or "IDE".  Most IDEs provide an editor for editing code, and facilities for running the code.  RStudio provides many extra features such as integration with version control and project management.  RStudio is available for both Mac and Windows as a desktop app to install on your computer, but there is also a cloud version available that you would access through your browser.
 
-Throughout this lesson, we're going to teach you some of the fundamentals of
-the R language as well as some best practices for organizing code for
-scientific projects that will make your life easier.
+## Goals
 
-We'll be using RStudio: a free, open source R integrated development
-environment. It provides a built in editor, works on all platforms (including
-on servers) and provides many advantages such as integration with version
-control and project management.
+Throughout this lesson, we're going to learn some of the fundamentals of the R language, writing and running R code in RStudio, as well as some best practices for organizing code for scientific projects that will make your life easier.
 
 
 
 **Basic layout**
 
-When you first open RStudio, you will be greeted by three panels:
+When you first open RStudio, you will see three panels:
 
-  * The interactive R console (entire left)
-  * Environment/History (tabbed in upper right)
-  * Files/Plots/Packages/Help/Viewer (tabbed in lower right)
+  * The interactive R console (on the left side)
+  * Environment/History (in the upper right, with multiple tabs)
+  * Files/Plots/Packages/Help/Viewer (in the lower right)
 
 ![RStudio layout](../fig/01-rstudio.png)
 
 Once you open files, such as R scripts, an editor panel will also open
-in the top left.
+in the top left.  (Later we'll also see that the top left pane is also where we can look at data.)
 
 ![RStudio layout with .R file open](../fig/01-rstudio-script.png)
 
 
-## Work flow within RStudio
+## Workflow within RStudio
+
 There are two main ways one can work within RStudio.
 
 1. Test and play within the interactive R console then copy code into
@@ -119,8 +110,7 @@ interactive R console.
 Much of your time in R will be spent in the R interactive
 console. This is where you will run all of your code, and can be a
 useful environment to try out ideas before adding them to an R script
-file. This console in RStudio is the same as the one you would get if
-you typed in `R` in your command-line environment.
+file.
 
 The first thing you will see in the R interactive session is a bunch
 of information, followed by a ">" and a blinking cursor. In many ways
