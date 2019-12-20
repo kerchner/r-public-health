@@ -87,3 +87,13 @@ Error in eval(lhs, parent, parent): object 'hdlanalysis_df' not found
 Next, let's count "NA" for our IV.  WHAT I NEED TO LOOK UP: can we do the analysis with NAs included 
 summary(hdlanalysis_df$LBDLDL)
 
+#TODO: Great example of data cleaning - values include:
+'    '
+'         '
+'  xyz'
+'asfa    '
+bmi_india_cardiogrant2016$out <- as.character(bmi_india_cardiogrant2016$out)
+bmi_india_cardiogrant2016$out <- trimws(bmi_india_cardiogrant2016$out)
+bmi_india_cardiogrant2016$out <- as.factor(bmi_india_cardiogrant2016$out)
+# first level is "" (empty string)
+levels(bmi_india_cardiogrant2016$out)[1] <- NA

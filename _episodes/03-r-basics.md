@@ -27,3 +27,71 @@ keypoints:
 - "Use `install.packages()` to install packages (libraries)."
 source: Rmd
 ---
+
+
+
+## Variables in R
+
+We can use *variables* to store data that we can then reference.  A variable has a name, which is like a label, and a value.
+
+Let's look at an R expression that assigns a value to a variable:
+
+
+~~~
+height_cm <- 140
+~~~
+{: .language-r}
+
+This statement has three parts:
+
+* An assignment operator `<-` which assigns the value on the right to the variable on the left.
+* A variable name (`height_cm`)
+* A value (`140`)
+
+Let's take a look at what happened when you executed the statement `height_cm <- 140`.
+
+In your Environment pane (usually in the upper right area of R Studio), you should now see a "Values" section.  This area is like a table of variable names and their values.  You should see `height_cm` listed with  a value of `140`.
+
+If you now type the just name of the variable, `height_cm` at the console, R will **evaluate** the variable and print its current value.  Try it.
+
+> ## Exercise 1
+> 
+> 1. Create a `height_inches` variable and set it to the value of `height_cm` divided by 2.54 (1 inch = 2.54 cm).
+> 2. Then, change the value of `height_cm`.  Did `height_inches` recompute?  Why or why not?
+>
+> > ## Solution
+> >
+> > 1. `height_inches <- height_cm / 2.54`
+> > 2. `height_inches` does not recompute.  It was set to the _*value*_ of `height_cm` divided by 2.54, which is a number.  It's not actually a formula or function that's tied to the `height_cm` variable.  We'll get to functions later!
+> {: .solution}
+{: .challenge}
+
+
+### Variable names
+
+Different programming languages have slightly different rules around what characters may be used in variable names.  In R, both numbers and letters can be used, as well as a dot (`.`) and an underscore (`_`).
+
+> ## Exercise
+> 
+> 1. Can you determine whether a variable name may start with a number?  Can a variable name start with a period or an underscore?
+>
+> 2. Why do you think R allows an underscore (`_`) but not a hyphen (`-`) in variable names?
+>
+> 3. Can you determine whether variable names are case-sensitive?
+>
+> > ## Solution
+> >
+> > 1. something
+> > 2. Something else
+> > 3. And something else
+> {: .solution}
+{: .challenge}
+
+
+
+## TODO: Logicals - counting up values
+TRUE + TRUE + FALSE + TRUE
+yields 4
+so... you can do things like
+df$x <- c(4, 6, 9, 1, 0)
+sum(df$x > 5)
