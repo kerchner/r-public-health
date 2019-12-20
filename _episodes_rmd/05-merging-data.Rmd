@@ -1,0 +1,300 @@
+---
+title: "Merging and Joining Data"
+keypoints:
+- Use `merge()` to stack data
+- Use `merge()` to join data
+- Understand joins
+objectives:
+- Learn how to stack data frames (ex. different years' data)
+- Learn how to join - inner, outer, etc.
+- Explore after a join to verify results as expected
+questions: How can I combine data from different sources?
+source: Rmd
+teaching: 45
+exercises: 10
+---
+
+```{r, include=FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("05-")
+```
+
+## Introduction goes here
+
+Very often, studies record different types of data in different tables.  For example, there may be one table with demographic information about participants; there might be another table with lab measurements associated with the participants.
+
+Discussion:
+
+When might be some scenarios where it might be preferable not to record all of the study information in a single table?
+
+For the next several lessons, we'll be working with a data set from the [Study of Women's Health Across the Nation (SWAN)](https://www.swanstudy.org/).  SWAN is a multi-site longitudinal, epidemiologic study.  The study, which began in 1994 and is still ongoing, examines the physical, biological, psychological, and social changes in women during their middle years.
+```
+Citation: 
+Sutton-Tyrell, Kim, Selzer, Faith, Sowers, MaryFran R. (Mary Francis Roy), Finkelstein, Joel, Powell, Lynda, Gold, Ellen B., … Matthews, Karen. Study of Women’s Health Across the Nation (SWAN), 2002-2004: Visit 06 Dataset. Ann Arbor, MI: Inter-university Consortium for Political and Social Research [distributor], 2018-11-13. https://doi.org/10.3886/ICPSR31181.v2
+```
+
+The SWAN study collected data in 3-year cycles.  We'll be working with the 2002-2004 cycle data.  Although the study collected data on hundreds of variables across thousands of women, we'll focus our analysis on the following smaller set of variables:
+
+Variable | Description
+------------- | -------------
+SWANID | Participant's Study Identifier
+AGE6 | Age
+RACE | Race at Screener
+BMI6 | Body Mass Index (BMI)
+LDLRESU6 | Low-density lipoprotein cholesterol (estimated) mg/dl
+HDLRESU6 | High density lipoprotein cholesterol mg/dl
+GLUCRES6 | Glucose mg/dl
+CRPRESU6 | C-reactive protein mg/l
+DIABP16 | Diastolic blood pressure mmHg
+SYSBP16 | Systolic blood pressure mmHg
+EXERCIS6 | During the past 12 months, have you exercised?
+SMOKERE6 |  Since your last study visit, have you smoked cigarettes regularly (at least one cigarette a day)?
+STATUS6 | Menopausal Status 
+
+
+
+STATUS6 | Menopausal Status :
+ 1 = Post by BSO (Bilateral Salpingo Oophorectomy)
+ 2 = Natural Post
+ 3 = Late Peri
+ 4 = Early Peri
+ 5 = Pre
+6 = Pregnant/breastfeeding
+7 = Unknown due to HT use
+8 = Unknown due to hysterectomy
+
+RACE Race at Screener
+1: Black/African American
+2: Chinese/Chinese American
+3: Japanese/Japanese American
+4: Caucasian/ White Non-Hispanic
+5: Hispanic
+
+
+
+In our case, we have two tables, a demographic table and a table with lab measurements.
+
+We'll start by reading each of them into a separate data frame.
+
+```{r}
+swan_demographic <- read.csv('../data/SWAN_2002_2004/DS0001/swan_demo.csv')
+swan_lab <- read.csv('../data/SWAN_2002_2004/DS0001/swan_lab.csv')
+```
+
+Let's take a peek at each data frame:
+```{r}
+head(swan_demographic)
+```
+
+`swan_lab` is very wide, but feel free to peek at it using head() and/or by clicking on it in RStudio's Environment pane.  Notice that when there are many variables, RStudio provides buttons for paginating left and right through the variables.
+
+Let's look at the variable names (column names):
+
+```{r}
+colnames(swan_demographic)
+```
+
+```{r}
+colnames(swan_lab)
+```
+
+What we'd ultimately like is to match up the observations in the lab table with the demographic data, only keeping columns of potential interest.
+
+* From swan_demographic we would like to use STUDYID, AGE6, RACE.
+* From swan_lab we would like to use LDLRESU6, BMI6, GLUCRES6, CRPRESU6, DIABP16, SYSBP16, EXERCIS6, SMOKERE6
+
+We'll use the `merge()` function to join the data frames together.  The function's parameters refer to the "left" data frame as "x", and the "right" data frame as "y".
+
+The `merge()` function allows us to make a number of choices:
+
+* We can specify which variable is the one to match by.  In many cases, the variable may have one name in one table, and a different name in the other table, so `by.x` and `by.y` could be different.  You can even specify multiple columns to match on (you would set `by.x` and `by.y` to vectors of variable names).
+* We can specify whether to keep rows from the "x" table which do not match up with any rows in the "y" table, and whether to keep rows from the "y" table which do not match up with any rows in the "x" table, using the `all.x` and `all.y` parameters.
+
+```{r}
+swan_df <- merge(x = swan_demographic, y = swan_lab, by.x="SWANID", by.y="SWANID",
+                   all.x=FALSE, all.y=TRUE)
+```
+
+Let's take a peek at a few of the columns in `swan_df`, the data frame resulting from the merge.
+
+```{r}
+head(colnames(swan_df), n=10)
+```
+
+We notice something unusual here.  `swan_df` has columns named `VISIT.x` and `VISIT.y`.  Sometimes both of the data frames in a merge have some columns with the same names.  `merge()` keeps both columns, but to keep them distinct, it appends `.x` to the variable from the "x" data frame, and `.y` from the "y" data frame.
+
+
+
+HERE WE NEED TO CONSIDER DPLYR FOR JOINING. #TODO
+
+It might be a good idea to write out an intermediate data file with what we have so far, because this is the data we'll be working with from this point forward.  In a common format like CSV, you might wish to share the file with others at this point.
+
+#TODO: Say why we have to use row.names=FALSE
+
+```{r, eval=TRUE}
+write.csv(swan_df, file = 'data_out/swan_merge.csv', row.names = FALSE)
+```
+
+
+<!-- ## STOP HERE BUT SAVE THE STUFF BELOW -->
+
+<!-- Variables of interest: -->
+<!-- BMI, BP, LDL, TC, HDL, GLU, AGE, -->
+<!-- -We are interested in the association between TC and BMI categories. (Total chol (TC) = outcome and glucose (main predictor)) -->
+
+<!-- 1. After merging, first look at NAs and summaries of variables. -->
+<!-- ```{r, eval=TRUE} -->
+<!-- # Look at descriptive statistics of all independent variables -->
+
+<!-- summary(merge_df$LBXTC) # total chol --> outcome variable. -->
+<!-- sd(merge_df$LBXTC, na.rm = TRUE) # gives standard deviation; removes na values (na.rm=TRUE) -->
+<!-- summary(merge_df$LBXGLU) # glucose -->
+<!-- summary(merge_df$BMXBMI) # BMI -->
+<!-- summary(merge_df$RIDAGEYR) #TODO exclude people <18yo now.  -->
+<!-- ``` -->
+
+<!-- 2. Next, let's look at these variables in detail with graphs: -->
+<!-- ```{r, eval=TRUE} -->
+<!-- hist(merge_df$LBXTC, breaks = 30, xlab = "Total cholesterol (TC) (mg/dl)",  main = "Distribution of Total Cholesterol") # looks normal overall -->
+<!-- hist(merge_df$LBXGLU, breaks = 100) # right skewed -->
+<!-- boxplot(merge_df$LBXGLU) # looking at outliers of IV -->
+<!-- hist(merge_df$BMXBMI, breaks = 50) # slightly right skewed -->
+<!-- boxplot(merge_df$BMXBMI) # looking at outliers of IV -->
+<!-- hist(merge_df$RIDAGEYR, breaks = 50) # if you ignore >=80 category and <=10, it's normal looking.  -->
+
+<!-- #TODO Create histograms etc of Blood pressure variables here (for continuous) -->
+<!-- ``` -->
+
+<!-- 3. Let's drop anyone under the age of 25 b/c changes in TC may not be apparent in the younger age groups.  -->
+<!-- ```{r, eval=TRUE} -->
+<!-- merge25_df <- merge_df %>% filter((RIDAGEYR>=25 & RIDAGEYR<80)) #& LBXGLU<=200) -->
+<!-- boxplot(merge25_df$LBXGLU) # looking at outliers again in this new dataset -->
+<!-- boxplot(merge25_df$BMXBMI) # looking at outliers again -->
+<!-- ``` -->
+
+<!-- 4.Let's do scatter plots to see linear relationship between predictors and outcome variable: -->
+<!-- ```{r, eval=TRUE} -->
+<!-- scatter.smooth(merge25_df$LBXGLU, merge25_df$LBXTC, xlab = "Glucose levels (mg/dl)", ylab = "Total Cholesterol (mg/dl)") -->
+<!-- scatter.smooth(merge25_df$BMXBMI, merge25_df$LBXTC, xlab = "BMI", ylab = "Total Cholesterol (mg/dl)") -->
+<!-- scatter.smooth(merge25_df$RIDAGEYR, merge25_df$LBXTC, xlab = "Age (years)", ylab = "Total Cholesterol (mg/dl)") -->
+<!-- scatter.smooth(merge25_df$LBDHDD, merge25_df$LBXTC, xlab = "HDL", ylab = "Total Cholesterol (mg/dl)") -->
+<!-- scatter.smooth(merge25_df$LBDLDL, merge25_df$LBXTC, xlab = "LDL", ylab = "Total Cholesterol (mg/dl)") -->
+<!-- ``` -->
+
+<!-- 5. Let's do a correlation matrix now -->
+<!-- ```{r, eval=TRUE} -->
+<!-- cor(merge25_df[ , c("LBXGLU", "BMXBMI", "RIDAGEYR", "LBDHDD", "LBDLDL")], use = "complete.obs") # everything looks like below 27% multicollinearity. -->
+<!-- ``` -->
+
+<!-- BLOOD PRESSURE CATEGORIES: -->
+<!-- https://www.heart.org/-/media/data-import/downloadables/pe-abh-what-is-high-blood-pressure-ucm_300310.pdf -->
+
+<!-- 6. Let's create catgegories for variables we are intersted in. -->
+<!-- ```{r, eval=TRUE} -->
+<!-- bp_cat <- function(sbp, dbp) { -->
+<!--  if (is.na(sbp) | is.na(dbp)){ -->
+<!--    return(NA) -->
+<!--  } -->
+<!--   #if (sbp>=180 | dbp >=120) { -->
+<!--    # return("Hypertensive Crisis") -->
+<!--   #} -->
+<!-- if (sbp>=140 | dbp >=90) { -->
+<!--     return("Hypertension Stage 2+") -->
+<!--   } -->
+
+<!-- if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) { -->
+<!--     return("Hypertension Stage 1") -->
+<!--   } -->
+
+<!--  if ((sbp>=120 & sbp<=129) &  dbp <80) { -->
+<!--     return("Elevated") -->
+<!--   } -->
+
+<!--   if (sbp < 120 & dbp <80) { -->
+<!--     return("Normal")  -->
+<!--   } -->
+<!-- }  -->
+<!-- ```   -->
+
+
+<!-- ```{r, eval=TRUE} -->
+<!-- # Converting Blood pressure into categories -->
+<!-- # merge25_df <- merge25_df %>% mutate(bp_category = bp_cat(BPXSY1, BPXDI1)) -->
+<!-- merge25_df$bp_category <- mapply(bp_cat, merge25_df$BPXSY1, merge25_df$BPXDI1) -->
+<!-- ``` -->
+
+<!-- Let's first make sure that everything looks okay.  There are over 50 variables, so scrolling through the data frame in the viewer is not a great option. -->
+
+<!-- ```{r, eval=TRUE} -->
+<!-- # See what the range of text vales is -->
+<!-- unique(merge25_df$bp_category) -->
+
+<!-- # Look at just the pertinent columns -->
+<!-- just_bp <- merge25_df %>% select(BPXSY1, BPXDI1, bp_category) # check to make sure no NULL values and categories are correctly created -->
+
+<!-- ``` -->
+
+<!-- ```{r, eval=TRUE} -->
+<!-- # Converting to factor  -->
+<!-- merge25_df$bp_category <- as.factor(merge25_df$bp_category)  -->
+<!-- merge25_df$bp_category <- relevel(merge25_df$bp_category, "Normal") #sets "normal" as reference. -->
+<!-- str(merge25_df$bp_category)  # Observe that it's a factor -->
+<!-- table(merge25_df$bp_category, useNA = "ifany")  # Inspect the values -->
+
+<!-- barplot(table(merge25_df$bp_category)) #TODO reorder so it looks ordinal -->
+<!-- ``` -->
+
+<!-- ```{r, eval=TRUE} -->
+<!-- # Convert BMI into categories -->
+<!-- merge25_df$BMI_category <- cut(merge25_df$BMXBMI, breaks = c(0, 18.5, 25.0, 30.0, 35.0, 40, 100), labels = c("Underweight", "Normal", "Pre-obese", "Obesity I", "Obesity II", "Obesity III"), right = FALSE) -->
+
+<!-- merge25_df$BMI_category <- relevel(merge25_df$BMI_category, "Normal") #this sets "normal" as the reference category. -->
+
+<!-- summary(merge25_df$BMI_category) -->
+
+<!-- ``` -->
+
+<!-- NOTE: lm ignoes NAs (check this again though).  Make a note of this in the write up of the lesson.  -->
+
+<!-- 7. Simple linear regression models: -->
+<!-- ```{r, eval=TRUE} -->
+<!-- #TODO: Set appropriate reference levels in factor variables (for BP and BMI) -->
+
+<!-- # glucose -->
+<!-- lm_gluc <- lm(LBXTC ~ LBXGLU, data = merge25_df)  -->
+<!-- summary(lm_gluc) -->
+
+<!-- # bmi -->
+<!-- lm_bmi <- lm(LBXTC ~ BMXBMI, data = merge25_df) -->
+<!-- summary(lm_bmi) -->
+
+<!-- # bmi categorical -->
+<!-- lm_bmicat <- lm(LBXTC ~ BMI_category, data = merge25_df) -->
+<!-- summary(lm_bmicat) -->
+
+<!-- # age -->
+<!-- lm_age <- lm(LBXTC ~ RIDAGEYR, data = merge25_df) -->
+<!-- summary(lm_age) -->
+
+<!-- # hdl -->
+<!-- lm_hdl <- lm(LBXTC ~ LBDHDD, data = merge25_df) -->
+<!-- summary(lm_hdl) -->
+
+<!-- # ldl -->
+<!-- lm_ldl <- lm(LBXTC ~ LBDLDL, data = merge25_df) -->
+<!-- summary(lm_ldl) -->
+
+<!-- # BP categorical -->
+<!-- lm_bp <- lm(LBXTC ~ bp_category, data = merge25_df) -->
+<!-- summary(lm_bp) -->
+<!-- ``` -->
+
+<!-- #TODO  INTERACTION TERMS, look at literature to see which ones need to be created.  -->
+
+<!-- Next: Just creating one big model just to see for now. -->
+<!-- ```{r, eval=TRUE} -->
+<!-- lm_model <- lm(LBXTC ~ LBXGLU + BMI_category + LBDHDD + LBDLDL + RIDAGEYR + bp_category, data = merge25_df) -->
+<!-- summary(lm_model) -->
+<!-- ``` -->
+
+

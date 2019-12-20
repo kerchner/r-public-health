@@ -1,0 +1,890 @@
+Bibliography
+Study of Women's Health Across the Nation (SWAN), 2006-2008: Visit 10
+Dataset
+
+This bibliography includes published and unpublished works that are related 
+to ICPSR study 32961. It includes works that are based on primary
+or secondary analysis of the data, or which describe or critique those
+data or the collection methodology. 
+
+If you publish a work or know of other works that are based on these data,
+please send the complete citation and name of the ICPSR study used to:
+icpsr-biblio-notify@umich.edu 
+
+
+1. Appelhans, Bradley M.; Janssen, Imke; Cursio, John F.; Matthews, Karen
+A.; Hall, Martica; Gold, Ellen B.; Burns, John W.; Kravitz, Howard M.,
+"Sleep duration and weight change in midlife women: The SWAN Sleep Study."
+Obesity. Jan 2013, 21, (1), 77 - 84. DOI: 10.1002/oby.20251
+
+2. Appelhans, Bradley M.; Kazlauskaite, Rasa; Karavolos, Kelly; Janssen,
+Imke; Kravitz, Howard M.; Dugan, Sheila; Burns, John W.; Shipp-Johnson,
+Karla; Powell, Lynda H., "How well does the body adiposity index capture
+adiposity change in midlife women? The SWAN Fat Patterning Study." American
+Journal of Human Biology. Nov 2012, 24, (6), 866 - 869. DOI:
+10.1002/ajhb.22330
+
+3. Appelhans, Bradley M.; Segawa, Eisuke; Janssen, Imke; Kazlauskaite,
+Rasa; Thurston, Rebecca C.; Lewis, Tene T.; Kravitz, Howard M., "Employment
+status, depressive symptoms, and waist circumference change in midlife
+women: The Study of Women's Health Across the Nation (SWAN)." Annals of
+Epidemiology. Mar 2014, 24, (3), 187 - 192. DOI:
+10.1016/j.annepidem.2013.12.005
+
+4. Appelhans, Bradley M.; Segawa, Eisuke; Janssen, Imke; Nackers, Lisa M.;
+Kazlauskaite, Rasa; Baylin, Ana; Burns, John W.; Powell, Lynda H.; Kravitz,
+Howard M., "Meal preparation and cleanup time and cardiometabolic risk over
+14 years in the Study of Women's Health Across the Nation (SWAN)."
+Preventive Medicine. Feb 2015, 1 - 6. DOI: 10.1016/j.ypmed.2014.11.025
+
+5. Avis, Nancy E.; Colvin, Alicia; Karlamangla, Arun S.; Crawford, Sybil;
+Hess, Rachel; Waetjen, L.E.; Brooks, Maria; Tepper, Ping G.; Greendale,
+Gail A., "Change in sexual functioning over the menopausal transition:
+Results from the Study of Women's Health Across the Nation." Menopause. Apr
+2017, 24, (4), 379 - 390. DOI: 10.1097/GME.0000000000000770
+
+6. Avis, Nancy E.; Crawford, Sybil L.; Greendale, Gail; Bromberger, Joyce
+T.; Everson-Rose, Susan A.; Gold, Ellen B.; Hess, Rachel; Joffe, Hadine;
+Kravitz, Howard M.; Tepper, Ping G.; Thurston, Rebecca C., "Duration of
+menopausal vasomotor symptoms over the menopause transition." JAMA Internal
+Medicine. Apr 2015, 175, (4), 531 - 539. DOI:
+10.1001/jamainternmed.2014.8063
+
+7. Basu, Sumanta; Duren, William; Evans, Charles; Burant, Charles;
+Michailidis, George; Karnovsky, Alla, "Sparse network modeling and
+metscape-based visualization methods for the analysis of large-scale
+metabolomics data." Bioinformatics. May 2017, 33, (10), 1545 - 1553. DOI:
+10.1093/bioinformatics/btx012
+
+8. Beatty, Danielle L.; Matthews, Karen A.; Bromberger, Joyce T.; Brown,
+Charlotte, "Everyday discrimination prospectively predicts inflammation
+across 7-years in racially diverse midlife women: Study of Women's Health
+Across the Nation." Journal of Social Issues. Jun 2014, 70, (2), 298 - 314.
+DOI: 10.1111/josi.12061
+
+9. Birru, Mehret S.; Matthews, Karen A.; Thurston, Rebecca C.; Brooks,
+Maria M.; Ibrahim, Said; Barinas-Mitchell, Emma; Janssen, Imke; Sutton-
+Tyrrell, Kim, "African-American ethnicity and cardiovascular risk factors
+are related to aortic pulse-wave velocity progression." American Journal of
+Hypertension. Jul 2011, 24, (7), 809 - 815. DOI: 10.1038/ajh.2011.57
+
+10. Bromberger, J.T.; Kravitz, H.M.; Chang, Y.F.; Cyranowski, J.M.; Brown,
+C.; Matthews, K.A., "Major depression during and after the menopausal
+transition: Study of Women's Health Across the Nation (SWAN)."
+Psychological Medicine. Sep 2011, 41, (9), 1879 - 1888. DOI:
+10.1017/S003329171100016X
+
+11. Bromberger, J.T.; Schott, L.; Kravitz, H.M.; Joffe, H., "Risk factors
+for major depression during midlife among a community sample of women with
+and without prior major depression: Are they the same or different?."
+Psychological Medicine. Jun 2015, 45, (8), 1653 - 1664. DOI:
+10.1017/S0033291714002773
+
+12. Bromberger, Joyce T.; Kravitz, Howard M.; Chang, Yuefang; Randolph,
+John F.; Avis, Nancy E.; Gold, Ellen B.; Matthews, Karen A., "Does risk for
+anxiety increase during the menopausal Transition? Study of Women's Health
+Across the Nation (SWAN)." Menopause. May 2013, 20, (5), 488 - 495. DOI:
+10.1097/GME.0b013e3182730599
+
+13. Bromberger, Joyce T.; Schott, Laura L.; Avis, Nancy E.; Crawford, Sybil
+L.; Harlow, Sioban D.; Joffe, Hadine; Kravitz, Howard M.; Matthews, Karen
+A., "Psychosocial and health-related risk factors for depressive symptom
+trajectories among midlife women over 15 years: Study of Women's Health
+Across the Nation (SWAN)." Psychological Medicine. Jan 2019, 49, (2), 250-
+259. DOI: 10.1017/S0033291718000703 U01NR004061; U01AG012505; U01AG012535;
+U01AG012531
+
+14. Bromberger, Joyce T.; Schott, Laura L.; Matthews, Karen A.; Kravitz,
+Howard M.; Randolph, John F.; Harlow, Sioban; Crawford, Sybil; Green,
+Robin; Joffe, Hadine, "Association of past and recent major depression and
+menstrual characteristics in midlife: Study of Women's Health Across the
+Nation." Menopause. Sep 2012, 19, (9), 959 - 966. DOI:
+10.1097/gme.0b013e318248f2d5
+
+15. Bromberger, Joyce; Schott, Laura; Kravitz, Howard; Sowers, MaryFran;
+Avis, Nancy; Gold, Ellen; Randolph, John; Matthews, Karen, "Longitudinal
+change in reproductive hormones and depressive symptoms across the
+menopausal transition: Results from the Study of Women's Health Across the
+Nation (SWAN)." Archives of General Psychiatry. Jun 2010, 67, (6), 598 -
+607. DOI: 10.1001/archgenpsychiatry.2010.55
+
+16. Brown, Charlotte; Bromberger, Joyce T.; Schott, Laura L.; Crawford,
+Sybil; Matthews, Karen A., "Persistence of depression in African American
+and Caucasian women at midlife: Findings from the Study of Women Across the
+Nation (SWAN)." Archives of Women's Mental Health. Dec 2014, 17, (6), 549 -
+557. DOI: 10.1007/s00737-014-0444-5
+
+17. Burns, John W.; Quartana, Phillip J.; Bruehl, Stephen; Janssen, Imke;
+Dugan, Sheila A.; Appelhans, Bradley; Matthews, Karen A.; Kravitz, Howard
+M., "Chronic pain, body mass index and cardiovascular disease risk factors:
+Tests of moderation, unique and shared relationships in the Study of
+Women's Health Across the Nation (SWAN)." Journal of Behavioral Medicine.
+Apr 2015, 38, (2), 372 - 383. DOI: 10.1007/s10865-014-9608-z
+
+18. Cauley, Jane A.; Danielson, Michelle E.; Greendale, Gail A.;
+Finkelstein, Joel S.; Chang, Yue-Fang; Lo, Joan C.; Crandall, Carolyn J.;
+Neer, Robert M.; Ruppert, Kristine; Meyn, Leslie; Prairie, Beth A.; Sowers,
+MaryFran R., "Bone resorption and fracture across the menopausal
+transition: The Study of Women's Health Across the Nation." Menopause. Nov
+2012, 19, (11), 1200 - 1207. DOI: 10.1097/gme.0b013e31825ae17e
+
+19. Cauley, Jane A.; Greendale, Gail A.; Ruppert, Kristine; Lian, Yinjuan;
+Randolph, John F.; Lo, Joan C.; Burnett-Bowie, Sherri-Ann; Finkelstein,
+Joel S., "Serum 25 hydroxyvitamin D, bone mineral density and fracture risk
+across the menopause." Journal of Clinical Endocrinology and Metabolism.
+May 2015, 100, (5), 2046 - 2054. DOI: 10.1210/jc.2014-4367
+
+20. Cauley, Jane A.; Ruppert, Kristine; Lian, Yinjuan; Finkelstein, Joel
+S.; Karvonen-Gutierrez, Carrie A.; Harlow, Sioban D.; Lo, Joan C.; Burnett-
+Bowie, Sherri-Ann M.; Karlamangla, Arun; Greendale, Gail A., "Serum sex
+hormones and the risk of fracture across the menopausal transition: Study
+of Women's Health Across the Nation." Journal of Clinical Endocrinology and
+Metabolism. Jun 2019, 104, (6), 2412 - 2418. DOI: 10.1210/jc.2018-02047
+U01NR004061; U01AG012505; U01AG012535; U01AG012531
+
+21. Chandrasekaran, Navasuja; Harlow, Sioban; Moroi, Sayoko; Musch, David;
+Peng, Qing; Karvonen-Gutierrez, Carrie, "Visual impairment at baseline is
+associated with future poor physical functioning among middle-aged women:
+The Study of Women's Health Across the Nation, Michigan site." Maturitas.
+Feb 2017, 96, 33 - 38. DOI: 10.1016/j.maturitas.2016.11.009
+
+22. Chung, Hsin-Fang; Pandeya, Nirmala; Dobson, Annette J.; Kuh, Diana;
+Brunner, Eric J.; Crawford, Sybil L.; Avis, Nancy E.; Gold, Ellen B.;
+Mitchell, Ellen S.; Woods, Nancy F.; Bromberger, Joyce T.; Thurston,
+Rebecca C.; Joffe, Hadine; Yoshizawa, Toyoko; Anderson, Debra; Mishra, Gita
+D., "The role of sleep difficulties in the vasomotor menopausal symptoms
+and depressed mood relationships: An international pooled analysis of eight
+studies in the InterLACE consortium." Psychological Medicine. Nov 2018, 48,
+(15), 2550 - 2561. DOI: 10.1017/S0033291718000168
+
+23. Colvin, Alicia; Richardson, Gale A.; Cyranowski, Jill M.; Youk, Ada;
+Bromberger, Joyce T., "Does family history of depression predict major
+depression in midlife women?." Archives of Women's Mental Health. Aug 2014,
+17, (4), 269 - 278. DOI: 10.1007/s00737-014-0433-8
+
+24. Crandall, Carolyn J.; Tseng, Chi-Hong; Karlamangla, Arun S.;
+Finkelstein, Joel S.; Randolph, John F.; Thurston, Rebecca C.; Huang, Mei-
+Hua; Zheng, Huiyong; Greendale, Gail A., "Serum sex steroid levels and
+longitudinal changes in bone density in relation to the final menstrual
+period." Journal of Clinical Endocrinology and Metabolism. Apr 2013, 98,
+(4), E654 - E663. DOI: 10.1210/jc.2012-3651
+
+25. Cyranowski, Jill M.; Schott, Laura L.; Kravitz, Howard M.; Brown,
+Charlotte; Thurston, Rebecca C.; Joffe, Hadine; Matthews, Karen A.;
+Bromberger, Joyce T., "Psychosocial features associated with lifetime
+comorbidity of major depression and anxiety disorders among a community
+sample of mid-life women: The SWAN Mental Health Study." Depression and
+Anxiety. Dec 2012, 29, (12), 1050 - 1057. DOI: 10.1002/da.21990
+
+26. Danielson, Michelle E.; Beck, Thomas J.; Karlamangla, Arun S.;
+Greendale, Gail A.; Atkinson, Elizabeth J.; Lian, Yinjuan; Khaled, Alia S.;
+Keaveny, Tony M.; Kopperdahl, David; Ruppert, Kristine; Greenspan, Susan;
+Vuga, Marike; Cauley, Jane A., "A comparison of DXA and CT based methods
+for estimating the strength of the femoral neck in post-menopausal women."
+Osteoporosis International. Apr 2013, 24, (4), 1379 - 1388. DOI:
+10.1007/s00198-012-2066-y
+
+27. Danielson, Michelle E.; Beck, Thomas J.; Lian, Yinjuan; Karlamangla,
+Arun S.; Greendale, Gail A.; Ruppert, Kristine; Lo, Joan; Greenspan, Susan;
+Vuga, Marike; Cauley, Jane A., "Ethnic variability in bone geometry as
+assessed by hip structure analysis: Findings from the Hip Strength Across
+the Menopausal Transition study." Journal of Bone and Mineral Research. Apr
+2013, 28, (4), 771 - 779. DOI: 10.1002/jbmr.1781
+
+28. Diem, Susan J.; Ruppert, Kristine; Cauley, Jane A.; Lian, YinJuan;
+Bromberger, Joyce T.; Finkelstein, Joel S.; Greendale, Gail A.; Solomon,
+Daniel H., "Rates of bone loss among women initiating antidepressant
+medication use in midlife." Journal of Clinical Endocrinology and
+Metabolism. Nov 2013, 98, (11), 4355 - 4363. DOI: 10.1210/jc.2013-1971
+
+29. Dugan, Sheila A.; Bromberger, Joyce T.; Segawa, Eisuke; Avery,
+Elizabeth; Sternfeld, Barbara, "Association between physical activity and
+depressive Symptoms: Midlife Women in SWAN." Medicine and Science in Sports
+and Exercise. Feb 2015, 47, (2), 335 - 342. DOI:
+10.1249/MSS.0000000000000407
+
+30. El Khoudary, Samar R.; Brooks, Maria M.; Thurston, Rebecca C.;
+Matthews, Karen A., "Lipoprotein subclasses and endogenous sex hormones in
+women at midlife." Journal of Lipid Research. Jul 2014, 55, (7), 1498 -
+1504. DOI: 10.1194/jlr.P049064
+
+31. El Khoudary, Samar R.; Greendale, Gail; Crawford, Sybil L.; Avis, Nancy
+E.; Brooks, Maria M.; Thurston, Rebecca C.; Karvonen-Gutierrez, Carrie;
+Waetjen, L. Elaine; Matthews, Karen, "The menopause transition and women's
+health at midlife: a progress report from the Study of Women's Health
+Across the Nation (SWAN)." Menopause. Oct 2019, 26, (10), 1213 - 1227. DOI:
+10.1097/GME.0000000000001424
+
+32. El Khoudary, Samar R.; McClure, Candace K.; VoPham, Trang; Karvonen-
+Gutierrez, Carrie A.; Sternfeld, Barbara; Cauley, Jane A.; Khalil, Naila;
+Sutton-Tyrrell, Kim, "Longitudinal assessment of the menopausal transition,
+endogenous sex hormones, and perception of physical functioning: The Study
+of Women's Health Across the Nation." Journals of Gerontology, Series A:
+Biological Sciences and Medical Sciences. Aug 2014, 69, (8), 1011 - 1017.
+DOI: 10.1093/gerona/glt285
+
+33. El Khoudary, Samar R.; Shields, Kelly J.; Chen, Hsiang-Yu; Matthews,
+Karen A., "Menopause, complement, and hemostatic markers in women at
+midlife: The Study of Women's Health Across the Nation." Atherosclerosis.
+Nov 2013, 1,. DOI: 10.1016/j.atherosclerosis.2013.08.039
+
+34. El Khoudary, Samar R.; Shields, Kelly J.; Janssen, Imke; Hanley,
+Carrie; Budoff, Matthew J.; Barinas-Mitchell, Emma; Everson-Rose, Susan A.;
+Powell, Lynda H.; Matthews, Karen A., "Cardiovascular fat, menopause, and
+sex hormones in women: The SWAN Cardiovascular Fat Ancillary Study."
+Journal of Clinical Endocrinology and Metabolism. Sep 2015, 100, (9), 3304
+- 3312. DOI: 10.1210/JC.2015-2110
+
+35. El Khoudary, Samar R.; Wildman, Rachel P.; Matthews, Karen; Thurston,
+Rebecca C.; Bromberger, Joyce T.; Sutton-Tyrrell, Kim, "Endogenous sex
+hormones impact the progression of subclinical atherosclerosis in women
+during the menopausal transition." Atherosclerosis. Nov 2012, 225, (1), 180
+- 186. DOI: 10.1016/j.atherosclerosis.2012.07.025
+
+36. El Khoudary, Samar R.; Wildman, Rachel P.; Matthews, Karen; Thurston,
+Rebecca C; Bromberger, Joyce T.; Sutton-Tyrrell, Kim, "Progression rates of
+carotid intima-media thickness and adventitial diameter during the
+menopausal transition." Menopause. Jan 2013, 20, (1), 8 - 14. DOI:
+10.1097/gme.0b013e3182611787
+
+37. Feinberg, Termeh; Jones, Dina L.; Lilly, Christa; Umer, Amna; Innes,
+Kim, "The Complementary Health Approaches for Pain Survey (CHAPS): Validity
+testing and characteristics of a rural population with pain." PLOS One.
+2018, 13, (5), e0196390. DOI: 10.1371/journal.pone.0196390
+
+38. Fu, Polly; Matthews, Karen A.; Thurston, Rebecca C., "How well do
+different measurement modalities estimate the number of vasomotor symptoms?
+Findings from the Study of Women's Health Across the Nation FLASHES Study."
+Menopause. Feb 2014, 21, (2), 124 - 130. DOI: 10.1097/GME.0b013e318295a3b9
+
+39. Garcia, Lorena; Qi, Lihong; Rasor, Marianne; Gold, Ellen B.; Clark,
+Cari; Bromberger, Joyce, "The relationship of violence and traumatic stress
+to changes in weight and waist circumference: Longitudinal analyses from
+the Study of Women's Health Across the Nation (SWAN)." Journal of
+Interpersonal Violence. May 2014, 29, (8), 1459 - 1476. DOI:
+10.1177/0886260513507132
+
+40. Gibson, Carolyn J.; Joffe, Hadine; Bromberger, Joyce T.; Thurston,
+Rebecca C.; Lewis, Tene T.; Khalil, Naila; Matthews, Karen A., "Mood
+symptoms after natural menopause and hysterectomy with and without
+bilateral oophorectomy among women in midlife." Obstetrics and Gynecology.
+May 2012, 119, (5), 935 - 941. DOI: 10.1097/AOG.0b013e31824f9c14
+
+41. Gibson, Carolyn J.; Thurston, Rebecca C.; Bromberger, Joyce T.;
+Kamarck, Thomas; Matthews, Karen A., "Negative affect and vasomotor
+symptoms in the Study of Women's Health Across the Nation (SWAN) Daily
+Hormone Study." Menopause. Dec 2011, 187, (12), 1270 - 1277. DOI:
+10.1097/gme.0b013e3182230e42
+
+42. Gibson, Carolyn J.; Thurston, Rebecca C.; El Khoudary, Samar R.;
+Sutton-Tyrrell, Kim; Matthews, Karen A., "Body mass index following natural
+menopause and hysterectomy with and without bilateral oophorectomy."
+International Journal of Obesity. Jun 2013, 37, (6), 809 - 813. DOI:
+10.1038/ijo.2012.164
+
+43. Gibson, Carolyn; Matthews, Karen; Thurston, Rebecca, "Daily physical
+activity and hot flashes in the Study of Women's Health Across the Nation
+FLASHES study." Fertility and Sterility. Apr 2014, 101, (4), 1110 - 1116.
+DOI: 10.1016/j.fertnstert.2013.12.029
+
+44. Gold, Ellen B.; Crawford, Sybil L.; Avis, Nancy E.; Crandall, Carolyn
+J.; Matthews, Karen A.; Waetjen, L.E.; Lee, Jennifer S.; Thurston, Rebecca;
+Vuga, Marike; Harlow, Sioban D., "Factors related to age at natural
+menopause: Longitudinal analyses from SWAN." American Journal of
+Epidemiology. Jul 2013, 178, (1), 70 - 83. DOI: 10.1093/aje/kws421
+
+45. Gold, Ellen; Crawford, Sybil; Shelton, Janie; Tepper, Ping; Crandall,
+Carolyn; Greendale, Gail; Matthews, Karen; Thurston, Rebecca; Avis, Nancy,
+"Longitudinal analysis of changes in weight and waist circumference in
+relation to incident vasomotor symptoms: The Study of Women' Health Across
+the Nation (SWAN)." Menopause. Jan 2017, 24, (1), 9 - 26. DOI:
+10.1097/GME.0000000000000723
+
+46. Greendale, Gail A.; Derby, Carol A.; Maki, Pauline M., "Perimenopause
+and Cognition." Obstetrics and Gynecology Clinics of North America. Sep
+2011, 38, (3), 519 - 535. DOI: 10.1016/j.ogc.2011.05.007
+
+47. Greendale, Gail A.; Huang, Mei-Hua; Leung, Katherine; Crawford, Sybil
+L.; Gold, Ellen B.; Wight, Richard; Waetjen, Elaine; Karlamangla, Arun S.,
+"Dietary phytoestrogen intakes and cognitive function during the menopause
+transition: Results from the SWAN Phytoestrogen Study." Menopause. Aug
+2012, 19, (8), 894 - 903. DOI: 10.1097/gme.0b013e318242a654
+
+48. Greendale, Gail A.; Ishii, Shinya; Huang, Mei-Hua; Karlamangla, Arun
+S., "Predicting the timeline to the final menstrual period: The Study of
+Women's Health Across the Nation." Journal of Clinical Endocrinology and
+Metabolism. Apr 2013, 98, (4), 1483 - 1491. DOI: 10.1210/jc.2012-3732
+
+49. Greendale, Gail A.; Sowers, MaryFran; Han, Weijuan; Huang, Mei-Hua;
+Finkelstein, Joel S.; Crandall, Carolyn J.; Lee, Jennifer S.; Karlamangla,
+Arun S., "Bone mineral density loss in relation to the final menstrual
+period in a multi-ethic cohort: Results from the Study of Women's Health
+Across the Nation (SWAN)." Journal of Bone and Mineral Research. Jan 2012,
+27, (1), 111 - 118. DOI: 10.1002/jbmr.534
+
+50. Greendale, Gail A.; Tseng, Chi-hong; Han, Weijuan; Huang, Mei-Hua;
+Leung, Katherine; Crawford, Sybil; Gold, Ellen B.; Waetjen, L.E.;
+Karlamangla, Arun S., "Dietary isoflavones and bone mineral density during
+mid-life and the menopause transition: Cross-sectional and longitudinal
+results from the SWAN Phytoestrogen Study." Menopause. Mar 2015, 22, (3),
+279 - 288. DOI: 10.1097/GME.0000000000000305
+
+51. Greendale, Gail; Wilhalme, Holly; Huang, Mei-Hua; Cauley, Jane;
+Karlamangla, Arun, "Prevalent and incident vertebral deformities in midlife
+women: Results from the Study of Women's Health Across the Nation (SWAN)."
+PLOS One. Sep 2016, 11, (9), 1 - 15. DOI: 10.1371/journal.pone.0162664
+
+52. Hale, Lauren; Troxel, Wendy M.; Kravitz, Howard M.; Hall, Martica H.;
+Matthews, Karen A., "Acculturation and sleep among a multiethnic sample of
+women: The Study of Women's Health Across the Nation (SWAN)." Sleep. Feb
+2014, 37, (2), 309 - 317. DOI: 10.5665/sleep.3404
+
+53. Hall, Martica; Middleton, Kellie; Thayer, Julian F.; Lewis, Tene T.;
+Kline, Christopher E.; Matthews, Karen A.; Kravitz, Howard M.; Krafty,
+Robert T.; Buysse, Daniel J., "Racial differences in heart rate variability
+during sleep in women: The SWAN Sleep Study." Psychosomatic Medicine. Oct
+2013, 75, (8), 783 - 790. DOI: 10.1097/PSY.0b013e3182a7ec5c
+
+54. Harlow, Sioban; Karvonen-Gutierrez, Carrie; Elliott, Michael;
+Bondarenko, Irina; Avis, Nancy; Bromberger, Joyce; Brooks, Maria Mori;
+Miller, Janis; Reed, Barbara, "It is not just menopause: Symptom clustering
+in the Study of Women's Health Across the Nation." Women's Midlife Health.
+Jul 2017, 3, (2),. DOI: 10.1186/s40695-017-0021-y
+
+55. Irish, Leah A.; Kline, Christopher E.; Rothenberger, Scott D.; Krafty,
+Robert T.; Buysse, Daniel J.; Kravitz, Howard M.; Bromberger, Joyce T.;
+Zheng, Huiyong; Hall, Martica H., "A 24-hour approach to the study of
+health behaviors: Temporal relationships between waking health behaviors
+and sleep." Annals of Behavioral Medicine. Apr 2014, 47, (2), 189 - 197.
+DOI: 10.1007/s12160-013-9533-3
+
+56. Ishii, S.; Cauley, J.A.; Greendale, G.A.; Danielson, M.E.; Nili, N.S.;
+Karlamangla, A., "Ethnic differences in composite indices of femoral neck
+strength." Osteoporosis International. Apr 2012, 23, (4), 1381 - 1390. DOI:
+10.1007/s00198-011-1723-x
+
+57. Ishii, S; Cauley, J.A.; Greendale, G.A.; Crandall, C.J.; Huang, M.H.;
+Danielson, M.E.; Karlamangla, A.S., "Trajectories of femoral neck strength
+in relation to the final menstrual period in a multi-ethnic cohort."
+Osteoporosis International. Sep 2013, 24, (9), 10.1007/s00198-013-2. DOI:
+10.1007/s00198-013-2293-x
+
+58. Ishii, Shinya; Cauley, Jane A.; Greendale, Gail A.; Crandall, Carolyn
+J.; Danielson, Michelle E.; Ouchi, Yasuyoshi; Karlamangla, Arun S., "C-
+reactive protein, bone strength, and nine-year fracture risk: Data from the
+Study of Women's Health Across the Nation (SWAN)." Journal of Bone and
+Mineral Research. Jul 2013, 28, (7),. DOI: 10.1002/jbmr.1915
+
+59. Ishii, Shinya; Cauley, Jane A.; Greendale, Gail A.; Nielsen, Carrie;
+Gutierrez, Carrie Karvonen; Ruppert, Kristine; Karlamangla, Arun S.,
+"Pleiotropic effects of obesity on fracture risk: The Study of Women's
+Health Across the Nation." Journal of Bone and Mineral Research. Dec 2014,
+29, (12), 2561 - 2570. DOI: 10.1002/jbmr.2303
+
+60. Ishii, Shinya; Greendale, Gail A.; Cauley, Jane A.; Crandall, Carolyn
+J.; Huang, Mei-Hua; Danielson, Michelle E.; Karlamangla, Arun S., "Fracture
+risk assessment without race/ethnicity information." Journal of Clinical
+Endocrinology and Metabolism. Oct 2012, 97, (10), 3593 - 3602. DOI:
+10.1210/jc.2012-1997
+
+61. Jackson, Elizabeth; Ruppert, Kristine; Derby, Carol; Lian, Yinjuan;
+Neal-Perry, Genevieve; Habel, Laurel; Tepper, Ping; Harlow, Sioban;
+Solomon, Daniel, "Effect of race and ethnicity on antihypertensive
+medication utilization among women in the united states: Study of Women's
+Health Across the Nation (SWAN)." Journal of the American Heart
+Association. Mar 2017, 6, (3),. DOI: 10.1161/JAHA.116.004758
+
+62. Jackson, Kathryn L.; Janssen, Imke; Appelhans, Bradley M.;
+Kazlauskaite, Rasa; Karavolos, Kelly; Dugan, Sheila A.; Avery, Elizabeth
+A.; Shipp-Johnson, Karla J.; Powell, Lynda H.; Kravitz, Howard M., "Body
+image satisfaction and depression in midlife women: The Study of Women's
+Health Across the Nation (SWAN)." Archives of Women's Mental Health. Jun
+2014, 17, (3), 177 - 187. DOI: 10.1007/s00737-014-0416-9
+
+63. Jacobs, Elizabeth A.; Rathouz, Paul J.; Karavolos, Kelly; Everson-Rose,
+Susan A.; Janssen, Imke; Kravitz, Howard M.; Lewis, Tene T.; Powell, Lynda
+H., "Perceived discrimination is associated with reduced breast and
+cervical cancer screening: The Study of Women's Health Across the Nation
+(SWAN)." Journal of Women's Health. Feb 2014, 23, (2), 138 - 145. DOI:
+10.1089/jwh.2013.4328
+
+64. Janssen, I.; Powell, L.H.; Wildman, R.P., "Moderate wine consumption
+inhibits the development of the metabolic syndrome: The Study of Women's
+Health Across the Nation (SWAN)." Journal of Wine Research. Dec 2011, 22,
+(2), 113 - 117. DOI: 10.1080/09571264.2011.603217
+
+65. Janssen, Imke; Dugan, Sheila A.; Karavolos, Kelly; Lynch, Elizabeth B.;
+Powell, Lynda H., "Correlates of 15-year maintenance of physical activity
+in middle-aged women." International Journal of Behavioral Medicine. Jun
+2014, 21, (3), 511 - 518. DOI: 10.1007/s12529-013-9324-z
+
+66. Janssen, Imke; Powell, Lynda H.; Jasielec, Mateusz S.; Kazlauskaite,
+Rasa, "Covariation of change in bioavailable testosterone and adiposity in
+midlife women." Obesity. Feb 2015, 23, (2), 488 - 494. DOI:
+10.1002/oby.20974
+
+67. Janssen, Imke; Powell, Lynda H.; Jasielec, Mateusz S.; Matthews, Karen
+A.; Hollenberg, Steven M.; Sutton-Tyrrell, Kim; Everson-Rose, Susan A.,
+"Progression of coronary artery calcification in black and white women: Do
+the stresses and rewards of multiple roles matter?." Annals of Behavioral
+Medicine. Feb 2012, 43, (1), 39 - 49. DOI: 10.1007/s12160-011-9307-8
+
+68. Janssen, Imke; Powell, Lynda H.; Matthews, Karen A.; Cursio, John F.;
+Hollenberg, Steven M.; Sutton-Tyrrell, Kim; Bromberger, Joyce T.; Everson-
+Rose, Susan A., "Depressive symptoms are related to progression of coronary
+calcium in midlife women: The Study of Women's Health Across the Nation
+(SWAN) Heart Study." American Heart Journal. Jun 2011, 161, (6), 1186 -
+1191.e1. DOI: 10.1016/j.ahj.2011.03.017
+
+69. Jepsen, Karl; Kozminski, Andrew; Bigelow, Erin; Schlecht, Stephen;
+Goulet, Robert; Harlow, Sioban; Cauley, Jane; Karvonen-Gutierrez, Carrie,
+"Femoral neck external size but not aBMD predicts structural and mass
+changes for women transitioning through menopause." Journal of Bone and
+Mineral Research. Jan 2017, 32, (6), 1218 - 1228. DOI: 10.1002/jbmr.3082
+
+70. Kagawa-Singer, Marjorie; Adler, Shelley R.; Mouton, Charles E.; Ory,
+Marcia; Underwood, Lynne G., "Use of focus groups in multi-site, multi-
+ethnic research projects for women's health: A Study of Women Across the
+Nation (SWAN) example." Ethnicity and Disease. Sum 2009, 19, (3), 352 -
+358.
+
+71. Karvonen-Gutierrez, Carrie A.; Peng, Qing; Peterson, Mark; Duchowny,
+Kate; Nan, Bin; Harlow, Sioban, "Low grip strength predicts incident
+diabetes among mid-life women: The Michigan Study of Women's Health Across
+the Nation." Age and Ageing. Sep 2018, 47, (5), 685 - 691. DOI:
+10.1093/ageing/afy067
+
+72. Kazlauskaite Rasa; Innola Pilvi; Karavolos Kelly; Dugan Sheila A.;
+Avery Elizabeth F.; Fattout Yacob; Karvonen-Gutierrez Carrie; Janssen Imke;
+Powell Lynda H., "Abdominal adiposity change in white and black midlife
+women: The Study of Women's Health Across the Nation." Obesity. Nov 2015,
+23, (12), 2340 - 2343. DOI: 10.1002/oby.21350
+
+73. Kim, C.; Harlow, S.D.; Karvonen-Gutierrez, C.A.; Randolph, J.F.;
+Helmuth, M.; Kong, S.; Nan, B.; Carlos, R., "Racial/ethnic differences in
+hepatic steatosis in a population-based cohort of post-menopausal women:
+The Michigan Study of Women's Health Across the Nation." Diabetic Medicine.
+Dec 2013, 30, (12),. DOI: 10.1111/dme.12225
+
+74. Kim, Catherine; Harlow, Sioban D.; Kong, Shengchun; Karvonen-Gutierrez,
+Carrie; Ylitalo, Kelly; Nan, Bin, "Reproductive history and chronic hepatic
+steatosis in the Michigan Study of Women's Health Across the Nation."
+Journal of Women's Health. Jan 2015, 24, (1), 42 - 48. DOI:
+10.1089/jwh.2014.4839
+
+75. Kim, Catherine; Nan, Bin; Kong, Shengchun; Harlow, Siobhan, "Changes in
+iron measures over menopause and associations with insulin resistance."
+Journal of Women's Health. Aug 2012, 21, (8), 872 - 877. DOI:
+10.1089/jwh.2012.3549
+
+76. Kline, Christopher E.; Irish, Leah A.; Buysse, Daniel J.; Kravitz,
+Howard M.; Okun, Michele L.; Owens, Jane F.; Hall, Martica H., "Sleep
+hygiene behaviors among midlife women with insomnia or sleep-disordered
+breathing: The SWAN Sleep Study." Journal of Women's Health. Nov 2014, 23,
+(11), 894 - 903. DOI: 10.1089/jwh.2014.4730
+
+77. Kravitz, H.M.; Schott, L.L.; Joffe, H.; Cyranowski, J.M.; Bromberger,
+J.T., "Do anxiety symptoms predict major depressive disorder in midlife
+women? The Study of Women's Health Across the Nation (SWAN) Mental Health
+Study (MHS)." Psychological Medicine. Sep 2014, 44, (12), 2593 - 2602. DOI:
+10.1017/S0033291714000075
+
+78. Kravitz, Howard M.; Joffe, Hadine, "Sleep during the perimenopause: A
+SWAN story." Obstetrics and Gynecology Clinics of North America. Sep 2011,
+38, (3), 567 - 586. DOI: 10.1016/j.ogc.2011.06.002
+
+79. Kravitz, Howard M.; Zheng, Huiyong; Bromberger, Joyce T.; Buysse,
+Daniel J.; Owens, Jane; Hall, Martica H., "An actigraphy study of sleep and
+pain in midlife women: The SWAN Sleep Study." Menopause. Jul 2015, 22, (7),
+710 - 718. DOI: 10.1097/GME.0000000000000379
+
+80. Kravitz, Howard; Janssen, Imke; Bromberger, Joyce; Matthews, Karen;
+Hall, Martica; Ruppert, Kristine; Joffe, Hadine, "Sleep trajectories before
+and after the final menstrual period in the study of women's health across
+the nation (SWAN)." Current Sleep Medicine Reports. Sep 2017, 3, (3), 235 -
+250. DOI: 10.1007/s40675-017-0084-1
+
+81. Lambiase, Maya J.; Thurston, Rebecca C., "Physical activity and sleep
+among midlife women with vasomotor symptoms." Menopause. Sep 2013, 20, (9),
+946 - 952. DOI: 10.1097/GME.0b013e3182844110
+
+82. Lasley, Bill L.; Chen, Jiangang; Stanczyk, Frank Z.; El Khoudary, Samar
+R.; Gee, Nancy A.; Crawford, Sybil; McConnell, Daniel S., "Androstenediol
+complements estrogenic bioactivity during the menopausal transition."
+Menopause. Jun 2012, 19, (6), 650 - 657. DOI: 10.1097/gme.0b013e31823df577
+
+83. Lasley, Bill L.; Crawford, Sybil L.; Laughlin, Gail A.; Santoro,
+Nanette; McConnell, Daniel S.; Crandall, Carolyn; Greendale, Gail A.;
+Polotsky, Alex J.; Vuga, Marike, "Circulating dehydroepiandrosterone
+sulfate levels in women who underwent bilateral salpingo-oophorectomy
+during the menopausal transition." Menopause. May 2011, 188, (5), 494 -
+498. DOI: 10.1097/gme.0b013e3181fb53fc
+
+84. Lewis, Tene T.; Kravitz, Howard M.; Janssen, Imke; Powell, Lynda H.,
+"Self-reported experiences of discrimination and visceral fat in middle-
+aged African-American and Caucasian women." American Journal of
+Epidemiology. Jun 2011, 173, (11), 1223 - 1231. DOI: 10.1093/aje/kwq466
+
+85. Lin, Wayne T.; Beattie, Mary; Chen, Lee-may; Oktay, Kutluk; Crawford,
+Sybil L.; Gold, Ellen B.; Cedars, Marcelle; Rosen, Mitchell, "Comparison of
+age at natural menopause in BRCA1/2 mutation carriers to a non-clinic-based
+sample of women in northern California." Cancer. May 2013, 119, (9), 1652 -
+1659. DOI: 10.1002/cncr.27952
+
+86. Makboon, Kunlanat; Gold, Ellen B.; Harvey, Danielle J.; Butler, Lesley
+M.; Habel, Laurel A., "Association between high-sensitivity C-reactive
+protein (hsCRP) and change in mammographic density over time in the SWAN
+mammographic density subcohort." Cancer Causes and Control. Mar 2015, 26,
+(3), 431 - 442. DOI: 10.1007/s10552-015-0522-7
+
+87. Marsh, Wendy K.; Bromberger, Joyce T.; Crawford, Sybil L.; Leung,
+Katherine; Kravitz, Howard M.; Randolph, John F.; Joffe, Hadine; Soares,
+Claudio N., "Lifelong estradiol exposure and risk of depressive symptoms
+during the transition to menopause and postmenopause." Menopause. Dec 2017,
+24, (12), 1351 - 1359. DOI: 10.1097/GME.0000000000000929
+
+88. Matthews, Karen A.; Chang, Yue-Fang; Sutton-Tyrrell, Kim; Edmundowicz,
+Daniel; Bromberger, Joyce T., "Recurrent major depression predicts
+progression of coronary calcification in healthy women: Study of Women's
+Health Across the Nation." Psychosomatic Medicine. Oct 2010, 72, (8), 742 -
+747. DOI: 10.1097/PSY.0b013e3181eeeb17
+
+89. Matthews, Karen A.; El Khoudary, Samar R.; Brooks, Maria M.; Derby,
+Carol A.; Harlow, Sioban D.; Barinas-Mitchell, Emma J.M.; Thurston, Rebecca
+C., "Lipid changes around the final menstrual period predict carotid
+subclinical disease in postmenopausal women." Stroke. Jan 2017, 48, (1), 70
+- 76. DOI: 10.1161/STROKEAHA.116.014743
+
+90. Matthews, Karen A.; Everson-Rose, Susan A.; Kravitz, Howard M.; Lee,
+Laisze; Janssen, Imke; Sutton-Tyrrell, Kim, "Do reports of sleep
+disturbance relate to coronary and aortic calcification in healthy middle-
+aged women?: Study of Women's Health across the Nation." Sleep Medicine.
+Mar 2013, 14, (3), 282 - 287. DOI: 10.1016/j.sleep.2012.11.016
+
+91. Matthews, Karen A.; Gibson, Carolyn J.; EI Khoudary, Samar R.;
+Thurston, Rebecca C., "Changes in cardiovascular risk factors by
+hysterectomy status with and without oophorectomy: Study of Women's Health
+across the Nation." Journal of the American College of Cardiology. Jul
+2013, 62, (3), 191 - 200. DOI: 10.1016/j.jacc.2013.04.042
+
+92. Matthews, Karen A.; Schott, Laura L.; Bromberger, Joyce T.; Cyranowski,
+Jill M.; Everson-Rose, Susan A.; Sowers, MaryFran, "Are there bi-
+directional associations between depressive symptoms and C-reactive protein
+in mid-life women?." Brain, Behavior, and Immunity. Jan 2010, 24, (1), 96 -
+101. DOI: 10.1016/j.bbi.2009.08.005
+
+93. McClure, Candace K.; El Khoudary, Samar R.; Karvonen-Gutierrez, Carrie
+A.; Ylitalo, Kelly R.; Tomey, Kristin; VoPham, Trang; Sternfeld, Barbara;
+Cauley, Jane A.; Harlow, Sioban, "Prospective associations between
+inflammatory and hemostatic markers and physical functioning limitations in
+mid-life women: Longitudinal Results of the Study of Women's Health Across
+the Nation (SWAN)." Experimental Gerontology. Jan 2014, 00,
+10.1016/j.exger.2013. DOI: 10.1016/j.exger.2013.10.016
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+94. McConnell, Daniel S.; Stanczyk, Frank Z.; Sowers, MaryFran R.;
+Randolph, John F.; Lasley, Bill L., "Menopausal transition stage-specific
+changes in circulating adrenal androgens." Menopause. Jun 2012, 19, (6),
+658 - 663. DOI: 10.1097/gme.0b013e31823fe274
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+95. Mishra, Gita; Chung, Hsin-Fang; Pandeya, Nirmala; Dobson, Annette;
+Jones, Lee; Avis, Nancy; Crawford, Sybil; Gold, Ellen; Brown, Daniel;
+Sievert, Lynette; Brunner, Eric; Cade, Janet; Burley, Victoria; Greenwood,
+Darren; Giles, Graham; Bruinsma, Fiona; Goodman, Alissa; Hayashi, Kunihiko;
+Lee, Jung Su; Mizunuma, Hideki; Kuh, Diana; Cooper, Rachel; Hardy, Rebecca;
+Obermeyer, Carla Makhlouf; Lee, Kathryn; Simonsen, Mette Kildevæld;
+Yoshizawa, Toyoko; Woods, Nancy; Mitchell, Ellen; Hamer, Mark; Demakakos,
+Panayotes; Sandin, Sven; Adami, Hans-Olov; Weiderpass, Elisabete; Anderson,
+Debra, "The InterLACE study: Design, data harmonization and characteristics
+across 20 studies on women's health." Maturitas. Oct 2016, 92, 176 - 185.
+DOI: 10.1016/j.maturitas.2016.07.021
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+96. Moody, Danielle L. Beatty; Chang, Yue-Fang; Pantesco, Elizabeth J.;
+Darden, Taylor M.; Lewis, Tené T.; Brown, Charlotte; Bromberger, Joyce T.;
+Matthews, Karen A., "Everyday discrimination prospectively predicts blood
+pressure across 10 years in racially/ethnically diverse midlife women:
+Study of Women's Health Across the Nation." Annals of Behavioral Medicine.
+2019, 53, (7), 608 - 620. DOI: 10.1093/abm/kay069 U01NR004061; U01AG012505;
+U01AG012535; U01AG012531
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+97. Mori, Takahiro; Ishii, Shinya; Greendale, Gail A.; Cauley, Jane A.;
+Ruppert, Kristine; Crandall, Carolyn J.; Karlamangla, Arun S., "Parity,
+lactation, bone strength, and 16-year fracture risk in adult women:
+Findings from the Study of Women's Health Across the Nation (SWAN)." Bone.
+Apr 2015, 73, 160 - 166. DOI: 10.1016/j.bone.2014.12.013
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+98. Nackers, Lisa M.; Appelhans, Bradley M.; Segawa, Eisuke; Janssen, Imke;
+Dugan, Sheila A.; Kravitz, Howard M., "Associations between body mass index
+and sexual functioning in midlife women: The Study of Women's Health Across
+the Nation (SWAN)." Menopause. Nov 2015, 22, (11), 1175 - 1181. DOI:
+10.1097/GME.0000000000000452
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+99. Nagaraj, Nayana; Boudreau, Robert M.; Danielson, Michelle E.;
+Greendale, Gail A.; Karlamangla, Arun S.; Beck, Thomas J.; Cauley, Jane A.,
+"Longitudinal changes in hip geometry in relation to the final menstrual
+period: Study of Women's Health Across the Nation (SWAN)." Bone. May 2019,
+122, 237 - 245. DOI: 10.1016/j.bone.2019.02.016 NR004061; AG012505;
+AG012535; AG012531; AG012539; AG026463
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+100. Ostro, Bart; Malig, Brian; Broadwin, Rachel; Basu, Rupa; Gold, Ellen
+B.; Bromberger, Joyce T.; Derby, Carol; Feinstein, Steven; Greendale, Gail
+A.; Jackson, Elizabeth A.; Kravitz, Howard M.; Matthews, Karen A.;
+Sternfeld, Barbara; Tomey, Kristin; Green, Robin R.; Green, Rochelle,
+"Chronic PM2.5 exposure and inflammation: Determining sensitive subgroups
+in mid-life women." Environmental Research. Jul 2014, 132, 168 - 175. DOI:
+10.1016/j.envres.2014.03.042
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+101. Paramsothy, Pangaja; Harlow, Sioban D.; Elliott, Michael R.; Lisabeth,
+Lynda D.; Crawford, Sybil L.; Randolph, John F., "Classifying menopausal
+stage by menstrual calendars and annual interviews: Need for improved
+questionnaires." Menopause. Jul 2013, 202, (7), 727 - 735. DOI:
+10.1097/GME.0b013e3182825ff2
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+102. Paramsothy, Pangaja; Harlow, Sioban D.; Elliott, Michael R.; Yosef,
+Matheos; Lisabeth, Lynda D.; Greendale, Gail A.; Gold, Ellen B.; Crawford,
+Sybil L.; Randolph, John F. Jr., "Influence of race/ethnicity, body mass
+index, and proximity of menopause on menstrual cycle patterns in the
+menopausal transition: The Study of Women's Health Across the Nation."
+Menopause. Feb 2015, 22, (2), 159 - 165. DOI: 10.1097/GME.0000000000000293
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+103. Paramsothy, Pangaja; Harlow, Sioban D.; Greendale, Gail A.; Gold,
+Ellen B.; Crawford, Sybil L.; Elliott, Michael R.; Lisabeth, Lynda D.;
+Randolph, John F., "Bleeding patterns during the menopausal transition in
+the multi-ethnic Study of Women's Health Across the Nation (SWAN): A
+prospective cohort study." International Journal of Gynecology and
+Obstetrics. Nov 2014, 121, (12), 1564 - 1573. DOI: 10.1111/1471-0528.12768
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+104. Pettee Gabriel, Kelley; Sternfeld, Barbara; Colvin, Alicia; Stewart,
+Andrea; Strotmeyer, Elsa S.; Cauley, Jane A.; Dugan, Sheila; Karvonen-
+Gutierrez, Carrie, "Physical activity trajectories during midlife and
+subsequent risk of physical functioning decline in late mid-life: The Study
+of Women's Health Across the Nation (SWAN)." Preventive Medicine. Dec 2017,
+105, 287 - 294. DOI: 10.1016/j.ypmed.2017.10.005
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+105. Polotsky, Alex J.; Allshouse, Amanda A.; Crawford, Sybil L.; Harlow,
+Sioban D.; Khalil, Naila; Kazlauskaite, Rasa; Santoro, Nanette; Legro,
+Richard S., "Hyperandrogenic oligomenorrhea and metabolic risks across
+menopausal transition." Journal of Clinical Endocrinology and Metabolism.
+Jun 2014, 99, (6), 2120 - 2127. DOI: 10.1210/jc.2013-4170
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+106. Putman, Melissa S.; Yu, Elaine W.; Lee, Hang; Neer, Robert M.;
+Schindler, Elizabeth; Taylor, Alexander P.; Cheston, Emily; Bouxsein, Mary
+L.; Finkelstein, Joel S., "Differences in skeletal microarchitecture and
+strength in African-American and Caucasian women." Journal of Bone and
+Mineral Research. Oct 2013, 28, (10), 2177 - 2185. DOI: 10.1002/jbmr.1953
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+107. Randolph, John F.; Zheng, Huiyong; Avis, Nancy E.; Greendale, Gail A.;
+Harlow, Sioban D., "Masturbation frequency and sexual function domains are
+associated with serum reproductive hormone levels across the menopausal
+transition." Journal of Clinical Endocrinology and Metabolism. Jan 2015,
+100, (1), 258 - 266. DOI: 10.1210/jc.2014-1725
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+108. Rothenberger, Scott D.; Krafty, Robert T.; Taylor, Briana J.; Cribbet,
+Matthew R.; Thayer, Julian F.; Buysse, Daniel J.; Kravitz, Howard M.;
+Buysse, Evan D.; Hall, Martica H., "Time-varying correlations between delta
+EEG power and heart rate variability in midlife women: The SWAN Sleep
+Study." Psychophysiology. Apr 2015, 52, (4), 572 - 584. DOI:
+10.1111/psyp.12383
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+109. Santoro, Nanette; Randolph, John F., "Reproductive hormones and the
+menopause transition." Obstetrics and Gynecology Clinics of North America.
+Sep 2011, 38, (3), 455 - 466. DOI: 10.1016/j.ogc.2011.05.004
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+110. Santoro, Nanette; Sutton-Tyrrell, Kim, "The SWAN song: Study of
+Women's Health Across the Nation's recurring themes." Obstetrics and
+Gynecology Clinics of North America. Sep 2011, 38, (3), 417 - 423. DOI:
+10.1016/j.ogc.2011.05.001
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+111. Shieh, Albert; Greendale, Gail A.; Cauley, Jane A.; Karvonen-
+Gutierrez, Carrie; Crandall, Carolyn J.; Karlamangla, Arun S., "Estradiol
+and follicle stimulating hormone as predictors of onset of menopause
+transition-related bone loss in pre- and perimenopausal women." Journal of
+Bone and Mineral Research. In press 2019,. DOI: 10.1002/jbmr.3856 NR004061;
+AG012505; AG012535; AG012531; AG012539; AG012546
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+112. Solomon, D.; Ruppert, K.; Zhao, Z.; Lian, Y.; Kuo, I.-H.; Greendale,
+G.; Finkelstein, J., "Bone mineral density changes among women initiating
+blood pressure lowering drugs: A SWAN cohort study." Osteoporosis
+International. Mar 2016, 27, (3), 1181 - 1189. DOI: 10.1007/s00198-015-
+3332-6
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+113. Solomon, Daniel H.; Diem, Susan J.; Ruppert, Kristine; Juan Lian, Yin;
+Liu, Chih-Chin; Wohlfart, Alyssa; Greendale, Gail A.; Finkelstein, Joel S.,
+"Bone mineral density changes among women initiating proton pump inhibitors
+or H2 receptor antagonists: A SWAN cohort study." Journal of Bone and
+Mineral Research. Feb 2015, 30, (2), 232 - 239. DOI: 10.1002/jbmr.2344
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+114. Sowers, MaryFran R.; Zheng, Huiyong; Greendale, Gail A.; Neer, Robert
+M.; Cauley, Jane A.; Ellis, Jayne; Johnson, Sarah; Finkelstein, Joel S.,
+"Changes in bone resorption across the menopause transition: Effects of
+reproductive hormones, body size, and ethnicity." Journal of Clinical
+Endocrinology and Metabolism. Jul 2013, 98, (7), 2854 - 2863. DOI:
+10.1210/jc.2012-4113
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+115. Taylor, Briana J.; Matthews, Karen A.; Hasler, Brant P.; Roecklein,
+Kathryn A.; Kline, Christopher E.; Buysse, Daniel J.; Kravitz, Howard M.;
+Tiani, Alaina G.; Harlow, Sioban D.; Hall, Martica H., "Bedtime variability
+and metabolic health in midlife women: The SWAN Sleep Study." Sleep. Feb
+2016, 39, (2), 457 - 465. DOI: 10.5665/sleep.5464
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+116. Tepper, Ping G.; Randolph, John F.; McConnell, Daniel S.; Crawford,
+Sybil L.; El Khoudary, Samar R.; Joffe, Hadine; Gold, Ellen B.; Zheng,
+Huiyong; Bromberger, Joyce T.; Sutton-Tyrrell, Kim, "Trajectory clustering
+of estradiol and follicle-stimulating hormone during the menopausal
+transition among women in the Study of Women's Health across the Nation
+(SWAN)." Journal of Clinical Endocrinology and Metabolism. Aug 2012, 97,
+(8), 2872 - 2880. DOI: 10.1210/jc.2012-1422
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+117. Thurston, Rebecca C.; Chang, Yuefang; Derby, Carol A.; Bromberger,
+Joyce T.; Harlow, Sioban D.; Janssen, Imke; Matthews, Karen A., "Abuse and
+subclinical cardiovascular disease among midlife women: The Study of
+Women's Health Across the Nation." Stroke. Aug 2014, 45, (8), 2246 - 2251.
+DOI: 10.1161/STROKEAHA.114.005928
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+118. Thurston, Rebecca C.; El Khoudary, Samar R.; Derby, Carol A.; Barinas-
+Mitchell, Emma; Lewis, Tene T.; McClure, Candace K.; Matthews, Karen A.,
+"Socioeconomic status over 12 years and subclinical cardiovascular."
+Stroke. Apr 2014, 45, (4), 954 - 960. DOI: 10.1161/STROKEAHA.113.004162
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+119. Thurston, Rebecca C.; Joffe, Hadine, "Vasomotor symptoms and
+menopause: Findings from the Study of Women's Health across the Nation."
+Obstetrics and Gynecology Clinics of North America. Sep 2011, 38, (3), 489
+- 501. DOI: 10.1016/j.ogc.2011.05.006
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+120. Thurston, Rebecca C.; Santoro, Nanette; Matthews, Karen A., "Adiposity
+and hot flashes in midlife women: A modifying role of age." Journal of
+Clinical Endocrinology and Metabolism. Oct 2011, 96, (10), E1588 - E1595.
+DOI: 10.1210/jc.2011-1082
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+121. Thurston, Rebecca C.; Santoro, Nanette; Matthews, Karen A., "Are
+vasomotor symptoms associated with sleep characteristics among symptomatic
+midlife women? Comparisons of self-report and objective measures."
+Menopause. Jul 2012, 19, (7), 742 - 748. DOI: 10.1097/gme.0b013e3182422973
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+122. Tomey, Kristin; Greendale, Gail A.; Kravitz, Howard M.; Bromberger,
+Joyce T.; Burns, John W.; Dugan, Sheila A.; de Leon, Carlos F.M.,
+"Associations between aspects of pain and cognitive performance and the
+contribution of depressive symptoms in mid-life women: A cross-sectional
+analysis." Maturitas. Jan 2015, 80, (1), 106 - 112. DOI:
+10.1016/j.maturitas.2014.10.013
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+123. Upchurch, Dawn M.; Stein, Judith; Greendale, Gail A.; Chyu, Laura;
+Tseng, Chi-Hong; Huang, Mei-Hua; Lewis, Tene T.; Kravitz, Howard M.;
+Seeman, Teresa, "A longitudinal investigation of race, socioeconomic
+status, and psychosocial mediators of allostatic load in midlife women:
+Findings from the Study of Women's Health Across the Nation." Psychosomatic
+Medicine. May 2015, 77, (4), 402 - 412. DOI: 10.1097/PSY.0000000000000175
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+124. Waetjen, L.E.; Crawford, Sybil L.; Chang, Po-Yin; Reed, Barbara D.;
+Hess, Rachel; Avis, Nancy E.; Harlow, Sioban D.; Greendale, Gail A.; Dugan,
+Sheila A.; Gold, Ellen B., "Factors associated with developing vaginal
+dryness symptoms in women transitioning through menopause:  A longitudinal
+study." Menopause. Oct 2018, 25, (10), 1094 - 1104. DOI:
+10.1097/GME.0000000000001130
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+125. Wang, Norman C.; Matthews, Karen A.; Barinas-Mitchell, Emma J.M.;
+Chang, Chung-Chou H.; El Khoudary, Samar R., "Inflammatory/hemostatic
+biomarkers and coronary artery calcium progression in women at midlife
+(from the Study of Women's Health Across the Nation [SWAN] Heart Study)."
+American Journal of Cardiology. Aug 2016, 118, (3), 311 - 318. DOI:
+10.1016/j.amjcard.2016.05.009
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+126. Weiss, Gerson; Maseelall, Priya; Schott, Laura L.; Brockwell, Sarah
+E.; Schocken, Miriam; Johnston, Janet M., "Adenomyosis a variant, not a
+disease? Evidence from hysterectomized menopausal women in the Study of
+Women's Health Across the Nation (SWAN)." Fertility and Sterility. Jan
+2009, 91, (1), 201 - 206. DOI: 10.1016/j.fertnstert.2007.11.025
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+127. Weiss, Gerson; Noorhasan, Dorette; Schott, Laura L.; Powell, Lynda;
+Randolph, John F.; Johnston, Janet M., "Racial differences in women who
+have a hysterectomy for benign conditions." Women's Health Issues. May
+2009, 19, (3), 202 - 210. DOI: 10.1016/j.whi.2009.03.001
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+128. Wong, Jason; Chang, Po-Yin; Gold, Ellen; Johnson, Wesley; Lee,
+Jennifer, "Environmental tobacco smoke and risk of late-diagnosis incident
+fibroids in the Study of Women's Health across the Nation (SWAN)."
+Fertility and Sterility. Oct 2016, 106, (5), 1157 - 1164. DOI:
+10.1016/j.fertnstert.2016.06.025
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+129. Wong, Jason; Gold, Ellen; Johnson, Wesley; Lee, Jennifer, "Circulating
+sex hormones and risk of uterine fibroids: Study of Women's Health Across
+the Nation (SWAN)." Journal of Clinical Endocrinology and Metabolism. Jan
+2016, 101, (1), 123 - 130. DOI: 10.1210/jc.2015-2935
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+130. Ylitalo, Kelly R.; Herman, William H.; Harlow, Sioban D., "Serial
+anthropometry predicts peripheral nerve dysfunction in a community cohort."
+Diabetes/Metabolism Research and Reviews. Feb 2013, 29, (2), 145 - 151.
+DOI: 10.1002/dmrr.2367
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+131. Ylitalo, Kelly R.; Herman, William H; Harlow, Sioban D., "Performance-
+based physical functioning and peripheral neuropathy in a population-based
+cohort of women at midlife." American Journal of Epidemiology. Apr 2013,
+177, (8), 810 - 817. DOI: 10.1093/aje/kws327
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+132. Ylitalo, Kelly R.; Karvonen-Gutierrez, Carrie A.; Fitzgerald, Nora;
+Zheng, Thomas (Huiyong); Sternfeld, Barbara; El Khoudary, Samar R.; Harlow,
+Sioban D., "Relationship of race/ethnicity, body mass index, and economic
+strain with longitudinal self-report of physical functioning: The Study of
+Women's Health Across the Nation." Annals of Epidemiology. Jul 2013, 23,
+(7), 401 - 408. DOI: 10.1016/j.annepidem.2013.04.008
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+133. Yu, Elaine W.; Putman, Melissa S.; Derrico, Nicolas; Abrishamanian-
+Garcia, Gabriela; Finkelstein, Joel S.; Bouxsein, Mary L., "Defects in
+cortical microarchitecture among African-American women with type 2
+diabetes." Osteoporosis International. Feb 2015, 26, (2), 673 - 679. DOI:
+10.1007/s00198-014-2927-7
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+134. Zheng, Huiyong; Sowers, MaryFran; Buysse, Daniel J.; Consens, Flavia;
+Kravitz, Howard M.; Matthews, Karen A.; Owens, Jane F.; Gold, Ellen B.;
+Hall, Martica, "Sources of variability in epidemiological studies of sleep
+using repeated nights of in-home polysomnography: SWAN Sleep Study."
+Journal of Clinical Sleep Medicine. Feb 2012, 8, (1), 87 - 96. DOI:
+10.5664/jcsm.1670
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf
+
+135. Zheng, Huiyong; Sowers, Maryfran; Randolph, John F.; Harlow, Sioban
+D., "An integrated quantitative methodology to longitudinally characterize
+complex dynamic processes associated with ovarian aging and the menopausal
+transition." Journal of Systemics, Cybernetics and Informatics. 2011, 9,
+(3), 13 - 21.
+Full text PDF: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878447/pdf/nihms-543602.pdf

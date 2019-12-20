@@ -1,0 +1,110 @@
+---
+title: "Selecting and Renaming Variables"
+teaching: 15
+exercises: 2
+questions:
+- "How can I narrow down to just the variables of interest?"
+- "How can I rename variables?"
+objectives:
+- "Learn how to scope a data frame down to just variables of interest"
+- "Learn how to select variables by name using dplyr"
+- "Learn how to rename variables"
+keypoints:
+- "Use `select()` to create a subset of a data frame based on columns"
+- "Use `rename()` to rename columns"
+source: Rmd
+---
+
+```{r, include=FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("06-")
+```
+
+```{r, include=FALSE}
+swan_df <- read.csv('data_out/swan_merge.csv')
+```
+
+## Creating a subset with fewer variables
+
+Right now our data frame has hundreds of variables in columns, but for our analysis, we're only interested in analyzing data from a limited number of those variables.
+
+Furthermore, we didn't pick the names for the variables.  They might be names like `TOTIDE26` or `GLUSSPE6` or `GLUSLOO6`.  Variable names like these are not at all uncommon when working with data from publicly available data sets, such as [NHANES](https://www.cdc.gov/nchs/nhanes/) or other [CDC](https://data.cdc.gov/) data sources, the [Framingham Heart Study](https://www.framinghamheartstudy.org/) or in the data we're using from the [SWAN](https://www.swanstudy.org/) study.   With variable names like these, it's especially important to download the codebook that explains each variable. 
+
+And/or, the columns in the data sets might have names that can be difficult to work with in R.  For example, a column might be named `Study ID` or `Diastolic BP`, and names with spaces or other special characters might pose unique problems after the data is loaded into R.
+
+So there are at least two steps we'd like to take at this point:
+1. Narrow down to just certain variables
+2. Rename variables
+
+## Selecting variables
+
+One of the most convenient ways to "wrangle" data frames is to use functionality that comes with the `dplyr` #TODO: Say more here about piping, etc.
+
+dplyr's `select()` function narrows down to the variable names you specify as a comma-separated list of parameters.
+
+
+```{r, message=FALSE}
+
+library(dplyr)
+
+analysis_swan_df <- swan_df %>% select(SWANID, AGE6, RACE, BMI6, 
+                                       GLUCRES6, SMOKERE6, LDLRESU6, HDLRESU6, 
+                                       CRPRESU6, DIABP16, SYSBP16, EXERCIS6)
+
+str(analysis_swan_df)
+  
+```
+
+`select()` also allows you to use other ways to express which columns to include or exclude.  For example, functions like `starts_with()`, `ends_with()`, `contains()` can be used with `select()`.
+
+You might want to create a data frame by selecting all of the variables ending in "6", and you might do that with `select(ends_with("6"))`
+
+`select()` also allows you to select all variables *except* a certain variable, using the hyphen (`-`).  For example, you could `select(-NAME, -BMI)` to select all variables except `NAME` and `BMI`.
+
+>  ## Exercise
+> 
+> How might you create a new data frame from  `swan_df` containing just the id of each participant plus the glucose-related variables, which all start with "GLU"?
+> 
+> > ## Solution
+> >
+> > ```{r, message=FALSE}
+> > glu_df <- swan_df %>% select(SWANID, starts_with("GLU"))
+> > ```
+> > {: .language-r}
+> {: .solution}
+{: .challenge}
+
+
+## Renaming variables
+
+Now that we've scoped our data frame down to just the variables we want to work with, let's rename a few, using the `rename()` function (also from `dplyr`).
+
+Notice that each item in the parameter list is an expression of the form:
+
+`new variable name = old variable name`
+
+
+```{r}
+analysis_swan_df <- analysis_swan_df %>% rename(Glucose = GLUCRES6, LDL = LDLRESU6, 
+                           HDL = HDLRESU6, CRP =  CRPRESU6, DBP = DIABP16, SBP = SYSBP16,
+                           Smoker = SMOKERE6, Exercise = EXERCIS6, Age = AGE6, BMI = BMI6)
+
+str(analysis_swan_df)
+```
+
+> ## Exercise
+> 
+> Rename the `GLUSOST6` variable to `Glucosamine` in the `glu_df` data frame you created in the previous exercise.
+> 
+> > ## Solution
+> >
+> > ```{r, message=FALSE}
+> > glu_df <- glu_df %>% rename(Glucosamine = GLUSOST6)
+> > ```
+> > {: .language-r}
+> {: .solution}
+{: .challenge}
+
+```{r, include=FALSE}
+write.csv(analysis_swan_df, 'data_out/analysis_swan_df_06.csv')
+```

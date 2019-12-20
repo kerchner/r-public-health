@@ -1,0 +1,63 @@
+File Manifest for ICPSR 31181
+
+Sutton-Tyrell, Kim, Faith Selzer, MaryFran R. (Mary Francis Roy) Sowers,
+Joel Finkelstein, Lynda Powell, Ellen B.  Gold, Gail Greendale, Gerson
+Weiss, and Karen Matthews. Study of Women's Health Across the Nation
+(SWAN), 2002-2004: Visit 06 Dataset. ICPSR31181-v2. Ann Arbor, MI: Inter-
+university Consortium for Political and Social Research [distributor],
+2018-11-13. http://doi.org/10.3886/ICPSR31181.v2
+
+Details on the version history can be found below the file listings.
+
+
+Study-level Documentation
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    31181-descriptioncitation.pdf       -       -         -       2018-11-13  -
+
+    31181-related_literature.txt        -       -         -       daily       -
+
+    31181-manifest.txt                  -       -         -       daily       -
+
+
+DS0001 Study of Women's Health Across the Nation (SWAN), 2002-2004: Visit
+06 Dataset
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    31181-0001-Codebook-ICPSR.pdf       -       -         -       2018-11-13  73335408af2fb2b60345c79d019b4263
+
+    31181-0001-Codebook-PI.pdf          -       -         -       2018-11-13  a122a1ed805b52462cd74e2d7077f473
+
+    31181-0001-Data.dta                 -       2,448     948     2018-11-13  ae88a1f7af744c245554855121e18453
+
+    31181-0001-Data.rda                 -       2,448     948     2018-11-13  2afa871ac8ceced0eda5201ef3c99d51
+
+    31181-0001-Data.sav                 -       2,448     948     2018-11-13  3dc186b9083d837615487c4dd2904182
+
+    31181-0001-Data.stc                 -       2,448     948     2018-11-13  3ca61530c264ca144972c873315459d4
+
+    31181-0001-Data.tsv                 -       2,448     948     2018-11-13  682fbf2744b97a70df358666617b73e6
+
+    31181-0001-Data.txt                 3674    2,448     948     2018-11-13  3ee228f7cd0a73ebdfa27e0f4f0a8cff
+
+    31181-0001-Setup.dct                -       -         -       2018-11-13  7589a8d0917b6e90b28d3ec3d2284965
+
+    31181-0001-Setup.do                 -       -         -       2018-11-13  e23bde767e8e860815cad7eeb31c3e2c
+
+    31181-0001-Setup.sas                -       -         -       2018-11-13  e5fed34b9dc35c0c3fe1359425be0baa
+
+    31181-0001-Setup.sps                -       -         -       2018-11-13  47503082600071c60d36a3e67ba2e332
+
+    31181-0001-Supplemental_syntax.do   -       -         -       2018-11-13  374c364d4ec5d5602c77ee81ea260b22
+
+    31181-0001-Supplemental_syntax.sas  -       -         -       2018-11-13  327a2b1532ca0767eb17f81316003c92
+
+
+Version History
+
+2018-11-13 The data collection was updated with revised missing values
+provided by the P.I.

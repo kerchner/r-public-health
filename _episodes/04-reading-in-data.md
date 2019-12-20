@@ -16,6 +16,7 @@ objectives:
 keypoints:
 - "Learn to use read.* and related functions"
 - "Learn to use str()"
+- "Use colnames() to see a list of column names"
 ---
 
 

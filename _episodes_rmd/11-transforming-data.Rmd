@@ -1,0 +1,27 @@
+---
+title: "Transforming Data"
+teaching: 45
+exercises: 10
+questions:
+- "How can I focus on just the variables I'm interested in?"
+- "What are some ways of viewing the raw frequencies of variables?"
+- "How to count the number of cases vs. controls?"
+- "How to assess nulls/missing values in my data"
+objectives:
+- "make a new variable from other(s) - e.g. log transform"
+- "Create a categorical (0/1) out of continuous"
+- "Stratify"
+keypoints:
+- "Need these"
+source: Rmd
+---
+
+```{r, include=FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("01-")
+```
+
+## Introduction goes here
+
+Text
+

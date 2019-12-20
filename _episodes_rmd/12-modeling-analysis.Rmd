@@ -1,0 +1,30 @@
+---
+title: "Visualizing relationships between data"
+teaching: 45
+exercises: 10
+questions:
+- "How can I make a graph of my regression?"
+- "How can I look at residuals?"
+- "How can I assess and remove outliers?"
+- "How can I export publication-quality graphics?"
+objectives:
+- "Make a scatterplot"
+- "`cor()`"
+- "Learn how to run regressions with `lm()` and `glm()`"
+- "Learn how to isolate parts of the matrix that `lm()` returns"
+- "Learn how to run `t.test()` - get p-value, CI, etc."
+- "Assess interactions between variables"
+keypoints:
+- "FIXME"
+source: Rmd
+---
+
+```{r, include=FALSE}
+source("../bin/chunk-options.R")
+knitr_fig_path("11-")
+```
+
+## Introduction goes here
+
+
+
