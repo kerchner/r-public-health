@@ -164,7 +164,7 @@ Let's try passing `hist()` a single number giving the number of cells or bins:
 
 
 ~~~
-hist(analysis_swan_df$DBP, breaks = 50)
+hist(analysis_swan_df$DBP, breaks = 50, col = 'pink')
 ~~~
 {: .language-r}
 
@@ -176,20 +176,55 @@ hist(analysis_swan_df$DBP, breaks = 50)
 > 
 > Try adding a main title, and X and Y axis titles to the histogram above.
 > 
+> Try filling the bars with a color.
+> 
 > > ## Solution
 > >
 > > 
 > > ~~~
 > > hist(analysis_swan_df$DBP, breaks = 50, main = 'Title goes here',
-> >      xlab = 'Diastolic blood pressure (mmHg)', ylab = 'Frequency')
+> >      xlab = 'Diastolic blood pressure (mmHg)', ylab = 'Frequency',
+> >      color = 'pink')
 > > ~~~
 > > {: .language-r}
+> > 
+> > 
+> > 
+> > ~~~
+> > Warning in plot.window(xlim, ylim, "", ...): "color" is not a graphical
+> > parameter
+> > ~~~
+> > {: .error}
+> > 
+> > 
+> > 
+> > ~~~
+> > Warning in title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...):
+> > "color" is not a graphical parameter
+> > ~~~
+> > {: .error}
+> > 
+> > 
+> > 
+> > ~~~
+> > Warning in axis(1, ...): "color" is not a graphical parameter
+> > ~~~
+> > {: .error}
+> > 
+> > 
+> > 
+> > ~~~
+> > Warning in axis(2, ...): "color" is not a graphical parameter
+> > ~~~
+> > {: .error}
 > > 
 > > <img src="../fig/rmd-06-unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
 > >
 > {: .solution}
 {: .challenge}
 
+
+# TODO: Show horizontal
 
 
 ~~~
