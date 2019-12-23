@@ -33,12 +33,14 @@ knitr_fig_path("01-")
 ```
 
 
-## Motivation
+# Motivation
 
 Now that we've clarified some of the reasons why we might be using R versus (or in addition to) other statistical software packages, let's get comfortable with the basic mechanics of using R in the RStudio environment.   After we learn the basics, we'll move on to the next lessons, where we'll read in data sets, explore them, analyze them, and create some data visualizations!
 
+In the course of these lessons, we're going to learn some of the fundamentals of the R language, writing and running R code in RStudio, as well as some best practices for organizing code for scientific projects.
 
-## Before Starting The Workshop
+
+# Before Starting The Workshop
 
 Please ensure you have the latest version of R and RStudio installed on your machine. This is important, as some packages used in the workshop may not install correctly (or at all) if R is not up to date.
 
@@ -47,17 +49,21 @@ Please ensure you have the latest version of R and RStudio installed on your mac
 
 If you already have R and RStudio installed, you may want to make sure you have updated each of them to the latest version.  Sometimes there are slight differences in how they look or function, and using the latest versions will minimize differences between what you see on your screen versus what the instructor's screen shows.
 
-## Introduction to RStudio
+# Introduction to RStudio
 
-R is the **language** we'll be programming in, and RStudio is a popular software package that makes it easier for you to work in R, and which we'll be using in this workshop.  RStudio is a free, open source R [integrated development environment](https://en.wikipedia.org/wiki/Integrated_development_environment) or "IDE".  Most IDEs provide an editor for editing code, and facilities for running the code.  RStudio provides many extra features such as integration with version control and project management.  RStudio is available for both Mac and Windows as a desktop app to install on your computer, but there is also a cloud version available that you would access through your browser.
+R is the **language** we'll be programming in, and RStudio is a popular software package that makes it easier for you to work in R, and which we'll be using in this workshop.  RStudio is a free, open source R [integrated development environment](https://en.wikipedia.org/wiki/Integrated_development_environment) or "IDE".  Most IDEs provide an editor for editing code, and facilities for running the code.  RStudio provides many extra features such as integration with version control and project management.
 
-## Goals
+RStudio is available in several forms:
+* [RStudio Desktop](https://rstudio.com/products/rstudio/#rstudio-desktop) is a desktop app you can install on your computer.  It is available for both Mac and Windows.
+* [RStudio Cloud](https://rstudio.cloud/) is a version of RStudio that you can access through your browser.  It does not run on your computer; rather, it runs on RStudio.com's servers.  While RStudio Cloud is currently free, there are limitations on how much memory your project can use.  RStudio plans to offer both free and paid plans in the future; the paid plans will probably offer more space and processing power.
+* [RStudio Server](https://rstudio.com/products/rstudio/#rstudio-server) is software that your organization would run on a server and individuals would access through their browsers, so you would interact with it much like how you would use RStudio Cloud.  RStudio Server has both free and paid versions; the paid version offers more features.
 
-Throughout this lesson, we're going to learn some of the fundamentals of the R language, writing and running R code in RStudio, as well as some best practices for organizing code for scientific projects that will make your life easier.
+This course was written using RStudio Desktop.  If you're using RStudio Cloud or RStudio Server, most of the steps *should* be the same, but there may be differences in how you load data files into your RStudio environment.
 
 
 
-**Basic layout**
+
+# RStudio Basic layout
 
 When you first open RStudio, you will see three panels:
 
@@ -73,20 +79,78 @@ in the top left.  (Later we'll also see that the top left pane is also where we 
 ![RStudio layout with .R file open](../fig/01-rstudio-script.png)
 
 
-## Workflow within RStudio
+## Using the Console versus working in an R or Rmd file.
 
-There are two main ways one can work within RStudio.
+Most of the time, your goal in working in RStudio is to develop an R program, or R Markdown file, that contains your analysis code and can be run from top to bottom.
 
-1. Test and play within the interactive R console then copy code into
-a .R file to run later.
-   *  This works well when doing small tests and initially starting off.
-   *  It quickly becomes laborious
-2. Start writing in an .R file and use RStudio's short cut keys for the Run command
-to push the current line, selected lines or modified lines to the
-interactive R console.
-   * This is a great way to start; all your code is saved for later
-   * You will be able to run the file you create from within RStudio
-   or using R's `source()`  function.
+Along the way, though, you might find it helpful to use the interactive R console to test things out or run small tests outside your program, and then perhaps copy some code into your R script.
+
+The console allows you to type in a single R expression, and instantly see the result of evaluating the expression.  (This type of environment is often called a REPL or "Read, evaluate, print loop").
+
+Advantages of using the console include the fact that it's quick and easy.  On the other hand, your steps aren't saved in the form of a program that you can rerun later.  (However, the History tab, in the upper right pane, can help you trace your steps in the console, to some extent).
+
+You'll also notice later that when you run code in an R file, the code is executed within the Console window.
+
+## Let's try the Console
+
+The interactive console presents you with a `>` and a blinking cursor.  If you are familiar with the shell environment, it will feel somewhat similar to the shell in that there is a prompt waiting for you to enter an expression or command, and it instantly evaluates or executes what you typed in.  (Note that you may also have a "Terminal" tab in the lower left pane -- that is an actual shell environment you can access from within RStudio.)
+
+Let's try entering an expression, using the R console as a very overwrought scientific calculator:
+
+~~~
+> 5.4 + 13
+~~~
+{: .r}
+
+~~~
+[1] 18.4
+~~~
+{: .output}
+
+We'll learn soon what the `[1]` is meant to tell us.
+
+What if we enter an incomplete expression?
+
+~~~
+> 34 - (4 *
+~~~
+{: .r}
+
+~~~
++
+~~~
+{: .output}
+
+The R console presents us with a `+`.  The `+` in this case has nothing to do with addition.  Rather, the `+` is indicating that the R console is waiting for you to complete the expression as a continuation of the first line.
+
+At this point you have two options:
+* Complete the expression
+* Cancel out of entering the expression
+
+In the example above, completing the expression might be done by entering something like `+ 2)`:
+
+~~~
+> 34 - (4 *
++ 2)
+~~~
+{: .r}
+
+~~~
+[1] 26
+~~~
+{: .output}
+
+Alternatively, you can cancel the expression by pressing <kbd>Esc</kbd> on your keyboard.  Another way to cancel is by pressing <kbd>Ctrl</kbd>+<kbd>C</kbd>. 
+
+## Replaying commands
+
+up arrow
+
+
+
+## Running code from within the file editor
+
+#TODO
 
 > ## Tip: Running segments of your code
 >
@@ -105,19 +169,6 @@ interactive R console.
 > including the modifications you have made.
 {: .callout}
 
-## Introduction to R
-
-Much of your time in R will be spent in the R interactive
-console. This is where you will run all of your code, and can be a
-useful environment to try out ideas before adding them to an R script
-file.
-
-The first thing you will see in the R interactive session is a bunch
-of information, followed by a ">" and a blinking cursor. In many ways
-this is similar to the shell environment you learned about during the
-shell lessons: it operates on the same idea of a "Read, evaluate,
-print loop": you type in commands, R tries to execute them, and then
-returns a result.
 
 ## Using R as a calculator
 

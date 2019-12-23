@@ -22,6 +22,7 @@ keypoints:
 
 ## What are the typical steps involved with public health data analysis?
 
+- Reading in data collected for a study or multiple studies.  
 
 ## Reasons for using R versus other statistical software, Python, etc.
 
@@ -43,10 +44,11 @@ keypoints:
 
 ### R for Reproducible Science
 
+What do we mean when we say we'd like to practice "reproducible" science work in R?
+
 Bring in the "reproducible science" paper and follow the main points through the lesson.  Bring them in here.
 
 ### What else?
 
-{% include links.md %}
 
 

@@ -30,7 +30,7 @@ source: Rmd
 
 
 
-## Variables in R
+# Variables in R
 
 We can use *variables* to store data that we can then reference.  A variable has a name, which is like a label, and a value.
 
@@ -67,7 +67,7 @@ If you now type the just name of the variable, `height_cm` at the console, R wil
 {: .challenge}
 
 
-### Variable names
+## Variable names
 
 Different programming languages have slightly different rules around what characters may be used in variable names.  In R, both numbers and letters can be used, as well as a dot (`.`) and an underscore (`_`).
 
@@ -87,6 +87,44 @@ Different programming languages have slightly different rules around what charac
 > {: .solution}
 {: .challenge}
 
+## Variable Types
+
+In our example above, the variables we used stored numeric values.  In real data, though, we have values that might be text, that might be true/false, might be empty, etc.
+
+Let's try creating variables with values that are other types:
+
+
+~~~
+study_id <- 'AB123X'
+exposure <- TRUE
+heart_rate <- NA
+~~~
+{: .language-r}
+
+
+
+The idea here is that a variable not only stores data, but stores it as a particular type.
+
+We can "ask" a variable what its type is, in R, using the `typeof()` function, like this:
+
+
+~~~
+typeof(height_cm)
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] "double"
+~~~
+{: .output}
+
+R tells us that `height_cm` is a "double".  What is a "double"?  A 
+
+
+
+# Atomic vectors
 
 
 ## TODO: Logicals - counting up values
