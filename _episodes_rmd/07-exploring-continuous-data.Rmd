@@ -8,9 +8,11 @@ questions:
 objectives:
 - "Learn how to view mean, quartiles, standard deviation"
 - "Techniques for dealing with null values in R -- ex. null might be represented in the data as `999`"
+- "Learn how to create new variables as transformations of other variables"
 keypoints:
 - "Use `hist()` to view a histogram"
 - "Use `boxplot()`"
+- "Use `plot()` to create an X-Y scatterplot"
 source: Rmd
 ---
 
@@ -20,6 +22,8 @@ knitr_fig_path("07-")
 ```
 
 ```{r, include=FALSE}
+library(dplyr)
+
 analysis_swan_df <- read.csv('data_out/analysis_swan_df_06.csv')
 ```
 
@@ -165,7 +169,7 @@ plot(y = analysis_swan_df$Glucose, x = analysis_swan_df$BMI)
 
 In this case, we see there may be some outliers where Glucose levels are high.  Given that a glucose level of over 126 mg/dL is considered Type II Diabetic, we can take a look at the scatterplot with those data excluded.
 
-We'll make a subset, then redraw the scatterplot:
+We'll make a new data frame from a subset, then redraw the scatterplot:
 
 ```{r}
 swan_non_diabetic <- analysis_swan_df %>% filter(Glucose < 126)
@@ -173,7 +177,78 @@ swan_non_diabetic <- analysis_swan_df %>% filter(Glucose < 126)
 plot(y = swan_non_diabetic$Glucose, x = swan_non_diabetic$BMI)
 ```
 
+What we're looking at here is the relationship between BMI and Glucose *for subjects with normal (non-diabetic) glucose levels*.  Although it might not be obvious to the naked eye, there is an overall upward trend and it is reasonably possible that there might be a linear relationship between BMI and Glucose in this data.  
 
+> ## Exercise
+> 
+> Create the following to check linear regression assumptions between CRP and Glucose:
+> * A histogram of CRP values
+> 
+> > ## Solution
+> >
+> > ```{r}
+> > hist(analysis_swan_df$CRP, breaks = 50)
+> > ```
+> >
+> {: .solution}
+{: .challenge}
+
+We notice here that the distribution definitely does not look like a normal distribution.   However, we might be able to apply a transformation to the data that would result in a variable that does look more normally distributed.  Based on the shape of the distribution that we see, we decide to first try applying a log transformation.
+
+## Variable transformations
+
+We essentially need to make a new variable in our data frame that is calculated from the values in the `CRP` variable.
+
+You might remember back in Episode 3, we were able to create a new vector like this:
+```{r}
+vec1 <- c(1, 2, 3)
+vec1 * 3
+```
+
+Applying the same concept, we'll create a new variable in our `analysis_swan_df` data frame that will be the `log()` of each value in `analysis_swan_df$CRP`.  We'll call the new variable `log_CRP`:
+
+```{r}
+analysis_swan_df$log_CRP <- log(analysis_swan_df$CRP)
+```
+
+Now let's create a histogram of `log_CRP`:
+
+```{r}
+hist(analysis_swan_df$log_CRP, breaks = 50)
+```
+
+As we see that `log_CRP` does appear to have more of normal distribution, we can consider using this variable in our regression instead of `CRP`.  Let's continue checking our assumptions using `log_CRP`:
+
+Next we can try a scatterplot of log_CRP versus Glucose:
+```{r}
+plot(y = analysis_swan_df$Glucose, x = analysis_swan_df$log_CRP)
+```
+
+We see again that the Glucose values in the diabetic range may be problematic, so let's re-make the swan_non_diabetic subset.  This time it will have the `log_CRP` variable as well:
+
+```{r}
+swan_non_diabetic <- analysis_swan_df %>% filter(Glucose < 126)
+
+plot(y = swan_non_diabetic$Glucose, x = swan_non_diabetic$log_CRP)
+```
+
+After removing the data with high glucose values, we see that `log_CRP` could possibly have a linear relationship with `Glucose`.
+
+> ## Exercise
+> 
+> Create a new variable in `analysis_swan_df` that is the ratio of total cholesterol (HDL + LDL) divided by HDL.  Call the new variable `Chol_Ratio`
+> 
+> > ## Solution
+> >
+> > ```{r}
+> > analysis_swan_df$Chol_Ratio <- (analysis_swan_df$HDL + analysis_swan_df$LDL)/analysis_swan_df$HDL
+> > ```
+> >
+> {: .solution}
+{: .challenge}
+
+#TODO: Plot with and without > 126]
+#TODO: Check assumptions on Age (quickly)
 
 
 Looking for null values
