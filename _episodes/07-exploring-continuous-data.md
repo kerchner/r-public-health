@@ -53,38 +53,30 @@ summary(analysis_swan_df)
 
 
 ~~~
-       X              SWANID           Age             RACE      
- Min.   :   1.0   Min.   :10046   Min.   :47.00   Min.   :1.000  
- 1st Qu.: 606.8   1st Qu.:31312   1st Qu.:50.00   1st Qu.:1.000  
- Median :1212.5   Median :53827   Median :52.00   Median :4.000  
- Mean   :1212.5   Mean   :53753   Mean   :51.97   Mean   :2.847  
- 3rd Qu.:1818.2   3rd Qu.:76142   3rd Qu.:54.00   3rd Qu.:4.000  
- Max.   :2424.0   Max.   :98792   Max.   :59.00   Max.   :5.000  
-                                  NA's   :1                      
-      BMI           Glucose           Smoker            LDL       
- Min.   :16.29   Min.   : 48.00   Min.   :-9.000   Min.   : 30.0  
- 1st Qu.:23.32   1st Qu.: 82.00   1st Qu.: 1.000   1st Qu.: 98.0  
- Median :27.25   Median : 88.00   Median : 1.000   Median :119.0  
- Mean   :28.89   Mean   : 94.26   Mean   : 1.127   Mean   :121.1  
- 3rd Qu.:32.92   3rd Qu.: 96.00   3rd Qu.: 1.000   3rd Qu.:142.0  
- Max.   :64.86   Max.   :639.00   Max.   : 2.000   Max.   :303.0  
- NA's   :305     NA's   :433      NA's   :116      NA's   :460    
-      HDL             CRP               DBP              SBP       
- Min.   : 16.0   Min.   :  0.048   Min.   : 20.00   Min.   : 74.0  
- 1st Qu.: 47.0   1st Qu.:  0.700   1st Qu.: 68.00   1st Qu.:106.0  
- Median : 57.0   Median :  1.800   Median : 72.00   Median :116.0  
- Mean   : 58.2   Mean   :  4.070   Mean   : 73.58   Mean   :118.2  
- 3rd Qu.: 68.0   3rd Qu.:  4.700   3rd Qu.: 80.00   3rd Qu.:128.0  
- Max.   :119.0   Max.   :128.000   Max.   :120.00   Max.   :220.0  
- NA's   :367     NA's   :363       NA's   :292      NA's   :292    
-    Exercise     
- Min.   :-7.000  
- 1st Qu.: 1.000  
- Median : 2.000  
- Mean   : 1.681  
- 3rd Qu.: 2.000  
- Max.   : 2.000  
- NA's   :274     
+     SWANID           Age             RACE            BMI       
+ Min.   :10046   Min.   :47.00   Min.   :1.000   Min.   :16.29  
+ 1st Qu.:31312   1st Qu.:50.00   1st Qu.:1.000   1st Qu.:23.32  
+ Median :53827   Median :52.00   Median :4.000   Median :27.25  
+ Mean   :53753   Mean   :51.97   Mean   :2.847   Mean   :28.89  
+ 3rd Qu.:76142   3rd Qu.:54.00   3rd Qu.:4.000   3rd Qu.:32.92  
+ Max.   :98792   Max.   :59.00   Max.   :5.000   Max.   :64.86  
+                 NA's   :1                       NA's   :305    
+    Glucose           Smoker            LDL             HDL       
+ Min.   : 48.00   Min.   :-9.000   Min.   : 30.0   Min.   : 16.0  
+ 1st Qu.: 82.00   1st Qu.: 1.000   1st Qu.: 98.0   1st Qu.: 47.0  
+ Median : 88.00   Median : 1.000   Median :119.0   Median : 57.0  
+ Mean   : 94.26   Mean   : 1.127   Mean   :121.1   Mean   : 58.2  
+ 3rd Qu.: 96.00   3rd Qu.: 1.000   3rd Qu.:142.0   3rd Qu.: 68.0  
+ Max.   :639.00   Max.   : 2.000   Max.   :303.0   Max.   :119.0  
+ NA's   :433      NA's   :116      NA's   :460     NA's   :367    
+      CRP               DBP              SBP           Exercise     
+ Min.   :  0.048   Min.   : 20.00   Min.   : 74.0   Min.   :-7.000  
+ 1st Qu.:  0.700   1st Qu.: 68.00   1st Qu.:106.0   1st Qu.: 1.000  
+ Median :  1.800   Median : 72.00   Median :116.0   Median : 2.000  
+ Mean   :  4.070   Mean   : 73.58   Mean   :118.2   Mean   : 1.681  
+ 3rd Qu.:  4.700   3rd Qu.: 80.00   3rd Qu.:128.0   3rd Qu.: 2.000  
+ Max.   :128.000   Max.   :120.00   Max.   :220.0   Max.   : 2.000  
+ NA's   :363       NA's   :292      NA's   :292     NA's   :274     
 ~~~
 {: .output}
 

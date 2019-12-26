@@ -283,7 +283,7 @@ We may not be sure what to make of it but Age variable is often a confounder.  A
 Now, that we have looked at the normality and linearity assumputions, let's proceed to the next episode. 
 
 ```{r, include=FALSE}
-write.csv(analysis_swan_df, 'data_out/analysis_swan_df_07.csv')
+write.csv(analysis_swan_df, 'data_out/analysis_swan_df_07.csv', row.names = FALSE)
 ```
 
 

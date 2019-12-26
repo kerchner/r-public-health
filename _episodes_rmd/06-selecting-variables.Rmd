@@ -107,7 +107,7 @@ str(analysis_swan_df)
 {: .challenge}
 
 ```{r, include=FALSE}
-write.csv(analysis_swan_df, 'data_out/analysis_swan_df_06.csv')
+write.csv(analysis_swan_df, 'data_out/analysis_swan_df_06.csv', row.names = FALSE)
 ```
 
 #TODO:  As its own episode, show use of `filter()`
