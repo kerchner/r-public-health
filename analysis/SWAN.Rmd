@@ -74,8 +74,8 @@ library(tidyr)
 ```
 
 ```{r}
-swan_demo <- read.csv('../data/SWAN_2002_2004/DS0001/swan_demo.csv')
-swan_lab <- read.csv('../data/SWAN_2002_2004/DS0001/swan_lab.csv')
+swan_demo <- read.csv('../_episodes_rmd/data/SWAN_2002_2004/DS0001/swan_demo.csv')
+swan_lab <- read.csv('../_episodes_rmd/data/SWAN_2002_2004/DS0001/swan_lab.csv')
 ```
 # Merge
 

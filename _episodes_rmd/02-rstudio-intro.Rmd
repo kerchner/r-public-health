@@ -140,17 +140,32 @@ In the example above, completing the expression might be done by entering someth
 ~~~
 {: .output}
 
-Alternatively, you can cancel the expression by pressing <kbd>Esc</kbd> on your keyboard.  Another way to cancel is by pressing <kbd>Ctrl</kbd>+<kbd>C</kbd>. 
+## Cancelling commands, replaying commands, auto-complete, and cleaning up
 
-## Replaying commands
+### Cancelling commands
 
-up arrow
+If you want to **cancel** a command you can type either <kbd>Esc</kbd> or <kbd>Ctrl</kbd>+<kbd>C</kbd> and RStudio will cancel the command and give you a fresh ">" prompt.
+
+You can also use <kbd>Ctrl</kbd>+<kbd>C</kbd> to interrupt and cancel a process that's running in the Console.  Another way to stop a process that's running in the RStudio console is to press the <img src="../fig/stop.png" style="display:inline-block; margin:0px" alt="stop" /> (Stop) button.
+
+
+### Replaying commands
+
+If you want to **reuse** a command that you recently ran in the RStudio console, you can hit the up and down arrows on your keyboard to scroll through your recent commands.
+
+Your recent commands are also stored in the History tab, in the upper right pane.  You can highlight a command in the History, then click the <img src="../fig/to_console.png" style="display:inline-block; margin:0px" alt="To Console" height="20px" align="top" /> (To Console) button to copy the command to the Console, where you can then edit it and run it.
+
+### Cleaning up
+
+Sometimes the Console gets visually cluttered.  You can easily solve that using the <img src="../fig/broom.png" style="display:inline-block; margin:0px" alt="Broom" align="top" /> (broom) button.  The History tab also has a broom button, if you want to clear your command history.
+
+### Autocomplete
 
 
 
 ## Running code from within the file editor
 
-#TODO
+We've learned about running R code from the RStudio Console, but usually your objective is to write R code that you can 
 
 > ## Tip: Running segments of your code
 >
@@ -195,22 +210,10 @@ complete it:
 {: .output}
 
 Any time you hit return and the R session shows a "+" instead of a ">", it
-means it's waiting for you to complete the command. If you want to cancel
-a command you can simply hit "Esc" and RStudio will give you back the ">"
-prompt.
+means it's waiting for you to complete the command.
 
-> ## Tip: Cancelling commands
->
-> If you're using R from the commandline instead of from within RStudio,
-> you need to use <kbd>Ctrl</kbd>+<kbd>C</kbd> instead of <kbd>Esc</kbd>
-> to cancel the command. This applies to Mac users as well!
->
-> Cancelling a command isn't only useful for killing incomplete commands:
-> you can also use it to tell R to stop running code (for example if it's
-> taking much longer than you expect), or to get rid of the code you're
-> currently writing.
->
-{: .callout}
+
+
 
 When using R as a calculator, the order of operations is the same as you
 would have learned back in school.
