@@ -44,7 +44,7 @@ BMI6 | Body Mass Index (BMI)
 LDLRESU6 | Low-density lipoprotein cholesterol (estimated) mg/dl
 HDLRESU6 | High density lipoprotein cholesterol mg/dl
 GLUCRES6 | Glucose mg/dl
-CRPRESU6 | C-reactive protein mg/l
+CRPRESU6 | C-reactive protein (CRP) mg/l
 DIABP16 | Diastolic blood pressure mmHg
 SYSBP16 | Systolic blood pressure mmHg
 EXERCIS6 | During the past 12 months, have you exercised?
