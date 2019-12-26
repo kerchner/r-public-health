@@ -77,8 +77,8 @@ We'll start by reading each of them into a separate data frame.
 
 
 ~~~
-swan_demographic <- read.csv('../data/SWAN_2002_2004/DS0001/swan_demo.csv')
-swan_lab <- read.csv('../data/SWAN_2002_2004/DS0001/swan_lab.csv')
+swan_demographic <- read.csv('data/SWAN_2002_2004/DS0001/swan_demo.csv')
+swan_lab <- read.csv('data/SWAN_2002_2004/DS0001/swan_lab.csv')
 ~~~
 {: .language-r}
 

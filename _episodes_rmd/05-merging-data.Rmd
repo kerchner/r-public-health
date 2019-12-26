@@ -77,8 +77,8 @@ In our case, we have two tables, a demographic table and a table with lab measur
 We'll start by reading each of them into a separate data frame.
 
 ```{r}
-swan_demographic <- read.csv('../data/SWAN_2002_2004/DS0001/swan_demo.csv')
-swan_lab <- read.csv('../data/SWAN_2002_2004/DS0001/swan_lab.csv')
+swan_demographic <- read.csv('data/SWAN_2002_2004/DS0001/swan_demo.csv')
+swan_lab <- read.csv('data/SWAN_2002_2004/DS0001/swan_lab.csv')
 ```
 
 Let's take a peek at each data frame:

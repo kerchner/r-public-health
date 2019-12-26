@@ -141,6 +141,10 @@ In the example above, completing the expression might be done by entering someth
 
 Alternatively, you can cancel the expression by pressing <kbd>Esc</kbd> on your keyboard.  Another way to cancel is by pressing <kbd>Ctrl</kbd>+<kbd>C</kbd>. 
 
+## Replaying commands
+
+up arrow
+
 
 
 ## Running code from within the file editor
@@ -771,7 +775,7 @@ function (name, pos = -1L, envir = as.environment(pos), all.names = FALSE,
     }
     else all.names
 }
-<bytecode: 0x7fccbf8ce2c0>
+<bytecode: 0x7fda992a84c0>
 <environment: namespace:base>
 ~~~
 {: .output}
