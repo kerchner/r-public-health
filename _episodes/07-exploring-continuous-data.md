@@ -242,11 +242,18 @@ We'll make a new data frame from a subset, then redraw the scatterplot:
 
 
 ~~~
-swan_non_diabetic <- analysis_swan_df %>% filter(Glucose < 126)
-
-plot(y = swan_non_diabetic$Glucose, x = swan_non_diabetic$BMI)
+library(ggplot2)
+analysis_swan_df %>% filter(Glucose<126) %>% ggplot(aes(x=BMI, y=Glucose)) +
+    geom_point()
 ~~~
 {: .language-r}
+
+
+
+~~~
+Warning: Removed 44 rows containing missing values (geom_point).
+~~~
+{: .error}
 
 <img src="../fig/rmd-07-unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
 
@@ -324,11 +331,17 @@ We see again that the Glucose values in the diabetic range may be problematic, s
 
 
 ~~~
-swan_non_diabetic <- analysis_swan_df %>% filter(Glucose < 126)
-
-plot(y = swan_non_diabetic$Glucose, x = swan_non_diabetic$log_CRP)
+analysis_swan_df %>% filter(Glucose<126) %>% ggplot(aes(x=log_CRP, y=Glucose)) +
+    geom_point()
 ~~~
 {: .language-r}
+
+
+
+~~~
+Warning: Removed 5 rows containing missing values (geom_point).
+~~~
+{: .error}
 
 <img src="../fig/rmd-07-unnamed-chunk-17-1.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" width="612" style="display: block; margin: auto;" />
 
@@ -349,15 +362,79 @@ After removing the data with high glucose values, we see that `log_CRP` could po
 > {: .solution}
 {: .challenge}
 
-#TODO: Plot with and without > 126]
-#TODO: Check assumptions on Age (quickly)
 
 
+
+~~~
+plot(y = analysis_swan_df$Glucose, x = analysis_swan_df$Chol_Ratio)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-07-unnamed-chunk-20-1.png" title="plot of chunk unnamed-chunk-20" alt="plot of chunk unnamed-chunk-20" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+library(ggplot2)
+analysis_swan_df %>% filter(Glucose<126) %>% ggplot(aes(x=Chol_Ratio, y=Glucose)) +
+    geom_point()
+~~~
+{: .language-r}
+
+
+
+~~~
+Warning: Removed 19 rows containing missing values (geom_point).
+~~~
+{: .error}
+
+<img src="../fig/rmd-07-unnamed-chunk-21-1.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" width="612" style="display: block; margin: auto;" />
+
+Again, we can see that there is a possible linear trend between the predictor `Chol_Ratio` variable and the outcome `Glucose`.
+
+Let's create the same graphs for our last continuous variable `Age`.
+
+~~~
+hist(analysis_swan_df$Age)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-07-unnamed-chunk-22-1.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" width="612" style="display: block; margin: auto;" />
+This Swan dataset is unique because the study was designed to understand exposures in women during their early to mid-age. For now, we are going to consider this to be sufficiently normally distributed for our analysis. 
+
+Next we can try a scatterplot of `Age` versus `Glucose`:
+
+~~~
+plot(y = analysis_swan_df$Glucose, x = analysis_swan_df$Age)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-07-unnamed-chunk-23-1.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+analysis_swan_df %>% filter(Glucose<126) %>% ggplot(aes(x=Age, y=Glucose)) +
+    geom_point()
+~~~
+{: .language-r}
+
+
+
+~~~
+Warning: Removed 1 rows containing missing values (geom_point).
+~~~
+{: .error}
+
+<img src="../fig/rmd-07-unnamed-chunk-24-1.png" title="plot of chunk unnamed-chunk-24" alt="plot of chunk unnamed-chunk-24" width="612" style="display: block; margin: auto;" />
+
+We may not be sure what to make of it but Age variable is often a confounder.  A lot of chronic illnesses come with age so we want to make sure we assess this variable in our multivariate analysis. 
+
+Now, that we have looked at the normality and linearity assumputions, let's proceed to the next episode. 
+
+
+
+
+#TODO (maybe): 
 Looking for null values
-
 some basic filtering - for example, filter just to women of childbearing age, check for % of NA to pregnancy question
-
-Checking normality of continuous 
-
 Data cleanliness - boxplots, look for outliers
 
