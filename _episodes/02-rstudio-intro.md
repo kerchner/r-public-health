@@ -160,6 +160,7 @@ Sometimes the Console gets visually cluttered.  You can easily solve that using 
 
 ### Autocomplete
 
+As we start to write more code later, you'll start to appreciate RStudio's autocomplete feature.  As you're typing code, if you press <kbd>Tab</kbd>, RStudio will offer you all of the functions, variable names, etc. that match what you've typed so far.  You can then either use the mouse or the keyboard arrows to scroll through the choices and choose the one you want.
 
 
 ## Running code from within the file editor
@@ -182,6 +183,10 @@ We've learned about running R code from the RStudio Console, but usually your ob
 > along, `Re-run the previous region`. This will run the previous code block
 > including the modifications you have made.
 {: .callout}
+
+## Errors and Warnings
+
+
 
 
 ## Using R as a calculator
@@ -778,7 +783,7 @@ function (name, pos = -1L, envir = as.environment(pos), all.names = FALSE,
     }
     else all.names
 }
-<bytecode: 0x7fc5c80d8ce0>
+<bytecode: 0x7fcfa2a702e0>
 <environment: namespace:base>
 ~~~
 {: .output}

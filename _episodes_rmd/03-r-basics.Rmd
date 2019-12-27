@@ -1,5 +1,5 @@
 ---
-title: "R Basics"
+title: "R Basics, Part 1: Data types and Functions"
 teaching: 45
 exercises: 20
 questions:
@@ -95,9 +95,7 @@ Let's try creating variables with values that are other types:
 ```{r}
 study_id <- 'AB123X'
 exposure <- TRUE
-heart_rate <- NA
 ```
-
 
 
 The idea here is that a variable not only stores data, but stores it as a particular type.
@@ -108,11 +106,159 @@ We can "ask" a variable what its type is, in R, using the `typeof()` function, l
 typeof(height_cm)
 ```
 
-R tells us that `height_cm` is a "double".  What is a "double"?  A 
+R tells us that `height_cm` is a "double".  What is a "double"?  "double" refers to a double-precision floating-point number.
+
+If we check the type of `study_id`, we'll see that it's a `character` type.  `character` is the term in R that describes text data.  
+
+
+If we check the type of `exposure`, we'll see that it's a `logical` type. `logical` is the term in R that describes data that can be either `TRUE` or `FALSE` (or `NA`).
+
+Basic data types in R are:
+
+* character
+* numeric
+* integer
+* complex (for example, `4+3i`, where `i` represents the square root of -1)
+* logical
 
 
 
-# Atomic vectors
+# Functions
+
+Earlier, we used a function, `typeof()`.  A function is a named set of code that can take zero or more **parameters** as input, performs some calculations or other processing, and (optionally) returns a value back.
+
+Let's look at some examples of functions:
+
+* Some mathematical functions you might use that can take a single value are functions like: `sqrt()`, `log()`, `exp()`:
+
+```{r}
+sqrt(415)
+```
+```{r}
+x <- 524
+log(x)
+```
+```{r}
+exp(1)
+```
+
+Mathematical functions are only one of many types of functions we'll be using in R.  For example, we can use functions that work on strings:
+
+```{r}
+tolower('Capitalized Text')
+```
+
+There are, of course, functions that take no parameters, and functions that take more than one parameter:
+
+```{r}
+round(3.9472, digits = 2)
+```
+
+Notice in the above example that the `digits` parameter is optional.  If we leave it out, `round()` still works, because it has a **default** value for `digits` of 0:
+
+```{r}
+round(3.9472)
+```
+
+> ## Tip: Getting help on a function
+>
+> Nobody (not even the authors of this material) has memorized all of the functions in R.
+> Looking up how to use a function is typically something you would do frequently while using R.
+> 
+> While you can certainly search the internet to learn more about an R function, RStudio provides several ways to read about a fucntion:
+> 
+> * At the RStudio Console, you can type `?` and then the name of a function.  For example, you might type `?round` and the Help pane, in the lower right area, will open up the documentation for that function.
+>
+> * If you're not sure which function you need, you can search for it by either:
+>   * Typing in the search bar in the Help pane, or
+>   * Typing `??` in the Console, followed by the text you want to search on.
+>
+{: .callout}
+
+Later we'll create and use our own functions!
+
+
+# Moving between data types: Coercion
+
+Sometimes you have data as one type, but would like to "force" it to be a different type.  As an example, you might have "120" as text (character) data, but you'd like to treat it as a number, not text.  We'll see later that one place this can occur is when you're reading data into R from a file, and R makes some assumptions about the types of the data values.
+
+R has a set of functions that start with `as.` which can help convert types:
+
+```{r}
+as.numeric("120.6")
+```
+
+```{r}
+as.logical("True")
+```
+
+> ## Exercise
+> 
+> What happens when you try to coerce something that doesn't "fit" as the target type?  For example:
+> 1. What happens when you try to coerce text with letters to a number?
+> 2. What happens when you try to coerce text other than "true" or "false" to a logical value?
+> 3. What happens when you try to coerce a floating-point number to an integer (and what function would you use to coerce to an integer?)
+>
+> > ## Solution
+> > 1.  This results in an NA (note the warning as well)
+> > ```{r}
+> > as.numeric("abc")
+> > ```
+> > 2.  This also results in an NA
+> > ```{r}
+> > as.logical("maybe")
+> > ```
+> > 3.  You can use `as.integer()` and it will round the number to the nearest integer:
+> > ```{r}
+> > as.integer("11.82")
+> > ```
+> {: .solution}
+{: .challenge}
+
+
+# Logical expressions
+
+Earlier we created a variable and set its value to `TRUE`.   We can also evaluate R expressions whose value will be `TRUE` or `FALSE` (or `NA`).
+
+Although there are other types of expressions that evaluate to a logical value, logical expressions involving numerical quantities will often use operators like `<` (less than), `>` (greater than), `<=` (less than or equal to), `>=` (greater than or equal to), `==` (equal to), `!=` (not equal to)
+
+
+> ## Discussion
+> 
+> 1. Why does R need a separate `==` operator to express equality?  Why not use `=`?
+>
+> > ## Solution
+> >
+> > In R, `=` is similar to `<-` in that, depending on the context, it can set the value on the left to the value on the right.  So an expression like `x == 3` would return `TRUE` or `FALSE` depending on whether or not `x` is equal to 3, but `x = 3` would _set_ `x` to 3.
+> {: .solution}
+{: .challenge}
+
+We can also use logical operators in logical expressions, such as `&` (and), `|` (or), `!` (not).
+
+As with mathematical expressions, using parentheses can help clarify your code and avoid having to remember the order of operations:
+
+```{r}
+heart_rate <- 72
+blood_pressure_category <- "Normal"
+
+(heart_rate < 96) & (blood_pressure_category == "Normal")
+```
+
+
+
+TODO:  Make the rest a new section
+
+
+# Vectors and Atomic vectors
+
+As R is built around working with statistics, an important construct in R is the **vector**.  A vector is a list or sequence of values.
+
+note coercion that occurs - exercise re: which types win
+
+
+# Functions, Revisited -- with Vectors
+
+
 
 
 ## TODO: Logicals - counting up values
