@@ -1,18 +1,19 @@
 ---
 title: "Creating summary tables"
+keypoints:
+- Use `stargazer` package to make beautiful tables
+- Use R functions to export data (in different formats?)
+objectives:
+- make a new variable from other(s) - e.g. log transform
+- Create a categorical (0/1) out of continuous
+- Stratify
+output: pdf_document
+questions:
+- How can I create a 'Table 1' style table?
+- How can export tables and data
+source: Rmd
 teaching: 45
 exercises: 10
-questions:
-- "How can I create a 'Table 1' style table?"
-- "How can export tables and data"
-objectives:
-- "make a new variable from other(s) - e.g. log transform"
-- "Create a categorical (0/1) out of continuous"
-- "Stratify"
-keypoints:
-- "Use `stargazer` package to make beautiful tables"
-- "Use R functions to export data (in different formats?)"
-source: Rmd
 ---
 
 ```{r, include=FALSE}
@@ -23,5 +24,44 @@ knitr_fig_path("09-")
 ```{r, include=FALSE}
 library(dplyr)
 analysis_swan_df <- read.csv('data_out/analysis_swan_df_08.csv')
+```
+
+One of the most useful things in public health data analysis or studies is the use of tables that compare baseline characteristics between two treatment groups.  So for example, in a clinical trial study, we may have a treatment group and a placebo group.  Before we can compare the two groups for the effect of treatment on the treatment group, we want to ensure that the underlying characteristics between the two groups are the same/similar so we are comparing apple to apples. 
+
+First table that is often created in Epidemiology studies is referred to as "Table 1". 
+
+```
+The first table in many papers gives an overview of the study population and its characteristics, usually giving numbers and percentages of the study population in different categories (e.g. by sex, educational attainment, smoking status) and summaries of measured characteristics (continuous variables) of the participants (e.g. age, height, body mass index).
+
+Inskip, H., Ntani, G., Westbury, L. et al. Getting started with tables. Arch Public Health 75, 14 (2017) doi:10.1186/s13690-017-0180-1
+```
+
+```{r}
+str(analysis_swan_df)
+```
+# Creating Table 1 - Demographics:
+```{r}
+library(tableone)
+
+varlist = c('Age', 'RACE', 'BMI', 'Glucose', 'Smoker', 'LDL', 'HDL', 'CRP', 'bp_category', 'Exercise', 'Chol_Ratio')
+
+factorvarlist = c('RACE', 'Smoker', 'bp_category', 'Exercise')
+```
+
+# For overall values
+```{r}
+(CreateTableOne(data = analysis_swan_df,
+                        vars = varlist, factorVars = factorvarlist))
+```
+
+```{r}
+kableone(CreateTableOne(data = analysis_swan_df,
+                        vars = varlist, factorVars = factorvarlist))
+```
+
+# For each BMI category
+```{r}
+kableone(CreateTableOne(data = analysis_swan_df,
+                        vars = varlist, factorVars = factorvarlist, strata = "BMI_cat"))
 ```
 
