@@ -17,7 +17,11 @@ source: Rmd
 
 ```{r, include=FALSE}
 source("../bin/chunk-options.R")
-knitr_fig_path("01-")
+knitr_fig_path("09-")
 ```
 
-# TODO
+```{r, include=FALSE}
+library(dplyr)
+analysis_swan_df <- read.csv('data_out/analysis_swan_df_08.csv')
+```
+

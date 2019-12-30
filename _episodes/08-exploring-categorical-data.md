@@ -342,58 +342,252 @@ table(analysis_swan_df$Smoker)
 
 
 
-# TODO Race variable factorize
+Let's look at our last categorical vaiable `Race` which is also still an `integer`. We will factorize this variable as well and rename the levels as follows: `Black`, `Chinese`, `Japanese`, `Caucasian`, `Hispanic`. 
 
-<!-- #TODO: do all below -->
-<!-- ```{r} -->
-<!-- analysis_swan_df$BMI_cat <- cut(analysis_swan_df$BMI6, breaks = c(0, 18.5, 25.0, 30.0, 35.0, 40, 100), labels = c("Underweight", "Normal", "Pre-obese", "Obesity I", "Obesity II", "Obesity III"), right = FALSE) -->
-
-<!-- analysis_swan_df$BMI_cat <- relevel(analysis_swan_df$BMI_cat, "Normal") #this sets "normal" as the reference category. -->
-
-<!-- summary(analysis_swan_df$BMI_cat) -->
-<!-- ``` -->
+~~~
+str(analysis_swan_df$RACE)
+~~~
+{: .language-r}
 
 
 
-<!-- BLOOD PRESSURE CATEGORIES: -->
-<!-- https://www.heart.org/-/media/data-import/downloadables/pe-abh-what-is-high-blood-pressure-ucm_300310.pdf -->
+~~~
+ int [1:2424] 2 4 1 3 2 4 1 4 4 4 ...
+~~~
+{: .output}
 
-<!-- 6. Let's create catgegories for variables we are intersted in. -->
-<!-- ```{r, eval=TRUE} -->
-<!-- bp_cat <- function(sbp, dbp) { -->
-<!--  if (is.na(sbp) | is.na(dbp)){ -->
-<!--    return(NA) -->
-<!--  } -->
-<!--   #if (sbp>=180 | dbp >=120) { -->
-<!--    # return("Hypertensive Crisis") -->
-<!--   #} -->
-<!-- if (sbp>=140 | dbp >=90) { -->
-<!--     return("Hypertension Stage 2+") -->
-<!--   } -->
+As an integer vector, if we try to do `levels` on this variable, we will get `NULL`. 
 
-<!-- if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) { -->
-<!--     return("Hypertension Stage 1") -->
-<!--   } -->
-
-<!--  if ((sbp>=120 & sbp<=129) &  dbp <80) { -->
-<!--     return("Elevated") -->
-<!--   } -->
-
-<!--   if (sbp < 120 & dbp <80) { -->
-<!--     return("Normal")  -->
-<!--   } -->
-<!-- }  -->
-<!-- ```   -->
+~~~
+levels(analysis_swan_df$RACE)
+~~~
+{: .language-r}
 
 
-<!-- ```{r, eval=TRUE} -->
-<!-- # Converting Blood pressure into categories -->
-<!-- analysis_swan_df$bp_category <- mapply(bp_cat, analysis_swan_df$SBP, analysis_swan_df$DBP) -->
 
-<!-- str(analysis_swan_df$bp_category) -->
-<!-- analysis_swan_df$bp_category <- as.factor(analysis_swan_df$bp_category) -->
-<!-- analysis_swan_df$bp_category <- relevel(analysis_swan_df$bp_category, "Normal") #this sets "normal" as the reference category. -->
-<!-- ``` -->
+~~~
+NULL
+~~~
+{: .output}
+
+Once we factorize it, it should show us the actual `categories`. 
+
+~~~
+analysis_swan_df$RACE <- as.factor(analysis_swan_df$RACE)
+~~~
+{: .language-r}
+
+Let's recheck the levels 
+
+~~~
+levels(analysis_swan_df$RACE)
+~~~
+{: .language-r}
+
+
+
+~~~
+[1] "1" "2" "3" "4" "5"
+~~~
+{: .output}
+
+Next, we want to rename: 
+
+~~~
+levels(analysis_swan_df$RACE) <- c('Black','Chinese', 
+                          'Japanese', 'Caucasian',
+                          'Hispanic')
+~~~
+{: .language-r}
+
+Let's take a look at the whole dataframe before we move forward
+
+~~~
+str(analysis_swan_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+'data.frame':	2424 obs. of  14 variables:
+ $ SWANID    : int  10046 10056 10126 10153 10196 10245 10484 10514 10522 10532 ...
+ $ Age       : int  58 57 54 57 52 54 56 52 52 49 ...
+ $ RACE      : Factor w/ 5 levels "Black","Chinese",..: 2 4 1 3 2 4 1 4 4 4 ...
+ $ BMI       : num  35.6 19.8 26.4 31.6 22.3 ...
+ $ Glucose   : int  116 89 82 85 80 88 111 101 83 91 ...
+ $ Smoker    : Factor w/ 2 levels "No","Yes": NA NA NA NA NA NA NA NA NA NA ...
+ $ LDL       : int  137 90 136 154 130 129 93 137 103 128 ...
+ $ HDL       : int  48 78 57 55 59 83 47 39 65 41 ...
+ $ CRP       : num  8.7 0.5 1.5 2.7 0.3 1.3 7.4 1.3 1.1 1.5 ...
+ $ DBP       : int  72 62 80 68 62 64 68 70 58 70 ...
+ $ SBP       : int  134 96 102 108 94 94 130 124 102 118 ...
+ $ Exercise  : Factor w/ 2 levels "No","Yes": 2 2 NA 2 2 1 2 2 2 NA ...
+ $ log_CRP   : num  2.163 -0.693 0.405 0.993 -1.204 ...
+ $ Chol_Ratio: num  3.85 2.15 3.39 3.8 3.2 ...
+~~~
+{: .output}
+
+Now that variables have been fixed, we want to use these variables in a meaningful way.  BMI is a good indicator of health and is often expressed as categories rather than as continuous changes in values.
+
+
+We are going to use the `cut()` function to create BMI categories. Let's see how the documentation describes `cut()`. 
+
+```
+Cut divides the range of x into intervals and codes the values in x according to which interval they fall. The leftmost interval corresponds to level one, the next leftmost to level two and so on.
+```
+We should note that the result of cut is a factor variable. 
+
+~~~
+analysis_swan_df$BMI_cat <- cut(analysis_swan_df$BMI, breaks = c(0, 18.5, 25.0, 30.0, 35.0, 40, 100), labels = c("Underweight", "Normal", "Pre-obese", "Obesity I", "Obesity II", "Obesity III"), right = FALSE)
+~~~
+{: .language-r}
+
+We have ow created a new factor variable `BMI_cat`. 
+
+~~~
+str(analysis_swan_df$BMI_cat)
+~~~
+{: .language-r}
+
+
+
+~~~
+ Factor w/ 6 levels "Underweight",..: 5 2 3 4 2 3 4 4 2 4 ...
+~~~
+{: .output}
+
+Let's see how the categories came out and whether we need to `relevel()` to change the reference category to one that may be more meaningful for comparison.
+
+~~~
+summary(analysis_swan_df$BMI_cat)
+~~~
+{: .language-r}
+
+
+
+~~~
+Underweight      Normal   Pre-obese   Obesity I  Obesity II Obesity III 
+         30         725         590         372         228         174 
+       NA's 
+        305 
+~~~
+{: .output}
+
+
+~~~
+analysis_swan_df$BMI_cat <- relevel(analysis_swan_df$BMI_cat, "Normal") #this sets "normal" as the reference category.
+~~~
+{: .language-r}
+
+Once we relevel, we can see that `Normal` is now the first category. 
+
+~~~
+summary(analysis_swan_df$BMI_cat)
+~~~
+{: .language-r}
+
+
+
+~~~
+     Normal Underweight   Pre-obese   Obesity I  Obesity II Obesity III 
+        725          30         590         372         228         174 
+       NA's 
+        305 
+~~~
+{: .output}
+
+Similar to BMI, we want to assess blood pressure readings as one categorical variable.  This will be a function of two numbers. 
+
+We will use blood pressure categories defined by the American Heart Association (AHA). https://www.heart.org/-/media/data-import/downloadables/pe-abh-what-is-high-blood-pressure-ucm_300310.pdf
+
+We previously learned that we can our own functions in R. 
+
+We want a new variable in the dataframe that is a function of the two continuous variables `SBP` and `DBP` and is itself a categorical variable. Unlike above where we computed `Chol_Ratio`, we can't just use simple math or build-in functions to compute the blood pressure categories.  We need to apply the rules as defined by the AHA categories.  For this, we will need to create our own function.  We previously learned how to do this in Episode 3.  
+
+Let's call this function `bp_cat`.  We want it to work like this: 
+For a subject with normal blood pressure reading of 118/75 mmHg, `bp_cat(120, 80)` should return the string `Normal`.  For a subject whose blood pressure readings are `bp_cat(122, 76)` returns `Elevated`. 
+
+One other thing we might wanna consider is that we often have missing data and the function should return `NA` in that case.  
+
+
+~~~
+bp_cat <- function(sbp, dbp) {
+ if (is.na(sbp) | is.na(dbp)){
+   return(NA)
+ }
+  #if (sbp>=180 | dbp >=120) {
+   # return("Hypertensive Crisis")
+  #}
+if (sbp>=140 | dbp >=90) {
+    return("Hypertension Stage 2+")
+  }
+
+if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) {
+    return("Hypertension Stage 1")
+  }
+
+ if ((sbp>=120 & sbp<=129) &  dbp <80) {
+    return("Elevated")
+  }
+
+  if (sbp < 120 & dbp <80) {
+    return("Normal")
+  }
+}
+~~~
+{: .language-r}
+
+#TODO: Explain mapply
+
+~~~
+# Converting Blood pressure into categories
+analysis_swan_df$bp_category <- mapply(bp_cat, analysis_swan_df$SBP, analysis_swan_df$DBP)
+~~~
+{: .language-r}
+
+
+~~~
+str(analysis_swan_df$bp_category)
+~~~
+{: .language-r}
+
+
+
+~~~
+ chr [1:2424] "Hypertension Stage 1" "Normal" "Hypertension Stage 1" ...
+~~~
+{: .output}
+
+
+~~~
+analysis_swan_df$bp_category <- as.factor(analysis_swan_df$bp_category)
+~~~
+{: .language-r}
+
+
+~~~
+analysis_swan_df$bp_category <- relevel(analysis_swan_df$bp_category, "Normal") #this sets "normal" as the reference category.
+~~~
+{: .language-r}
+
+
+~~~
+summary(analysis_swan_df$bp_category)
+~~~
+{: .language-r}
+
+
+
+~~~
+               Normal              Elevated  Hypertension Stage 1 
+                 1105                   269                   456 
+Hypertension Stage 2+                  NA's 
+                  302                   292 
+~~~
+{: .output}
+
+
 
 ## Introduction goes here
 
