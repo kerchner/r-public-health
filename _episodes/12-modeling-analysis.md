@@ -23,7 +23,412 @@ source: Rmd
 
 
 
-## Introduction goes here
 
+
+***Regression Models***
+Outcome: Fasting glucose - continuous
+Use cut-off of 0.20
+
+~~~
+glm_bp <- glm(Glucose ~ bp_category, data = analysis_swan_df)
+summary(glm_bp) # p<0.001 --> KEEP
+~~~
+{: .language-r}
+
+
+
+~~~
+
+Call:
+glm(formula = Glucose ~ bp_category, data = analysis_swan_df)
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-46.77  -12.32   -6.32    1.88  548.60  
+
+Coefficients:
+                                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                        97.124      1.915  50.721  < 2e-16 ***
+bp_categoryHypertension Stage 1     1.648      2.427   0.679  0.49729    
+bp_categoryHypertension Stage 2+    1.198      2.679   0.447  0.65488    
+bp_categoryNormal                  -6.723      2.136  -3.148  0.00167 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 916.6815)
+
+    Null deviance: 1811984  on 1947  degrees of freedom
+Residual deviance: 1782029  on 1944  degrees of freedom
+  (476 observations deleted due to missingness)
+AIC: 18821
+
+Number of Fisher Scoring iterations: 2
+~~~
+{: .output}
+
+
+
+~~~
+glm_age <- glm(Glucose ~ Age, data = analysis_swan_df)
+summary(glm_age) # p<0.001 --> KEEP
+~~~
+{: .language-r}
+
+
+
+~~~
+
+Call:
+glm(formula = Glucose ~ Age, data = analysis_swan_df)
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-46.58  -12.64   -6.82    1.74  545.05  
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  78.0139    13.5767   5.746 1.05e-08 ***
+Age           0.3125     0.2606   1.199    0.231    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 968.8384)
+
+    Null deviance: 1927443  on 1989  degrees of freedom
+Residual deviance: 1926051  on 1988  degrees of freedom
+  (434 observations deleted due to missingness)
+AIC: 19335
+
+Number of Fisher Scoring iterations: 2
+~~~
+{: .output}
+
+
+
+~~~
+glm_bmi <- glm(Glucose ~ BMI_cat, data = analysis_swan_df)
+summary(glm_bmi) # p<0.001 --> KEEP
+~~~
+{: .language-r}
+
+
+
+~~~
+
+Call:
+glm(formula = Glucose ~ BMI_cat, data = analysis_swan_df)
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-50.16  -11.56   -4.65    2.63  538.53  
+
+Coefficients:
+                   Estimate Std. Error t value Pr(>|t|)    
+(Intercept)          86.366      1.127  76.617  < 2e-16 ***
+BMI_catObesity I     14.104      1.965   7.178 1.01e-12 ***
+BMI_catObesity II    17.796      2.348   7.580 5.34e-14 ***
+BMI_catObesity III   24.680      2.639   9.353  < 2e-16 ***
+BMI_catPre-obese      5.284      1.696   3.116  0.00186 ** 
+BMI_catUnderweight   -3.952      5.578  -0.709  0.47871    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 865.325)
+
+    Null deviance: 1798449  on 1938  degrees of freedom
+Residual deviance: 1672673  on 1933  degrees of freedom
+  (485 observations deleted due to missingness)
+AIC: 18624
+
+Number of Fisher Scoring iterations: 2
+~~~
+{: .output}
+
+
+
+~~~
+glm_hdl_ldl <- glm(Glucose ~ Chol_Ratio, data = analysis_swan_df)
+summary(glm_hdl_ldl) # p<0.001 --> KEEP
+~~~
+{: .language-r}
+
+
+
+~~~
+
+Call:
+glm(formula = Glucose ~ Chol_Ratio, data = analysis_swan_df)
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-50.62  -11.71   -5.84    2.27  541.86  
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  77.1128     2.5636   30.08  < 2e-16 ***
+Chol_Ratio    5.1286     0.7712    6.65 3.79e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 860.7151)
+
+    Null deviance: 1723341  on 1959  degrees of freedom
+Residual deviance: 1685280  on 1958  degrees of freedom
+  (464 observations deleted due to missingness)
+AIC: 18811
+
+Number of Fisher Scoring iterations: 2
+~~~
+{: .output}
+
+
+
+~~~
+# NOTE: since we are creating a ratio of HDL to LDL, we dont even need to evaluate LDL and HDL alone.
+
+glm_race <- glm(Glucose ~ RACE, data = analysis_swan_df)
+summary(glm_race) # p=0.207 is the smallest --> can keep but can also drop. let's see what the stepwise does. 
+~~~
+{: .language-r}
+
+
+
+~~~
+
+Call:
+glm(formula = Glucose ~ RACE, data = analysis_swan_df)
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-50.88  -12.60   -6.09    2.29  546.91  
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)     98.877      1.301  75.986  < 2e-16 ***
+RACECaucasian   -6.785      1.631  -4.160 3.31e-05 ***
+RACEChinese     -5.280      2.594  -2.035   0.0419 *  
+RACEHispanic    -3.127      7.861  -0.398   0.6909    
+RACEJapanese    -6.212      2.459  -2.526   0.0116 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 961.7544)
+
+    Null deviance: 1927512  on 1990  degrees of freedom
+Residual deviance: 1910044  on 1986  degrees of freedom
+  (433 observations deleted due to missingness)
+AIC: 19333
+
+Number of Fisher Scoring iterations: 2
+~~~
+{: .output}
+
+
+
+~~~
+glm_exercise <- glm(Glucose ~ Exercise, data = analysis_swan_df)
+summary(glm_exercise) # p<0.001 --> KEEP
+~~~
+{: .language-r}
+
+
+
+~~~
+
+Call:
+glm(formula = Glucose ~ Exercise, data = analysis_swan_df)
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-46.69  -11.69   -5.64    2.36  540.31  
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   98.688      1.275  77.387  < 2e-16 ***
+ExerciseYes   -7.052      1.502  -4.694 2.87e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 853.7849)
+
+    Null deviance: 1621367  on 1878  degrees of freedom
+Residual deviance: 1602554  on 1877  degrees of freedom
+  (545 observations deleted due to missingness)
+AIC: 18019
+
+Number of Fisher Scoring iterations: 2
+~~~
+{: .output}
+
+
+
+~~~
+glm_crp <- glm(Glucose ~ CRP, data = analysis_swan_df)
+summary(glm_crp) # p<0.001 --> KEEP
+~~~
+{: .language-r}
+
+
+
+~~~
+
+Call:
+glm(formula = Glucose ~ CRP, data = analysis_swan_df)
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-91.35  -11.84   -6.09    1.99  540.75  
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  90.8420     0.7979 113.852  < 2e-16 ***
+CRP           0.8321     0.1041   7.995 2.18e-15 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 922.2585)
+
+    Null deviance: 1886871  on 1983  degrees of freedom
+Residual deviance: 1827916  on 1982  degrees of freedom
+  (440 observations deleted due to missingness)
+AIC: 19179
+
+Number of Fisher Scoring iterations: 2
+~~~
+{: .output}
+
+<!-- #TODO Fix smoker glm and do everything below -->
+<!-- ```{r} -->
+<!-- glm_smoke <- glm(Glucose ~ Smoker, data = analysis_swan_df) -->
+<!-- summary(glm_smoke) # p=0.0329 --> KEEP B/C LESS THAN 0.05 -->
+
+<!-- ``` -->
+
+<!-- # **** REMOVE BOTH OF THESE HDL AND LDL MODELS********* -->
+<!-- ```{r} -->
+<!-- glm_hdl <- glm(Glucose ~ HDL, data = analysis_swan_df) -->
+<!-- summary(glm_hdl) # p<0.001 --> KEEP -->
+
+<!-- glm_ldl <- glm(Glucose ~ LDL, data = analysis_swan_df) -->
+<!-- summary(glm_ldl) # p=0.55--> DO NOT KEEP  -->
+
+<!-- ``` -->
+
+<!-- ***INTERACTION TERMS*** -->
+<!-- ```{r} -->
+<!-- analysis_swan_df$age_hdl_ldl <- analysis_swan_df$HDL_LDL * analysis_swan_df$AGE6 -->
+<!-- ``` -->
+
+
+
+<!-- *Full Models* -->
+<!-- ```{r} -->
+<!-- full_model <- glm(Glucose ~ BMI_cat + bp_category  + AGE6 + -->
+<!--                     HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl, data = analysis_swan_df) -->
+<!-- summary(full_model) -->
+<!-- ``` -->
+
+<!-- Plotting residuals -->
+<!-- ```{r} -->
+<!-- plot(resid(full_model)) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- rst <- rstandard(full_model) -->
+<!-- qqnorm(rst, ylab = "Standardized Residuals",  -->
+<!--        xlab = "Normal Scores") -->
+<!-- qqline(rst) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- analysis_swan_df$cooksd <- cooks.distance(full_model) -->
+<!-- cooksd_cutoff <- 4/nrow(analysis_swan_df) -->
+
+<!-- plot(analysis_swan_df$cooksd) -->
+<!-- abline(cooksd_cutoff, 0) -->
+<!-- ``` -->
+
+<!-- Dropping outliers -->
+<!-- ```{r} -->
+<!-- analysis_swan_df2 <- analysis_swan_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd) -->
+
+<!-- full_model <- glm(Glucose ~ BMI_cat + bp_category  + AGE6 + -->
+<!--                     HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl,  -->
+<!--                     data = analysis_swan_df2) -->
+<!-- summary(full_model) -->
+<!-- ``` -->
+
+<!-- Plotting residuals -->
+<!-- ```{r} -->
+<!-- plot(resid(full_model)) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- rst <- rstandard(full_model) -->
+<!-- qqnorm(rst, ylab = "Standardized Residuals",  -->
+<!--        xlab = "Normal Scores") -->
+<!-- qqline(rst) -->
+<!-- ``` -->
+
+
+<!-- Cleaning data even further:  -->
+<!-- remove: -->
+<!-- triglycerides > 500 mg/dl -->
+<!-- HDL > 100 mg/dl -->
+<!-- Fasting glucose >=126 mg/dl -->
+<!-- ```{r} -->
+<!-- analysis_swan_df <- analysis_swan_df %>% filter(DBP>0 &  -->
+<!--                                        HDL <=100 & -->
+<!--                                         Glucose <126) -->
+<!-- # dropping HDL >100 b/c that high level is actually bad for the heart - genetic issue -->
+<!-- #fasting glycose of >=126 mg/dl is considered T2D -->
+<!-- nrow(analysis_swan_df) -->
+
+
+<!-- full_model <- glm(Glucose ~ BMI_cat + bp_category  + AGE6 + -->
+<!--                     HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl, -->
+<!--                     data = analysis_swan_df2) -->
+<!-- summary(full_model) -->
+<!-- ``` -->
+
+<!-- Dropping outliers -->
+<!-- ```{r} -->
+<!-- analysis_swan_df2 <- analysis_swan_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd) -->
+
+<!-- full_model <- glm(Glucose ~ BMI_cat + bp_category  + AGE6 + -->
+<!--                     HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl,  -->
+<!--                   data = analysis_swan_df2) -->
+<!-- summary(full_model) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- rst <- rstandard(full_model) -->
+<!-- qqnorm(rst, ylab = "Standardized Residuals",  -->
+<!--        xlab = "Normal Scores") -->
+<!-- qqline(rst) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- library(MASS) -->
+<!-- # Stepwise regression model -->
+<!-- step.model <- stepAIC(full_model, direction = "backward",  -->
+<!--                       trace = TRUE ) -->
+<!-- summary(step.model) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- rst <- rstandard(full_model) -->
+<!-- qqnorm(rst, ylab = "Standardized Residuals",  -->
+<!--        xlab = "Normal Scores") -->
+<!-- qqline(rst) -->
+
+<!-- library(car) -->
+
+<!-- vif(glm(Glucose ~ BMI_cat + bp_category  + AGE6 +HDL_LDL + RACE + CRP +  -->
+<!--           SMOKERE6 + EXERCIS6, data=analysis_swan_df2)) -->
+<!-- # VIF has to be <=1 ??? -->
+
+<!-- pairs(analysis_swan_df2 %>% dplyr::select(AGE6,  HDL_LDL)) -->
+<!-- ``` -->
 
 
