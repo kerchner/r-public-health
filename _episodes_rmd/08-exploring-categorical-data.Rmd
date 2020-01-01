@@ -246,7 +246,9 @@ summary(analysis_swan_df$bp_category)
 ```
 
 ```{r, include=FALSE}
-write.csv(analysis_swan_df, 'data_out/analysis_swan_df_08.csv', row.names = FALSE)
+# Save as RData format
+saveRDS(analysis_swan_df, file = "data_out/analysis_swan_df_08.rds")
+
 ```
 
 ## Introduction goes here

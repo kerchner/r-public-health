@@ -1,5 +1,5 @@
 ---
-title: "Visualizing relationships between data"
+title: "Creating univariate regression models"
 teaching: 45
 exercises: 10
 questions:
@@ -26,17 +26,70 @@ knitr_fig_path("08-")
 
 ```{r, include=FALSE}
 library(dplyr)
-analysis_swan_df <- read.csv('data_out/analysis_swan_df_08.csv')
+
+analysis_swan_df <- readRDS(file = "data_out/analysis_swan_df_08.rds")
 colnames(analysis_swan_df)
 ```
 
-***Regression Models***
-Outcome: Fasting glucose - continuous
-Use cut-off of 0.20
-```{r}
-glm_bp <- glm(Glucose ~ bp_category, data = analysis_swan_df)
-summary(glm_bp) # p<0.001 --> KEEP
+# Regression models in R
 
+Now that we have cleaned up the variables in our data frame, and are sufficiently satisfied that the variables of interest meet our assumptions for regression, we can proceed with building regression models.
+
+Most of the commonly-used statistical tests and model-building functions are in R's built-in `stats` package, although there are certainly many other packages available with additional statistical functionality.
+
+For simple linear regression, we can use the `lm()` function (`lm` stands for "linear model").  R also provides `glm()` for more generalized regression, which you can use not only for linear regression but also for logistic regression, Poisson regression, etc.  R's `stats()` package also has `anova()` and many other commonly used statistical computations.
+
+We'll need to specify some parameters when we use `lm()`.  At a minumum, we need to specify:
+* The data frame containing our data
+* The formula for the model we'd like to fit.  In other words, which variable in our data frame is the "y" variable, and which combination of "x" variables are we including in our model.
+
+There are other optional parameters available in `lm()` as well.
+
+Our outcome variable of interest is `Glucose` which is a continuous variable, so linear regression is appropriate.  (If our outcome variable was a categorical variable, we'd be performing a logistic regression, for which we'd need to use `glm()`)
+
+Before we build a full model, we will first assess the individual impact of each variable, independently, on the outcome, by conducting univariate regressions on each variable versus the outcome.
+
+As we build these models, we'll keep an eye on the R-squared values and the F-test values.  We'll also decide on a cutoff for a *p*-value as a criteria for which variables to include in the multivariate model.  Let's use a *p*-value cutoff of 0.15.
+
+For our first univariate model, we'll try fitting the following model:
+
+\[
+Glucose = \beta_0 + \beta_1bp\_category + \varepsilon
+\]
+
+Where \[\beta_0\] is the y-intercept and \[\beta_1\] is the slope, and \[\varepsilon\] is the error term.
+
+To compute this regression using `lm()`, we need to specify the `forumla` parameter and the `data` parameter.
+
+The `formula` parameter expects an R formula object, which is expressed using a tilde (`~`) to relate a "y" variable to an expression containing "x" variables.  For example, formulas might look like:
+
+`y ~ x`
+`lung_cancer ~ smoker + age + gender + income`
+
+Formulas can also include [interaction terms](https://en.wikipedia.org/wiki/Interaction_(statistics)):
+
+`y ~ x1 + x2 + x1*x2`
+
+Note that the names of the variables must be variables that are present in the data frame specified in the `data` parameter.
+
+In our case, we have a relatively simple univariate model where `Glucose` is the "y" variable, and `bp_category` is our only "x" variable:
+
+`Glucose ~ bp_category`
+
+We'll store the resule of the regression in a variable we'll call `lm_bp`: 
+
+```{r}
+lm_bp <- lm(formula = Glucose ~ bp_category, data = analysis_swan_df)
+```
+
+Let's now take a look at the model that `lm()` computed:
+
+```{r}
+summary(lm_bp) # p<0.001 --> KEEP
+```
+
+
+```{r}
 glm_age <- glm(Glucose ~ Age, data = analysis_swan_df)
 summary(glm_age) # p<0.001 --> KEEP
 

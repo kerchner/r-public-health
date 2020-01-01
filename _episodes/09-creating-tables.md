@@ -82,16 +82,16 @@ factorvarlist = c('RACE', 'Smoker', 'bp_category', 'Exercise')
 
 
 ~~~
-Warning in ModuleReturnVarsExist(vars, data): These variables only have NA/
-NaN: Smoker Dropped
+Warning in ModuleReturnVarsExist(vars, data): These variables only have NA/NaN:
+Smoker Dropped
 ~~~
 {: .error}
 
 
 
 ~~~
-Warning in ModuleReturnVarsExist(factorVars, data): These variables only
-have NA/NaN: Smoker Dropped
+Warning in ModuleReturnVarsExist(factorVars, data): These variables only have
+NA/NaN: Smoker Dropped
 ~~~
 {: .error}
 
@@ -133,16 +133,16 @@ kableone(CreateTableOne(data = analysis_swan_df,
 
 
 ~~~
-Warning in ModuleReturnVarsExist(vars, data): These variables only have NA/
-NaN: Smoker Dropped
+Warning in ModuleReturnVarsExist(vars, data): These variables only have NA/NaN:
+Smoker Dropped
 ~~~
 {: .error}
 
 
 
 ~~~
-Warning in ModuleReturnVarsExist(factorVars, data): These variables only
-have NA/NaN: Smoker Dropped
+Warning in ModuleReturnVarsExist(factorVars, data): These variables only have
+NA/NaN: Smoker Dropped
 ~~~
 {: .error}
 
@@ -182,16 +182,16 @@ kableone(CreateTableOne(data = analysis_swan_df,
 
 
 ~~~
-Warning in ModuleReturnVarsExist(vars, data): These variables only have NA/
-NaN: Smoker Dropped
+Warning in ModuleReturnVarsExist(vars, data): These variables only have NA/NaN:
+Smoker Dropped
 ~~~
 {: .error}
 
 
 
 ~~~
-Warning in ModuleReturnVarsExist(factorVars, data): These variables only
-have NA/NaN: Smoker Dropped
+Warning in ModuleReturnVarsExist(factorVars, data): These variables only have
+NA/NaN: Smoker Dropped
 ~~~
 {: .error}
 
