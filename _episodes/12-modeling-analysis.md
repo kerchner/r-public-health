@@ -21,6 +21,8 @@ keypoints:
 source: Rmd
 ---
 
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
 
 
 
@@ -47,17 +49,18 @@ As we build these models, we'll keep an eye on the R-squared values and the F-te
 
 For our first univariate model, we'll try fitting the following model:
 
-\[
+$$
 Glucose = \beta_0 + \beta_1bp\_category + \varepsilon
-\]
+$$
 
-Where \[\beta_0\] is the y-intercept and \[\beta_1\] is the slope, and \[\varepsilon\] is the error term.
+Where $$\beta_0$$ is the y-intercept and $$\beta_1$$ is the slope, and $$\varepsilon$$ is the error term.
 
 To compute this regression using `lm()`, we need to specify the `forumla` parameter and the `data` parameter.
 
 The `formula` parameter expects an R formula object, which is expressed using a tilde (`~`) to relate a "y" variable to an expression containing "x" variables.  For example, formulas might look like:
 
 `y ~ x`
+
 `lung_cancer ~ smoker + age + gender + income`
 
 Formulas can also include [interaction terms](https://en.wikipedia.org/wiki/Interaction_(statistics)):
