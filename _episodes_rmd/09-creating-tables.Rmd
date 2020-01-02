@@ -23,7 +23,7 @@ knitr_fig_path("09-")
 
 ```{r, include=FALSE}
 library(dplyr)
-analysis_swan_df <- read.csv('data_out/analysis_swan_df_08.csv')
+analysis_swan_df <- readRDS('data_out/analysis_swan_df_08.rds')
 ```
 
 One of the most useful things in public health data analysis or studies is the use of tables that compare baseline characteristics between two treatment groups.  So for example, in a clinical trial study, we may have a treatment group and a placebo group.  Before we can compare the two groups for the effect of treatment on the treatment group, we want to ensure that the underlying characteristics between the two groups are the same/similar so we are comparing apple to apples. 

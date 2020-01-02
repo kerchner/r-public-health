@@ -23,7 +23,7 @@ source: Rmd
 
 ```{r, include=FALSE}
 source("../bin/chunk-options.R")
-knitr_fig_path("08-")
+knitr_fig_path("12-")
 ```
 
 ```{r, include=FALSE}
@@ -75,176 +75,91 @@ Formulas can also include [interaction terms](https://en.wikipedia.org/wiki/Inte
 
 Note that the names of the variables must be variables that are present in the data frame specified in the `data` parameter.
 
-In our case, we have a relatively simple univariate model where `Glucose` is the "y" variable, and `bp_category` is our only "x" variable:
+In our case, we have a relatively simple univariate model where `Glucose` is the "y" variable, and `BMI_cat` is our only "x" variable:
 
-`Glucose ~ bp_category`
+`Glucose ~ BMI_cat`
 
-We'll store the resule of the regression in a variable we'll call `lm_bp`: 
+We'll store the resule of the regression in a variable we'll call `lm_bmi`: 
+
+```{r}
+lm_bmi <- lm(Glucose ~ BMI_cat, data = analysis_swan_df)
+summary(lm_bmi) # p<0.001 for all categories except underweight--> KEEP
+```
+
+Let's now take a look at the model that `lm()` computed:
+#TODO functions that pull out different pieces of lm. 
+Note that reference level is "normal" which is not shown as one of the categories of bp_category. 
+
+
+```{r}
+lm_age <- lm(Glucose ~ Age, data = analysis_swan_df)
+```
+
+```{r}
+summary(lm_age) # p=0.231 --> We may not keep it then.
+```
 
 ```{r}
 lm_bp <- lm(formula = Glucose ~ bp_category, data = analysis_swan_df)
 ```
 
-Let's now take a look at the model that `lm()` computed:
-
 ```{r}
 summary(lm_bp) # p<0.001 --> KEEP
 ```
 
-
 ```{r}
-glm_age <- glm(Glucose ~ Age, data = analysis_swan_df)
-summary(glm_age) # p<0.001 --> KEEP
-
-glm_bmi <- glm(Glucose ~ BMI_cat, data = analysis_swan_df)
-summary(glm_bmi) # p<0.001 --> KEEP
-
-glm_hdl_ldl <- glm(Glucose ~ Chol_Ratio, data = analysis_swan_df)
-summary(glm_hdl_ldl) # p<0.001 --> KEEP
-# NOTE: since we are creating a ratio of HDL to LDL, we dont even need to evaluate LDL and HDL alone.
-
-glm_race <- glm(Glucose ~ RACE, data = analysis_swan_df)
-summary(glm_race) # p=0.207 is the smallest --> can keep but can also drop. let's see what the stepwise does. 
-
-glm_exercise <- glm(Glucose ~ Exercise, data = analysis_swan_df)
-summary(glm_exercise) # p<0.001 --> KEEP
-
-glm_crp <- glm(Glucose ~ CRP, data = analysis_swan_df)
-summary(glm_crp) # p<0.001 --> KEEP
+lm_Chol_Ratio <- lm(Glucose ~ Chol_Ratio, data = analysis_swan_df)
 ```
 
-<!-- #TODO Fix smoker glm and do everything below -->
-<!-- ```{r} -->
-<!-- glm_smoke <- glm(Glucose ~ Smoker, data = analysis_swan_df) -->
-<!-- summary(glm_smoke) # p=0.0329 --> KEEP B/C LESS THAN 0.05 -->
+```{r}
+summary(lm_Chol_Ratio) # p<0.001 --> KEEP
+```
 
-<!-- ``` -->
+```{r}
+lm_race <- lm(Glucose ~ RACE, data = analysis_swan_df)
+```
 
-<!-- # **** REMOVE BOTH OF THESE HDL AND LDL MODELS********* -->
-<!-- ```{r} -->
-<!-- glm_hdl <- glm(Glucose ~ HDL, data = analysis_swan_df) -->
-<!-- summary(glm_hdl) # p<0.001 --> KEEP -->
+```{r}
+summary(lm_race) # p=0.207 is the smallest --> can keep but can also drop. let's see what the stepwise does. 
+```
 
-<!-- glm_ldl <- glm(Glucose ~ LDL, data = analysis_swan_df) -->
-<!-- summary(glm_ldl) # p=0.55--> DO NOT KEEP  -->
+```{r}
+lm_exercise <- lm(Glucose ~ Exercise, data = analysis_swan_df)
+```
 
-<!-- ``` -->
+```{r}
+summary(lm_exercise) # p<0.001 --> KEEP
+```
 
-<!-- ***INTERACTION TERMS*** -->
-<!-- ```{r} -->
-<!-- analysis_swan_df$age_hdl_ldl <- analysis_swan_df$HDL_LDL * analysis_swan_df$AGE6 -->
-<!-- ``` -->
+```{r}
+lm_crp <- lm(Glucose ~ CRP, data = analysis_swan_df)
+```
 
+```{r}
+summary(lm_crp) # p<0.001 --> KEEP
+```
 
+#TODO Fix smoker lm and do everything below
+```{r}
+lm_smoke <- lm(Glucose ~ Smoker, data = analysis_swan_df)
+```
 
-<!-- *Full Models* -->
-<!-- ```{r} -->
-<!-- full_model <- glm(Glucose ~ BMI_cat + bp_category  + AGE6 + -->
-<!--                     HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl, data = analysis_swan_df) -->
-<!-- summary(full_model) -->
-<!-- ``` -->
+```{r}
+summary(lm_smoke) # p=0.0351 --> KEEP B/C LESS THAN 0.05
+```
 
-<!-- Plotting residuals -->
-<!-- ```{r} -->
-<!-- plot(resid(full_model)) -->
-<!-- ``` -->
+Next, we need to consider "Interaction terms". See link at the top of this episode. 
+```{r}
+analysis_swan_df$age_Chol_Ratio <- analysis_swan_df$Chol_Ratio * analysis_swan_df$Age
+```
 
-<!-- ```{r} -->
-<!-- rst <- rstandard(full_model) -->
-<!-- qqnorm(rst, ylab = "Standardized Residuals",  -->
-<!--        xlab = "Normal Scores") -->
-<!-- qqline(rst) -->
-<!-- ``` -->
+```{r}
+lm_ageChol <- lm(Glucose ~ age_Chol_Ratio, data = analysis_swan_df)
+summary(lm_ageChol) # This is significant on it's own.
+```
 
-<!-- ```{r} -->
-<!-- analysis_swan_df$cooksd <- cooks.distance(full_model) -->
-<!-- cooksd_cutoff <- 4/nrow(analysis_swan_df) -->
-
-<!-- plot(analysis_swan_df$cooksd) -->
-<!-- abline(cooksd_cutoff, 0) -->
-<!-- ``` -->
-
-<!-- Dropping outliers -->
-<!-- ```{r} -->
-<!-- analysis_swan_df2 <- analysis_swan_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd) -->
-
-<!-- full_model <- glm(Glucose ~ BMI_cat + bp_category  + AGE6 + -->
-<!--                     HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl,  -->
-<!--                     data = analysis_swan_df2) -->
-<!-- summary(full_model) -->
-<!-- ``` -->
-
-<!-- Plotting residuals -->
-<!-- ```{r} -->
-<!-- plot(resid(full_model)) -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- rst <- rstandard(full_model) -->
-<!-- qqnorm(rst, ylab = "Standardized Residuals",  -->
-<!--        xlab = "Normal Scores") -->
-<!-- qqline(rst) -->
-<!-- ``` -->
-
-
-<!-- Cleaning data even further:  -->
-<!-- remove: -->
-<!-- triglycerides > 500 mg/dl -->
-<!-- HDL > 100 mg/dl -->
-<!-- Fasting glucose >=126 mg/dl -->
-<!-- ```{r} -->
-<!-- analysis_swan_df <- analysis_swan_df %>% filter(DBP>0 &  -->
-<!--                                        HDL <=100 & -->
-<!--                                         Glucose <126) -->
-<!-- # dropping HDL >100 b/c that high level is actually bad for the heart - genetic issue -->
-<!-- #fasting glycose of >=126 mg/dl is considered T2D -->
-<!-- nrow(analysis_swan_df) -->
-
-
-<!-- full_model <- glm(Glucose ~ BMI_cat + bp_category  + AGE6 + -->
-<!--                     HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl, -->
-<!--                     data = analysis_swan_df2) -->
-<!-- summary(full_model) -->
-<!-- ``` -->
-
-<!-- Dropping outliers -->
-<!-- ```{r} -->
-<!-- analysis_swan_df2 <- analysis_swan_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd) -->
-
-<!-- full_model <- glm(Glucose ~ BMI_cat + bp_category  + AGE6 + -->
-<!--                     HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl,  -->
-<!--                   data = analysis_swan_df2) -->
-<!-- summary(full_model) -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- rst <- rstandard(full_model) -->
-<!-- qqnorm(rst, ylab = "Standardized Residuals",  -->
-<!--        xlab = "Normal Scores") -->
-<!-- qqline(rst) -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- library(MASS) -->
-<!-- # Stepwise regression model -->
-<!-- step.model <- stepAIC(full_model, direction = "backward",  -->
-<!--                       trace = TRUE ) -->
-<!-- summary(step.model) -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- rst <- rstandard(full_model) -->
-<!-- qqnorm(rst, ylab = "Standardized Residuals",  -->
-<!--        xlab = "Normal Scores") -->
-<!-- qqline(rst) -->
-
-<!-- library(car) -->
-
-<!-- vif(glm(Glucose ~ BMI_cat + bp_category  + AGE6 +HDL_LDL + RACE + CRP +  -->
-<!--           SMOKERE6 + EXERCIS6, data=analysis_swan_df2)) -->
-<!-- # VIF has to be <=1 ??? -->
-
-<!-- pairs(analysis_swan_df2 %>% dplyr::select(AGE6,  HDL_LDL)) -->
-<!-- ``` -->
-
+```{r, include=FALSE}
+# Save as RData format
+saveRDS(analysis_swan_df, file = "data_out/analysis_swan_df_12.rds")
+```
 

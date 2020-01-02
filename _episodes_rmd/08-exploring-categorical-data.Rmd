@@ -248,7 +248,6 @@ summary(analysis_swan_df$bp_category)
 ```{r, include=FALSE}
 # Save as RData format
 saveRDS(analysis_swan_df, file = "data_out/analysis_swan_df_08.rds")
-
 ```
 
 ## Introduction goes here

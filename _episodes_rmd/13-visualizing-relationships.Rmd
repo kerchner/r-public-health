@@ -24,12 +24,132 @@ keypoints:
 source: Rmd
 ---
 
+We are finally ready to begin a full (multivariate) linear regression model. To do this, we are going to use information for the univariate models in the last episode.  
+
 ```{r, include=FALSE}
 source("../bin/chunk-options.R")
-knitr_fig_path("12-")
+knitr_fig_path("13-")
 ```
 
-## Introduction goes here
+```{r, include=FALSE}
+library(dplyr)
+
+analysis_swan_df <- readRDS(file = "data_out/analysis_swan_df_12.rds")
+colnames(analysis_swan_df)
+```
+
+
+```{r}
+full_model <- lm(Glucose ~ BMI_cat + bp_category  + Age +
+                    Chol_Ratio + RACE + CRP + Smoker + Exercise + age_Chol_Ratio, data = analysis_swan_df)
+summary(full_model)
+```
+
+#TODO Create a stepwise selection and see what stays in the model. Based on that we will do resids etc. 
+
+Plotting residuals
+```{r}
+plot(resid(full_model))
+```
+
+```{r}
+rst <- rstandard(full_model)
+qqnorm(rst, ylab = "Standardized Residuals",
+       xlab = "Normal Scores")
+qqline(rst)
+```
+
+```{r}
+analysis_swan_df$cooksd <- cooks.distance(full_model)
+cooksd_cutoff <- 4/nrow(analysis_swan_df)
+
+plot(analysis_swan_df$cooksd)
+abline(cooksd_cutoff, 0)
+```
+
+Dropping outliers
+```{r}
+analysis_swan_df2 <- analysis_swan_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd)
+
+full_model <- lm(Glucose ~ BMI_cat + bp_category  + AGE6 +
+                    HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl,
+                    data = analysis_swan_df2)
+summary(full_model)
+```
+
+Plotting residuals
+```{r}
+plot(resid(full_model))
+```
+
+```{r}
+rst <- rstandard(full_model)
+qqnorm(rst, ylab = "Standardized Residuals",
+       xlab = "Normal Scores")
+qqline(rst)
+```
+
+
+Cleaning data even further:
+remove:
+triglycerides > 500 mg/dl
+HDL > 100 mg/dl
+Fasting glucose >=126 mg/dl
+```{r}
+analysis_swan_df <- analysis_swan_df %>% filter(DBP>0 &
+                                       HDL <=100 &
+                                        Glucose <126)
+# dropping HDL >100 b/c that high level is actually bad for the heart - genetic issue
+#fasting glycose of >=126 mg/dl is considered T2D
+nrow(analysis_swan_df)
+
+
+full_model <- lm(Glucose ~ BMI_cat + bp_category  + AGE6 +
+                    HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl,
+                    data = analysis_swan_df2)
+summary(full_model)
+```
+
+Dropping outliers
+```{r}
+analysis_swan_df2 <- analysis_swan_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd)
+
+full_model <- lm(Glucose ~ BMI_cat + bp_category  + AGE6 +
+                    HDL_LDL + RACE + CRP + SMOKERE6 + EXERCIS6 + age_hdl_ldl,
+                  data = analysis_swan_df2)
+summary(full_model)
+```
+
+```{r}
+rst <- rstandard(full_model)
+qqnorm(rst, ylab = "Standardized Residuals",
+       xlab = "Normal Scores")
+qqline(rst)
+```
+
+```{r}
+library(MASS)
+# Stepwise regression model
+step.model <- stepAIC(full_model, direction = "backward",
+                      trace = TRUE )
+summary(step.model)
+```
+
+```{r}
+rst <- rstandard(full_model)
+qqnorm(rst, ylab = "Standardized Residuals",
+       xlab = "Normal Scores")
+qqline(rst)
+
+library(car)
+
+vif(lm(Glucose ~ BMI_cat + bp_category  + AGE6 +HDL_LDL + RACE + CRP +
+          SMOKERE6 + EXERCIS6, data=analysis_swan_df2))
+# VIF has to be <=1 ???
+
+pairs(analysis_swan_df2 %>% dplyr::select(AGE6,  HDL_LDL))
+```
+
 
 
 
