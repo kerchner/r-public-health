@@ -44,10 +44,10 @@ str(analysis_swan_df)
 'data.frame':	2424 obs. of  16 variables:
  $ SWANID     : int  10046 10056 10126 10153 10196 10245 10484 10514 10522 10532 ...
  $ Age        : int  58 57 54 57 52 54 56 52 52 49 ...
- $ RACE       : Factor w/ 5 levels "Black","Caucasian",..: 3 2 1 5 3 2 1 2 2 2 ...
+ $ RACE       : Factor w/ 5 levels "Black","Chinese",..: 2 4 1 3 2 4 1 4 4 4 ...
  $ BMI        : num  35.6 19.8 26.4 31.6 22.3 ...
  $ Glucose    : int  116 89 82 85 80 88 111 101 83 91 ...
- $ Smoker     : logi  NA NA NA NA NA NA ...
+ $ Smoker     : Factor w/ 2 levels "No","Yes": 1 1 NA 1 1 1 2 1 1 NA ...
  $ LDL        : int  137 90 136 154 130 129 93 137 103 128 ...
  $ HDL        : int  48 78 57 55 59 83 47 39 65 41 ...
  $ CRP        : num  8.7 0.5 1.5 2.7 0.3 1.3 7.4 1.3 1.1 1.5 ...
@@ -56,8 +56,8 @@ str(analysis_swan_df)
  $ Exercise   : Factor w/ 2 levels "No","Yes": 2 2 NA 2 2 1 2 2 2 NA ...
  $ log_CRP    : num  2.163 -0.693 0.405 0.993 -1.204 ...
  $ Chol_Ratio : num  3.85 2.15 3.39 3.8 3.2 ...
- $ BMI_cat    : Factor w/ 6 levels "Normal","Obesity I",..: 3 1 5 2 1 5 2 2 1 2 ...
- $ bp_category: Factor w/ 4 levels "Elevated","Hypertension Stage 1",..: 2 4 2 4 4 4 2 1 4 4 ...
+ $ BMI_cat    : Factor w/ 6 levels "Normal","Underweight",..: 5 1 3 4 1 3 4 4 1 4 ...
+ $ bp_category: Factor w/ 4 levels "Normal","Elevated",..: 3 1 3 1 1 1 3 2 1 1 ...
 ~~~
 {: .output}
 # Creating Table 1 - Demographics:
@@ -82,42 +82,27 @@ factorvarlist = c('RACE', 'Smoker', 'bp_category', 'Exercise')
 
 
 ~~~
-Warning in ModuleReturnVarsExist(vars, data): These variables only have NA/NaN:
-Smoker Dropped
-~~~
-{: .error}
-
-
-
-~~~
-Warning in ModuleReturnVarsExist(factorVars, data): These variables only have
-NA/NaN: Smoker Dropped
-~~~
-{: .error}
-
-
-
-~~~
                           
                            Overall       
   n                          2424        
   Age (mean (SD))           51.97 (2.68) 
   RACE (%)                               
      Black                    720 (29.7) 
-     Caucasian               1197 (49.4) 
      Chinese                  207 ( 8.5) 
-     Hispanic                  39 ( 1.6) 
      Japanese                 261 (10.8) 
+     Caucasian               1197 (49.4) 
+     Hispanic                  39 ( 1.6) 
   BMI (mean (SD))           28.89 (7.35) 
   Glucose (mean (SD))       94.26 (31.12)
+  Smoker = Yes (%)            320 (13.9) 
   LDL (mean (SD))          121.11 (33.54)
   HDL (mean (SD))           58.20 (14.91)
   CRP (mean (SD))            4.07 (6.79) 
   bp_category (%)                        
+     Normal                  1105 (51.8) 
      Elevated                 269 (12.6) 
      Hypertension Stage 1     456 (21.4) 
      Hypertension Stage 2+    302 (14.2) 
-     Normal                  1105 (51.8) 
   Exercise = Yes (%)         1520 (70.9) 
   Chol_Ratio (mean (SD))     3.21 (0.86) 
 ~~~
@@ -132,42 +117,27 @@ kableone(CreateTableOne(data = analysis_swan_df,
 
 
 
-~~~
-Warning in ModuleReturnVarsExist(vars, data): These variables only have NA/NaN:
-Smoker Dropped
-~~~
-{: .error}
-
-
-
-~~~
-Warning in ModuleReturnVarsExist(factorVars, data): These variables only have
-NA/NaN: Smoker Dropped
-~~~
-{: .error}
-
-
-
 |                       |Overall        |
 |:----------------------|:--------------|
 |n                      |2424           |
 |Age (mean (SD))        |51.97 (2.68)   |
 |RACE (%)               |               |
 |Black                  |720 (29.7)     |
-|Caucasian              |1197 (49.4)    |
 |Chinese                |207 ( 8.5)     |
-|Hispanic               |39 ( 1.6)      |
 |Japanese               |261 (10.8)     |
+|Caucasian              |1197 (49.4)    |
+|Hispanic               |39 ( 1.6)      |
 |BMI (mean (SD))        |28.89 (7.35)   |
 |Glucose (mean (SD))    |94.26 (31.12)  |
+|Smoker = Yes (%)       |320 (13.9)     |
 |LDL (mean (SD))        |121.11 (33.54) |
 |HDL (mean (SD))        |58.20 (14.91)  |
 |CRP (mean (SD))        |4.07 (6.79)    |
 |bp_category (%)        |               |
+|Normal                 |1105 (51.8)    |
 |Elevated               |269 (12.6)     |
 |Hypertension Stage 1   |456 (21.4)     |
 |Hypertension Stage 2+  |302 (14.2)     |
-|Normal                 |1105 (51.8)    |
 |Exercise = Yes (%)     |1520 (70.9)    |
 |Chol_Ratio (mean (SD)) |3.21 (0.86)    |
 
@@ -181,42 +151,27 @@ kableone(CreateTableOne(data = analysis_swan_df,
 
 
 
-~~~
-Warning in ModuleReturnVarsExist(vars, data): These variables only have NA/NaN:
-Smoker Dropped
-~~~
-{: .error}
-
-
-
-~~~
-Warning in ModuleReturnVarsExist(factorVars, data): These variables only have
-NA/NaN: Smoker Dropped
-~~~
-{: .error}
-
-
-
-|                       |Normal         |Obesity I      |Obesity II     |Obesity III    |Pre-obese      |Underweight    |p      |test |
+|                       |Normal         |Underweight    |Pre-obese      |Obesity I      |Obesity II     |Obesity III    |p      |test |
 |:----------------------|:--------------|:--------------|:--------------|:--------------|:--------------|:--------------|:------|:----|
-|n                      |725            |372            |228            |174            |590            |30             |       |     |
-|Age (mean (SD))        |51.87 (2.66)   |52.01 (2.65)   |52.25 (2.70)   |51.66 (2.73)   |52.13 (2.69)   |52.43 (2.70)   |0.119  |     |
+|n                      |725            |30             |590            |372            |228            |174            |       |     |
+|Age (mean (SD))        |51.87 (2.66)   |52.43 (2.70)   |52.13 (2.69)   |52.01 (2.65)   |52.25 (2.70)   |51.66 (2.73)   |0.119  |     |
 |RACE (%)               |               |               |               |               |               |               |<0.001 |     |
-|Black                  |85 (11.7)      |149 (40.1)     |124 (54.4)     |91 (52.3)      |161 (27.3)     |5 (16.7)       |       |     |
-|Caucasian              |346 (47.7)     |195 (52.4)     |93 (40.8)      |74 (42.5)      |319 (54.1)     |11 (36.7)      |       |     |
-|Chinese                |136 (18.8)     |12 ( 3.2)      |2 ( 0.9)       |2 ( 1.1)       |45 ( 7.6)      |7 (23.3)       |       |     |
-|Hispanic               |2 ( 0.3)       |3 ( 0.8)       |8 ( 3.5)       |4 ( 2.3)       |13 ( 2.2)      |0 ( 0.0)       |       |     |
-|Japanese               |156 (21.5)     |13 ( 3.5)      |1 ( 0.4)       |3 ( 1.7)       |52 ( 8.8)      |7 (23.3)       |       |     |
-|BMI (mean (SD))        |22.28 (1.63)   |32.27 (1.41)   |37.36 (1.40)   |45.51 (5.06)   |27.29 (1.40)   |17.71 (0.61)   |<0.001 |     |
-|Glucose (mean (SD))    |86.37 (14.82)  |100.47 (44.17) |104.16 (38.16) |111.05 (41.06) |91.65 (24.46)  |82.41 (7.64)   |<0.001 |     |
-|LDL (mean (SD))        |118.39 (31.96) |124.73 (34.24) |126.41 (34.66) |114.68 (34.37) |123.07 (34.22) |111.55 (34.78) |<0.001 |     |
-|HDL (mean (SD))        |65.33 (14.73)  |52.62 (12.98)  |50.90 (11.82)  |50.42 (10.72)  |57.95 (14.22)  |71.03 (14.75)  |<0.001 |     |
-|CRP (mean (SD))        |1.77 (5.63)    |5.48 (8.31)    |7.47 (7.25)    |9.58 (7.86)    |2.99 (4.17)    |0.84 (1.71)    |<0.001 |     |
+|Black                  |85 (11.7)      |5 (16.7)       |161 (27.3)     |149 (40.1)     |124 (54.4)     |91 (52.3)      |       |     |
+|Chinese                |136 (18.8)     |7 (23.3)       |45 ( 7.6)      |12 ( 3.2)      |2 ( 0.9)       |2 ( 1.1)       |       |     |
+|Japanese               |156 (21.5)     |7 (23.3)       |52 ( 8.8)      |13 ( 3.5)      |1 ( 0.4)       |3 ( 1.7)       |       |     |
+|Caucasian              |346 (47.7)     |11 (36.7)      |319 (54.1)     |195 (52.4)     |93 (40.8)      |74 (42.5)      |       |     |
+|Hispanic               |2 ( 0.3)       |0 ( 0.0)       |13 ( 2.2)      |3 ( 0.8)       |8 ( 3.5)       |4 ( 2.3)       |       |     |
+|BMI (mean (SD))        |22.28 (1.63)   |17.71 (0.61)   |27.29 (1.40)   |32.27 (1.41)   |37.36 (1.40)   |45.51 (5.06)   |<0.001 |     |
+|Glucose (mean (SD))    |86.37 (14.82)  |82.41 (7.64)   |91.65 (24.46)  |100.47 (44.17) |104.16 (38.16) |111.05 (41.06) |<0.001 |     |
+|Smoker = Yes (%)       |82 (11.6)      |3 (10.0)       |83 (14.6)      |45 (12.7)      |36 (16.4)      |19 (11.4)      |0.387  |     |
+|LDL (mean (SD))        |118.39 (31.96) |111.55 (34.78) |123.07 (34.22) |124.73 (34.24) |126.41 (34.66) |114.68 (34.37) |<0.001 |     |
+|HDL (mean (SD))        |65.33 (14.73)  |71.03 (14.75)  |57.95 (14.22)  |52.62 (12.98)  |50.90 (11.82)  |50.42 (10.72)  |<0.001 |     |
+|CRP (mean (SD))        |1.77 (5.63)    |0.84 (1.71)    |2.99 (4.17)    |5.48 (8.31)    |7.47 (7.25)    |9.58 (7.86)    |<0.001 |     |
 |bp_category (%)        |               |               |               |               |               |               |<0.001 |     |
-|Elevated               |60 ( 8.3)      |63 (17.0)      |41 (18.0)      |29 (16.8)      |70 (11.9)      |1 ( 3.3)       |       |     |
-|Hypertension Stage 1   |107 (14.8)     |86 (23.2)      |64 (28.1)      |47 (27.2)      |146 (24.8)     |1 ( 3.3)       |       |     |
-|Hypertension Stage 2+  |52 ( 7.2)      |64 (17.3)      |59 (25.9)      |46 (26.6)      |77 (13.1)      |0 ( 0.0)       |       |     |
-|Normal                 |505 (69.8)     |158 (42.6)     |64 (28.1)      |51 (29.5)      |296 (50.3)     |28 (93.3)      |       |     |
-|Exercise = Yes (%)     |555 (79.3)     |244 (70.1)     |127 (58.8)     |79 (49.1)      |406 (73.0)     |21 (70.0)      |<0.001 |     |
-|Chol_Ratio (mean (SD)) |2.92 (0.75)    |3.49 (0.88)    |3.56 (0.90)    |3.35 (0.89)    |3.25 (0.84)    |2.67 (0.71)    |<0.001 |     |
+|Normal                 |505 (69.8)     |28 (93.3)      |296 (50.3)     |158 (42.6)     |64 (28.1)      |51 (29.5)      |       |     |
+|Elevated               |60 ( 8.3)      |1 ( 3.3)       |70 (11.9)      |63 (17.0)      |41 (18.0)      |29 (16.8)      |       |     |
+|Hypertension Stage 1   |107 (14.8)     |1 ( 3.3)       |146 (24.8)     |86 (23.2)      |64 (28.1)      |47 (27.2)      |       |     |
+|Hypertension Stage 2+  |52 ( 7.2)      |0 ( 0.0)       |77 (13.1)      |64 (17.3)      |59 (25.9)      |46 (26.6)      |       |     |
+|Exercise = Yes (%)     |555 (79.3)     |21 (70.0)      |406 (73.0)     |244 (70.1)     |127 (58.8)     |79 (49.1)      |<0.001 |     |
+|Chol_Ratio (mean (SD)) |2.92 (0.75)    |2.67 (0.71)    |3.25 (0.84)    |3.49 (0.88)    |3.56 (0.90)    |3.35 (0.89)    |<0.001 |     |
 

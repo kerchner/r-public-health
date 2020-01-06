@@ -81,9 +81,12 @@ We can't just use bar plot and inspect visually, we want to make sure that categ
 table(analysis_swan_df$Smoker)
 ```
 
+# TODO:  See comment in tip
+
 > ## Tip: Another way to relabel levels in factor variables
 > ```{r}
-> levels(analysis_swan_df$Smoker) <- c(NA, NA, "No", "Yes")
+> # The code in this tip actually runs and alters $Smoker in a way that causes problems.  Commented out for now.
+> # levels(analysis_swan_df$Smoker) <- c(NA, NA, "No", "Yes")
 > ```
 {: .callout}
 

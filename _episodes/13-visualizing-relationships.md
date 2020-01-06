@@ -26,9 +26,640 @@ keypoints:
 source: Rmd
 ---
 
+We are finally ready to begin a full (multivariate) linear regression model. To do this, we are going to use information for the univariate models in the last episode.  
 
 
-## Introduction goes here
 
 
+
+
+# Remove rows with NAs in any of the following variables:
+
+~~~
+library(tidyr)
+
+analysis_swan_df <- analysis_swan_df %>% drop_na(Glucose, BMI_cat, bp_category, Age, Chol_Ratio,
+                                                 RACE, CRP, Smoker, Exercise, age_CRP)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in .f(.x[[i]], ...): object 'age_CRP' not found
+~~~
+{: .error}
+
+
+~~~
+full_model <- lm(Glucose ~ BMI_cat + bp_category  + Age + Chol_Ratio +
+                 RACE + CRP + Smoker + Exercise + age_Chol_Ratio,
+                 data = analysis_swan_df)
+summary(full_model)
+~~~
+{: .language-r}
+
+
+
+~~~
+
+Call:
+lm(formula = Glucose ~ BMI_cat + bp_category + Age + Chol_Ratio + 
+    RACE + CRP + Smoker + Exercise + age_Chol_Ratio, data = analysis_swan_df)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-45.90 -10.12  -3.61   3.19 537.78 
+
+Coefficients:
+                                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                       86.6383    47.3293   1.831  0.06733 .  
+BMI_catUnderweight                -3.1055     5.0736  -0.612  0.54056    
+BMI_catPre-obese                   4.4064     1.6760   2.629  0.00863 ** 
+BMI_catObesity I                  11.0236     2.0599   5.351 9.84e-08 ***
+BMI_catObesity II                 12.3689     2.5297   4.889 1.10e-06 ***
+BMI_catObesity III                18.4758     2.8276   6.534 8.29e-11 ***
+bp_categoryElevated                1.1741     2.0089   0.584  0.55898    
+bp_categoryHypertension Stage 1    4.0281     1.6908   2.382  0.01730 *  
+bp_categoryHypertension Stage 2+   1.0103     2.1003   0.481  0.63055    
+Age                               -0.1842     0.9084  -0.203  0.83933    
+Chol_Ratio                        -4.9120    14.1184  -0.348  0.72795    
+RACEChinese                        6.7841     2.5694   2.640  0.00835 ** 
+RACEJapanese                       5.9800     2.4144   2.477  0.01335 *  
+RACECaucasian                     -0.4771     1.6298  -0.293  0.76974    
+RACEHispanic                     -13.5303     7.1019  -1.905  0.05692 .  
+CRP                                0.3259     0.1075   3.030  0.00248 ** 
+SmokerYes                          2.4717     1.9844   1.246  0.21309    
+ExerciseYes                       -3.7285     1.4679  -2.540  0.01116 *  
+age_Chol_Ratio                     0.1492     0.2710   0.551  0.58204    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 26.6 on 1810 degrees of freedom
+  (595 observations deleted due to missingness)
+Multiple R-squared:  0.09503,	Adjusted R-squared:  0.08603 
+F-statistic: 10.56 on 18 and 1810 DF,  p-value: < 2.2e-16
+~~~
+{: .output}
+
+#TODO Create a stepwise selection and see what stays in the model. Based on that we will do resids etc. 
+
+Plotting residuals
+
+~~~
+plot(resid(full_model))
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-13-unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+rst <- rstandard(full_model)
+qqnorm(rst, ylab = "Standardized Residuals",
+       xlab = "Normal Scores")
+qqline(rst)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-13-unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" width="612" style="display: block; margin: auto;" />
+
+
+# Stepwise Regression
+
+
+~~~
+library(MASS)
+~~~
+{: .language-r}
+
+
+
+~~~
+
+Attaching package: 'MASS'
+~~~
+{: .output}
+
+
+
+~~~
+The following object is masked from 'package:dplyr':
+
+    select
+~~~
+{: .output}
+
+
+
+~~~
+# Stepwise regression model
+step.model <- stepAIC(full_model, direction = "backward",
+                      trace = TRUE )
+~~~
+{: .language-r}
+
+
+
+~~~
+Start:  AIC=12020.76
+Glucose ~ BMI_cat + bp_category + Age + Chol_Ratio + RACE + CRP + 
+    Smoker + Exercise + age_Chol_Ratio
+
+                 Df Sum of Sq     RSS   AIC
+- Age             1        29 1280911 12019
+- Chol_Ratio      1        86 1280967 12019
+- age_Chol_Ratio  1       214 1281096 12019
+- Smoker          1      1098 1281979 12020
+- bp_category     3      4070 1284951 12021
+<none>                        1280881 12021
+- Exercise        1      4566 1285448 12025
+- CRP             1      6499 1287380 12028
+- RACE            4     14682 1295564 12034
+- BMI_cat         5     41241 1322122 12069
+
+Step:  AIC=12018.8
+Glucose ~ BMI_cat + bp_category + Chol_Ratio + RACE + CRP + Smoker + 
+    Exercise + age_Chol_Ratio
+
+                 Df Sum of Sq     RSS   AIC
+- Chol_Ratio      1       232 1281143 12017
+- Smoker          1      1111 1282021 12018
+- bp_category     3      4042 1284953 12019
+- age_Chol_Ratio  1      1309 1282220 12019
+<none>                        1280911 12019
+- Exercise        1      4547 1285458 12023
+- CRP             1      6482 1287392 12026
+- RACE            4     14682 1295593 12032
+- BMI_cat         5     41253 1322164 12067
+
+Step:  AIC=12017.13
+Glucose ~ BMI_cat + bp_category + RACE + CRP + Smoker + Exercise + 
+    age_Chol_Ratio
+
+                 Df Sum of Sq     RSS   AIC
+- Smoker          1      1032 1282175 12017
+- bp_category     3      4160 1285303 12017
+<none>                        1281143 12017
+- Exercise        1      4567 1285710 12022
+- CRP             1      6527 1287670 12024
+- RACE            4     14832 1295975 12030
+- age_Chol_Ratio  1     10683 1291826 12030
+- BMI_cat         5     41034 1322177 12065
+
+Step:  AIC=12016.6
+Glucose ~ BMI_cat + bp_category + RACE + CRP + Exercise + age_Chol_Ratio
+
+                 Df Sum of Sq     RSS   AIC
+<none>                        1282175 12017
+- bp_category     3      4232 1286408 12017
+- Exercise        1      5503 1287678 12022
+- CRP             1      6752 1288927 12024
+- RACE            4     14285 1296460 12029
+- age_Chol_Ratio  1     11711 1293887 12031
+- BMI_cat         5     40030 1322205 12063
+~~~
+{: .output}
+
+
+
+~~~
+summary(step.model)
+~~~
+{: .language-r}
+
+
+
+~~~
+
+Call:
+lm(formula = Glucose ~ BMI_cat + bp_category + RACE + CRP + Exercise + 
+    age_Chol_Ratio, data = analysis_swan_df)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-43.85 -10.29  -3.67   3.16 537.10 
+
+Coefficients:
+                                  Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                       77.16372    3.06413  25.183  < 2e-16 ***
+BMI_catUnderweight                -3.11653    5.06477  -0.615  0.53841    
+BMI_catPre-obese                   4.35273    1.67371   2.601  0.00938 ** 
+BMI_catObesity I                  10.76792    2.05010   5.252 1.68e-07 ***
+BMI_catObesity II                 12.07181    2.51865   4.793 1.78e-06 ***
+BMI_catObesity III                18.00199    2.80230   6.424 1.69e-10 ***
+bp_categoryElevated                1.27416    1.99843   0.638  0.52383    
+bp_categoryHypertension Stage 1    4.10476    1.68280   2.439  0.01481 *  
+bp_categoryHypertension Stage 2+   1.17763    2.08769   0.564  0.57277    
+RACEChinese                        6.29264    2.53034   2.487  0.01298 *  
+RACEJapanese                       5.69571    2.38693   2.386  0.01713 *  
+RACECaucasian                     -0.66645    1.61463  -0.413  0.67984    
+RACEHispanic                     -14.25197    7.07703  -2.014  0.04417 *  
+CRP                                0.33176    0.10737   3.090  0.00203 ** 
+ExerciseYes                       -4.03034    1.44486  -2.789  0.00534 ** 
+age_Chol_Ratio                     0.05868    0.01442   4.069 4.92e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 26.59 on 1813 degrees of freedom
+  (595 observations deleted due to missingness)
+Multiple R-squared:  0.09412,	Adjusted R-squared:  0.08662 
+F-statistic: 12.56 on 15 and 1813 DF,  p-value: < 2.2e-16
+~~~
+{: .output}
+
+~~~
+min_model <- lm(Glucose ~ BMI_cat,
+                data = analysis_swan_df)
+
+step.model <- stepAIC(min_model, direction = "forward",
+                      scope = list(lower = min_model, upper = full_model),
+                      trace = TRUE )
+~~~
+{: .language-r}
+
+
+
+~~~
+Start:  AIC=13119.65
+Glucose ~ BMI_cat
+~~~
+{: .output}
+
+
+
+~~~
+Warning in add1.lm(object, scope = scope, scale = scale): using the 1829/1939
+rows from a combined fit
+~~~
+{: .error}
+
+
+
+~~~
+                 Df Sum of Sq     RSS   AIC
++ age_Chol_Ratio  1   12850.5 1313066 12652
++ Chol_Ratio      1   11400.3 1314516 12654
++ RACE            4   13786.6 1312130 12657
++ Exercise        1    7748.5 1318168 12660
++ CRP             1    5772.5 1320144 12663
++ Smoker          1    2979.1 1322937 12667
++ bp_category     3    5457.4 1320459 12667
++ Age             1    1749.5 1324167 12669
+<none>                        1325917 12669
+~~~
+{: .output}
+
+
+
+~~~
+Error in stepAIC(min_model, direction = "forward", scope = list(lower = min_model, : number of rows in use has changed: remove missing values?
+~~~
+{: .error}
+
+
+
+~~~
+summary(step.model)
+~~~
+{: .language-r}
+
+
+
+~~~
+
+Call:
+lm(formula = Glucose ~ BMI_cat + bp_category + RACE + CRP + Exercise + 
+    age_Chol_Ratio, data = analysis_swan_df)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-43.85 -10.29  -3.67   3.16 537.10 
+
+Coefficients:
+                                  Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                       77.16372    3.06413  25.183  < 2e-16 ***
+BMI_catUnderweight                -3.11653    5.06477  -0.615  0.53841    
+BMI_catPre-obese                   4.35273    1.67371   2.601  0.00938 ** 
+BMI_catObesity I                  10.76792    2.05010   5.252 1.68e-07 ***
+BMI_catObesity II                 12.07181    2.51865   4.793 1.78e-06 ***
+BMI_catObesity III                18.00199    2.80230   6.424 1.69e-10 ***
+bp_categoryElevated                1.27416    1.99843   0.638  0.52383    
+bp_categoryHypertension Stage 1    4.10476    1.68280   2.439  0.01481 *  
+bp_categoryHypertension Stage 2+   1.17763    2.08769   0.564  0.57277    
+RACEChinese                        6.29264    2.53034   2.487  0.01298 *  
+RACEJapanese                       5.69571    2.38693   2.386  0.01713 *  
+RACECaucasian                     -0.66645    1.61463  -0.413  0.67984    
+RACEHispanic                     -14.25197    7.07703  -2.014  0.04417 *  
+CRP                                0.33176    0.10737   3.090  0.00203 ** 
+ExerciseYes                       -4.03034    1.44486  -2.789  0.00534 ** 
+age_Chol_Ratio                     0.05868    0.01442   4.069 4.92e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 26.59 on 1813 degrees of freedom
+  (595 observations deleted due to missingness)
+Multiple R-squared:  0.09412,	Adjusted R-squared:  0.08662 
+F-statistic: 12.56 on 15 and 1813 DF,  p-value: < 2.2e-16
+~~~
+{: .output}
+
+
+
+~~~
+analysis_swan_df$cooksd <- cooks.distance(step.model)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in `$<-.data.frame`(`*tmp*`, cooksd, value = c(`1` = 2.70971024378029e-05, : replacement has 1829 rows, data has 2424
+~~~
+{: .error}
+
+
+
+~~~
+cooksd_cutoff <- 4/nrow(analysis_swan_df)
+
+plot(analysis_swan_df$cooksd)
+~~~
+{: .language-r}
+
+
+
+~~~
+Warning in min(x): no non-missing arguments to min; returning Inf
+~~~
+{: .error}
+
+
+
+~~~
+Warning in max(x): no non-missing arguments to max; returning -Inf
+~~~
+{: .error}
+
+
+
+~~~
+Warning in min(x): no non-missing arguments to min; returning Inf
+~~~
+{: .error}
+
+
+
+~~~
+Warning in max(x): no non-missing arguments to max; returning -Inf
+~~~
+{: .error}
+
+
+
+~~~
+Error in plot.window(...): need finite 'xlim' values
+~~~
+{: .error}
+
+<img src="../fig/rmd-13-unnamed-chunk-9-1.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" width="612" style="display: block; margin: auto;" />
+
+~~~
+abline(cooksd_cutoff, 0)
+~~~
+{: .language-r}
+
+Dropping outliers
+
+~~~
+analysis_swan_df2 <- analysis_swan_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error: object 'cooksd' not found
+~~~
+{: .error}
+
+
+
+~~~
+step.model.2  <- lm(Glucose ~ BMI_cat + bp_category + RACE + Exercise + CRP + age_Chol_Ratio,
+                    data = analysis_swan_df2)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'analysis_swan_df2' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(step.model.2)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(step.model.2): object 'step.model.2' not found
+~~~
+{: .error}
+
+### Note big increase in Adj. R-squared. 
+
+
+Plotting residuals
+
+~~~
+plot(resid(step.model.2))
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in resid(step.model.2): object 'step.model.2' not found
+~~~
+{: .error}
+
+
+~~~
+rst <- rstandard(step.model.2)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in rstandard(step.model.2): object 'step.model.2' not found
+~~~
+{: .error}
+
+
+
+~~~
+qqnorm(rst, ylab = "Standardized Residuals",
+       xlab = "Normal Scores")
+qqline(rst)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-13-unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+analysis_swan_lt_126 <- analysis_swan_df2 %>% filter(Glucose < 126)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in eval(lhs, parent, parent): object 'analysis_swan_df2' not found
+~~~
+{: .error}
+
+
+
+~~~
+step.model.3  <- lm(Glucose ~ BMI_cat + bp_category + RACE + Exercise + CRP + age_Chol_Ratio,
+                    data = analysis_swan_lt_126)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in is.data.frame(data): object 'analysis_swan_lt_126' not found
+~~~
+{: .error}
+
+
+
+~~~
+summary(step.model.3)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in summary(step.model.3): object 'step.model.3' not found
+~~~
+{: .error}
+
+
+~~~
+rst <- rstandard(step.model.3)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in rstandard(step.model.3): object 'step.model.3' not found
+~~~
+{: .error}
+
+
+
+~~~
+qqnorm(rst, ylab = "Standardized Residuals",
+       xlab = "Normal Scores")
+qqline(rst)
+~~~
+{: .language-r}
+
+<img src="../fig/rmd-13-unnamed-chunk-14-1.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" width="612" style="display: block; margin: auto;" />
+
+
+### VIF - Collinearity
+
+
+
+~~~
+library(car)
+~~~
+{: .language-r}
+
+
+
+~~~
+Loading required package: carData
+~~~
+{: .output}
+
+
+
+~~~
+
+Attaching package: 'car'
+~~~
+{: .output}
+
+
+
+~~~
+The following object is masked from 'package:dplyr':
+
+    recode
+~~~
+{: .output}
+
+
+
+~~~
+vif(step.model.2)
+~~~
+{: .language-r}
+
+
+
+~~~
+Error in vif(step.model.2): object 'step.model.2' not found
+~~~
+{: .error}
+
+
+
+~~~
+# VIF has to be <=1 ???
+
+#pairs(analysis_swan_df2 %>% dplyr::select(AGE6,  HDL_LDL))
+~~~
+{: .language-r}
+
+~~~
+vif(full_model)
+~~~
+{: .language-r}
+
+
+
+~~~
+                     GVIF Df GVIF^(1/(2*Df))
+BMI_cat          1.729257  5        1.056297
+bp_category      1.266213  3        1.040122
+Age             15.203565  1        3.899175
+Chol_Ratio     378.990854  1       19.467687
+RACE             1.539809  4        1.055440
+CRP              1.207925  1        1.099056
+Smoker           1.106410  1        1.051860
+Exercise         1.113022  1        1.054999
+age_Chol_Ratio 393.761797  1       19.843432
+~~~
+{: .output}
+
+
+~~~
+#pairs(analysis_swan_df2 %>% dplyr::select(Age, Chol_Ratio, age_Chol_Ratio))
+~~~
+{: .language-r}
 
