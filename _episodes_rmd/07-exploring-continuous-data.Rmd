@@ -4,6 +4,7 @@ teaching: 45
 exercises: 10
 questions:
 - "How can I calculate basic statistics of a variable?"
+- "How can I check normality assumptions?"
 - "How can I see the distribution of a variable?"
 objectives:
 - "Learn how to view mean, quartiles, standard deviation"
@@ -29,16 +30,16 @@ analysis_swan_df <- read.csv('data_out/analysis_swan_df_06.csv')
 
 # Continuous Variables and Linear Regression
 
-#TODO:  Better wording
-
-To perform an analysis that assesses whether one or more predictor variables might explain a response or outcome variable, we need to check whether the data meets certain assumptions if we'd like to use linear regression to prove our hypothesis about the relationship between the predictors and the outcome.
-
-The assumptions that the data must meet in order to build a valid linear regression model are:
+In order to use linear regression where the outcome variable is continuous, we need to check that certain assumptions are true.  The assumptions that the data must meet in order to build a valid linear regression model are:
 1. A linear relationship between each continuous predictor (X), and the outcome variable (Y)
 2. Each continuous predictor has a normal distribution
 3. No collinearity between predictors
 4. No auto-correlation (residuals are not related to each other)
 5. Homoscedasticity (no pattern in the residuals)
+
+To learn more about these assumptions, some good resources include:
+* http://r-statistics.co/Assumptions-of-Linear-Regression.html
+* https://www.statisticssolutions.com/assumptions-of-linear-regression/
 
 In this episode, we'll be using R to investigate these assumptions.
 
@@ -46,7 +47,7 @@ In this episode, we'll be using R to investigate these assumptions.
 
 ## Getting to know our data
 
-One of the first ways to start getting to know our data is to get some basic statistics.  Let's see what the `summary()` function does:
+One of the first ways to start getting to know our data is to look at some basic statistics.  Let's see what the `summary()` function does:
 
 
 ```{r}
@@ -57,31 +58,37 @@ We see that in addition to calculating mean, median, minimum, maximum, and the 1
 
 Not only does this give us a quick sense for the range of values for each variable, it can also give us a clue as to problems in the data.
 
+
 ```{r, include=FALSE}
 height_df <- data.frame(month = c(1, 2, 2, 5, 9, 10, 19, 12, 11, 9), day = c(0, 1, 1, 5, 5, 9, 12, 31, 14, 2), height_cm=c(-2, 0, 72, 60, 69, 73, NA, 55, 59, 61))
 ```
 
 > ## Exercise
 > 
-> What potential problems might there be with a data frame where `summary()` results in the following:
+> 1. What potential problems might there be with a data frame where `summary()` results in the following:
 > > ```{r, message=FALSE}
 > > summary(height_df)
 > > ```
-> 
+> 2. What types of problems in other data sets might one be able to identify with `summary()`?
 > 
 > > ## Solution
-> >
+> > 1.
 > > * There might be problems in `month` because the maximum is 19.
 > > * There might be problems in `day` because the minimum is 0.
 > > * There might be issues with `height_cm` beacuse the minimum is a negative value.
-> >
+> > 
+> > 2. Answers might include: extreme values, missing values, invalid values (such as negative values where only non-negative values would make sense; zeroes where zero would not make sense), variables that should be treated as categorical, variables that should or should not include text, etc.
 > {: .solution}
 {: .challenge}
 
-## Computing individual statistics
+### Computing individual statistics
 
-#TODO: Use of mean(), stdev() etc.
+Sometimes you want to pull out specific statsitics from `summary()`.  Recall that in Episode 3, we computed statistics on individual variables by using `mean()`, `stdev()`, `var()`, `median()`, `quantile()`
 
+We can extract individual variables from our data frame and use those statistical functions.  For example, if we wanted to compute the interquartile range on `DBP`, we could say:
+```{r}
+iqr_DBP <- quantile(analysis_swan_df$DBP, na.rm = TRUE)[3] - quantile(analysis_swan_df$DBP, na.rm = TRUE)[1]
+```
 
 ## Visualizations of single variables
 
@@ -90,6 +97,8 @@ Even though some of our variables aren't really continuous (we'll deal with thos
 Visualizations of single variables might include histograms, boxplots, or other types of plots.
 
 Let's take a look at the DBP (diastolic blood pressure) of the subjects in our data.
+
+### Histograms
 
 A basic histogram, created with `hist()` with no optional parameters, gives us a starting point:
 
@@ -132,8 +141,6 @@ Let's try passing `hist()` a single number giving the number of cells or bins:
 hist(analysis_swan_df$DBP, breaks = 50)
 ```
 
-#TODO: Consider other parameters
-
 > ## Exercise
 > 
 > Try adding a main title, and X and Y axis titles to the histogram above.
@@ -151,16 +158,18 @@ hist(analysis_swan_df$DBP, breaks = 50)
 > {: .solution}
 {: .challenge}
 
+### Boxplots
+A different way to look at the distribution of values in a variable is a boxplot.  Boxplots are one of the best visualizations for identifying outliers.  A boxplot shows the minimum value, lower quartile (25th percentile), median (50th percentile), upper quartile (75th percentile), and maximum value.  Identifying outliers is important because you want to avoid claiming an association that is only due to the presence of outliers in the data.
 
-#TODO: Show horizontal
+We can use the `boxplot()` function for a quick boxplot.
 
 ```{r}
-boxplot(analysis_swan_df$Glucose)
+boxplot(analysis_swan_df$DBP)
 ```
 
 # Plotting the relationship between two continuous variables
 
-We would now like to verify that any relationship between each X and Y is roughly linear.  We can use the `plot()` function in R to quickly create a scatterplot.
+We would now like to verify that any relationship between each X and Y is roughly linear.  We can use the `plot()` function in R to create a scatterplot.
 
 ```{r}
 plot(y = analysis_swan_df$Glucose, x = analysis_swan_df$BMI)
@@ -170,6 +179,8 @@ plot(y = analysis_swan_df$Glucose, x = analysis_swan_df$BMI)
 In this case, we see there may be some outliers where Glucose levels are high.  Given that a glucose level of over 126 mg/dL is considered Type II Diabetic, we can take a look at the scatterplot with those data excluded.
 
 We'll make a new data frame from a subset, then redraw the scatterplot:
+
+# TODO: Introduce ggplot
 
 ```{r, message = FALSE}
 library(ggplot2)
@@ -183,11 +194,13 @@ What we're looking at here is the relationship between BMI and Glucose *for subj
 > 
 > Create the following to check linear regression assumptions between CRP and Glucose:
 > * A histogram of CRP values
+> * A boxplot of CRP values
 > 
 > > ## Solution
 > >
 > > ```{r}
 > > hist(analysis_swan_df$CRP, breaks = 50)
+> > boxplot(analysis_swan_df$CRP)
 > > ```
 > >
 > {: .solution}
@@ -197,7 +210,7 @@ We notice here that the distribution definitely does not look like a normal dist
 
 ## Variable transformations
 
-We essentially need to make a new variable in our data frame that is calculated from the values in the `CRP` variable.
+We need to make a new variable in our data frame that is calculated from the values in the `CRP` variable.
 
 You might remember back in Episode 3, we were able to create a new vector like this:
 ```{r}

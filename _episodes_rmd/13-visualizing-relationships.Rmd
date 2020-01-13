@@ -44,12 +44,12 @@ colnames(analysis_swan_df)
 library(tidyr)
 
 analysis_swan_df <- analysis_swan_df %>% drop_na(Glucose, BMI_cat, bp_category, Age, Chol_Ratio,
-                                                 RACE, CRP, Smoker, Exercise, age_CRP)
+                                                 RACE, log_CRP, Smoker, Exercise, age_Chol_Ratio)
 ```
 
 ```{r}
 full_model <- lm(Glucose ~ BMI_cat + bp_category  + Age + Chol_Ratio +
-                 RACE + CRP + Smoker + Exercise + age_Chol_Ratio,
+                 RACE + log_CRP + Smoker + Exercise + age_Chol_Ratio,
                  data = analysis_swan_df)
 summary(full_model)
 ```
@@ -100,9 +100,9 @@ abline(cooksd_cutoff, 0)
 
 Dropping outliers
 ```{r}
-analysis_swan_df2 <- analysis_swan_df %>% filter(cooksd < cooksd_cutoff) %>% select(-cooksd)
+analysis_swan_df2 <- analysis_swan_df %>% filter(cooksd < cooksd_cutoff) %>% dplyr::select(-cooksd)
 
-step.model.2  <- lm(Glucose ~ BMI_cat + bp_category + RACE + Exercise + CRP + age_Chol_Ratio,
+step.model.2  <- lm(Glucose ~ BMI_cat + bp_category + RACE + Exercise + log_CRP + age_Chol_Ratio,
                     data = analysis_swan_df2)
 summary(step.model.2)
 ```
@@ -125,9 +125,13 @@ qqline(rst)
 ```{r}
 analysis_swan_lt_126 <- analysis_swan_df2 %>% filter(Glucose < 126)
 
-step.model.3  <- lm(Glucose ~ BMI_cat + bp_category + RACE + Exercise + CRP + age_Chol_Ratio,
+step.model.3  <- lm(Glucose ~ BMI_cat + bp_category + RACE + Exercise + log_CRP + age_Chol_Ratio,
                     data = analysis_swan_lt_126)
 summary(step.model.3)
+```
+
+```{r}
+plot(resid(step.model.3))
 ```
 
 ```{r}
@@ -157,4 +161,9 @@ vif(full_model)
 ```{r}
 #pairs(analysis_swan_df2 %>% dplyr::select(Age, Chol_Ratio, age_Chol_Ratio))
 ```
+## TODO: Durbin-Watson test for autocorrelation in residuals
 
+```{r}
+library(car)
+car::dwt(step.model)
+```

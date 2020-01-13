@@ -132,7 +132,7 @@ summary(lm_exercise) # p<0.001 --> KEEP
 ```
 
 ```{r}
-lm_crp <- lm(Glucose ~ CRP, data = analysis_swan_df)
+lm_crp <- lm(Glucose ~ log_CRP, data = analysis_swan_df)
 ```
 
 ```{r}

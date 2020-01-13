@@ -212,11 +212,11 @@ if (sbp>=140 | dbp >=90) {
     return("Hypertension Stage 2+")
   }
 
-if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) {
+if ((sbp>=130 & sbp<140) | (dbp >=80 & dbp <90)) {
     return("Hypertension Stage 1")
   }
 
- if ((sbp>=120 & sbp<=129) &  dbp <80) {
+ if ((sbp>=120 & sbp<130) &  dbp <80) {
     return("Elevated")
   }
 
