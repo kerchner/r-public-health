@@ -27,49 +27,62 @@ library(dplyr)
 analysis_swan_df <- read.csv('data_out/analysis_swan_df_07.csv')
 ```
 
+We are going to assess categorical variables just like we did for continuous variables. 
+```{r}
+str(analysis_swan_df)
+```
+
 ```{r}
 colnames(analysis_swan_df)
 ```
 
-Three variables that are categorical at the moment are :Race, Smoker, and Exercise.
+Three variables that are categorical at the moment are: Race, Smoker, and Exercise.  We can also refer to the data dictionary that comes with SWAN dataset.
 
 ```{r}
 barplot(table(analysis_swan_df$Smoker))
 ```
-In this barplot of `Smoker` we notice that there four distinct values for this variable.  In most health data, a common convention is to denote responses such as "did not answer", "don't know" using `-7`, `-9` or `-9999` etc. Missing values in health data can give scientists and data analyists valueable information that explains the nature of "missingness".  So, an particular subject may not be attend his visit appointment due to severe illness (an illness that the study has an interest in) or he may not attend the visit due to lack of transportation. That information has to be recorded in a manner that can be meaningful during the data analysis phase.  This type of information is particularly informative for clinical trials and in studies of cancer etc. 
+In this barplot of `Smoker` we notice that there are four distinct values for this variable.  In most health data, a common convention is to denote responses such as "did not answer", "don't know" using `-7`, `-9` or `-9999` etc. Missing values in health data can give scientists and data analyists valueable information that explains the nature of "missingness".  So, an particular subject may not be attend his visit appointment due to severe illness (an illness that the study has an interest in) or he may not attend the visit due to lack of transportation. That information has to be recorded in a manner that can be meaningful during the data analysis phase.  This type of information is particularly informative for clinical trials and in studies of cancer etc. 
 
 So, in lognitudinal analysis of this data, we may want to utilize this information on missingness accroding to the analysis of interest.  In our cross-sectional analysis of this particular time point (year 2002 - 2004), we are going to treat all missing values are simply missing and designate as `NA`. 
 
+
+We can look at this variable in more detail and confirm that its values are integers
 ```{r}
-class(analysis_swan_df$Smoker)
-typeof(analysis_swan_df$Smoker)
 str(analysis_swan_df$Smoker)
 ```
+
 Let's convert `-7` and `-9` to `NA` first.
 ```{r}
 analysis_swan_df$Smoker[analysis_swan_df$Smoker == -7] <- NA
 analysis_swan_df$Smoker[analysis_swan_df$Smoker == -9] <- NA
 ```
 
+Next, we are going to convert this to a factor variable.  In a regression model, we want to have this variable treated as a categorical and for this we have to convert it from an integer to a factor.  
 
+As you might recall from episode 3, factor variables in R represent categorical data.  In the example of smoker variable, 1 and 2 don't represent quantities, they represent survey answers of Yes and No. 
+
+We are going to overwrite the `Smoker` variable with the result of creating a factor variable from the `Smoker` data.
 ```{r}
-analysis_swan_df$Smoker <- as.factor(analysis_swan_df$Smoker)
+analysis_swan_df$Smoker <- factor(analysis_swan_df$Smoker)
 ```
 
+Let's look at the result of "factorizing" the `Smoker` variable.  
 ```{r}
-class(analysis_swan_df$Smoker)
-typeof(analysis_swan_df$Smoker)
 str(analysis_swan_df$Smoker)
 ```
 
+We can get back the category names using the `levels()` function.
 ```{r}
 levels(analysis_swan_df$Smoker)
 ```
-
 We see that there are two levels for this factor variable. 1 is `No` and 2 is `Yes` for survey question: `Since your last study visit, have you smoked cigarettes regularly (at least one cigarette a day)?` Let's relabel with NO and YES. Keep in mind that when you assign labels, they are in the same order as the levels.
 
 ```{r}
 levels(analysis_swan_df$Smoker) <- c('No','Yes')
+```
+
+Let's observed that the names of the levels changed. 
+```{r}
 levels(analysis_swan_df$Smoker)
 ```
 Let's recreate the bar chart to see how it changed.
@@ -80,17 +93,10 @@ We can't just use bar plot and inspect visually, we want to make sure that categ
 ```{r}
 table(analysis_swan_df$Smoker)
 ```
-
-# TODO:  See comment in tip
-
-> ## Tip: Another way to relabel levels in factor variables
-> ```{r}
-> # The code in this tip actually runs and alters $Smoker in a way that causes problems.  Commented out for now.
-> # levels(analysis_swan_df$Smoker) <- c(NA, NA, "No", "Yes")
-> ```
-{: .callout}
-
-#TODO show how to make a contingency table and maybe even a tableone. 
+We can also use `prop.table()` function to convert the frequencies to percentages. 
+```{r}
+prop.table(table(analysis_swan_df$Smoker))
+```
 
 > ## Exercise
 > 
@@ -100,13 +106,9 @@ table(analysis_swan_df$Smoker)
 > >
 > > ```{r}
 > > barplot(table(analysis_swan_df$Exercise))
-> > class(analysis_swan_df$Exercise)
-> > typeof(analysis_swan_df$Exercise)
 > > str(analysis_swan_df$Exercise)
 > > analysis_swan_df$Exercise[analysis_swan_df$Exercise == -7] <- NA
 > > analysis_swan_df$Exercise <- as.factor(analysis_swan_df$Exercise)
-> > class(analysis_swan_df$Exercise)
-> > typeof(analysis_swan_df$Exercise)
 > > str(analysis_swan_df$Exercise)
 > > levels(analysis_swan_df$Exercise)
 > > levels(analysis_swan_df$Exercise) <- c('No','Yes')
