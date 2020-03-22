@@ -308,7 +308,7 @@ F-statistic: 22.03 on 1 and 1877 DF,  p-value: 2.873e-06
 
 
 ~~~
-lm_crp <- lm(Glucose ~ CRP, data = analysis_swan_df)
+lm_crp <- lm(Glucose ~ log_CRP, data = analysis_swan_df)
 ~~~
 {: .language-r}
 
@@ -323,23 +323,23 @@ summary(lm_crp) # p<0.001 --> KEEP
 ~~~
 
 Call:
-lm(formula = Glucose ~ CRP, data = analysis_swan_df)
+lm(formula = Glucose ~ log_CRP, data = analysis_swan_df)
 
 Residuals:
    Min     1Q Median     3Q    Max 
--91.35 -11.84  -6.09   1.99 540.75 
+-54.01 -12.95  -5.32   3.24 536.07 
 
 Coefficients:
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  90.8420     0.7979 113.852  < 2e-16 ***
-CRP           0.8321     0.1041   7.995 2.18e-15 ***
+(Intercept)  91.1544     0.7293  124.99   <2e-16 ***
+log_CRP       5.3887     0.5024   10.72   <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 30.37 on 1982 degrees of freedom
+Residual standard error: 30 on 1982 degrees of freedom
   (440 observations deleted due to missingness)
-Multiple R-squared:  0.03124,	Adjusted R-squared:  0.03076 
-F-statistic: 63.92 on 1 and 1982 DF,  p-value: 2.176e-15
+Multiple R-squared:  0.05485,	Adjusted R-squared:  0.05437 
+F-statistic:   115 on 1 and 1982 DF,  p-value: < 2.2e-16
 ~~~
 {: .output}
 

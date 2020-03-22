@@ -6,6 +6,7 @@ teaching: 45
 exercises: 10
 questions:
 - "How can I calculate basic statistics of a variable?"
+- "How can I check normality assumptions?"
 - "How can I see the distribution of a variable?"
 objectives:
 - "Learn how to view mean, quartiles, standard deviation"
@@ -24,16 +25,16 @@ source: Rmd
 
 # Continuous Variables and Linear Regression
 
-#TODO:  Better wording
-
-To perform an analysis that assesses whether one or more predictor variables might explain a response or outcome variable, we need to check whether the data meets certain assumptions if we'd like to use linear regression to prove our hypothesis about the relationship between the predictors and the outcome.
-
-The assumptions that the data must meet in order to build a valid linear regression model are:
+In order to use linear regression where the outcome variable is continuous, we need to check that certain assumptions are true.  The assumptions that the data must meet in order to build a valid linear regression model are:
 1. A linear relationship between each continuous predictor (X), and the outcome variable (Y)
 2. Each continuous predictor has a normal distribution
 3. No collinearity between predictors
 4. No auto-correlation (residuals are not related to each other)
 5. Homoscedasticity (no pattern in the residuals)
+
+To learn more about these assumptions, some good resources include:
+* http://r-statistics.co/Assumptions-of-Linear-Regression.html
+* https://www.statisticssolutions.com/assumptions-of-linear-regression/
 
 In this episode, we'll be using R to investigate these assumptions.
 
@@ -41,7 +42,7 @@ In this episode, we'll be using R to investigate these assumptions.
 
 ## Getting to know our data
 
-One of the first ways to start getting to know our data is to get some basic statistics.  Let's see what the `summary()` function does:
+One of the first ways to start getting to know our data is to look at some basic statistics.  Let's see what the `summary()` function does:
 
 
 
@@ -86,9 +87,10 @@ Not only does this give us a quick sense for the range of values for each variab
 
 
 
+
 > ## Exercise
 > 
-> What potential problems might there be with a data frame where `summary()` results in the following:
+> 1. What potential problems might there be with a data frame where `summary()` results in the following:
 > > 
 > > ~~~
 > > summary(height_df)
@@ -108,21 +110,28 @@ Not only does this give us a quick sense for the range of values for each variab
 > >                                  NA's   :1      
 > > ~~~
 > > {: .output}
-> 
+> 2. What types of problems in other data sets might one be able to identify with `summary()`?
 > 
 > > ## Solution
-> >
+> > 1.
 > > * There might be problems in `month` because the maximum is 19.
 > > * There might be problems in `day` because the minimum is 0.
 > > * There might be issues with `height_cm` beacuse the minimum is a negative value.
-> >
+> > 
+> > 2. Answers might include: extreme values, missing values, invalid values (such as negative values where only non-negative values would make sense; zeroes where zero would not make sense), variables that should be treated as categorical, variables that should or should not include text, etc.
 > {: .solution}
 {: .challenge}
 
-## Computing individual statistics
+### Computing individual statistics
 
-#TODO: Use of mean(), stdev() etc.
+Sometimes you want to pull out specific statsitics from `summary()`.  Recall that in Episode 3, we computed statistics on individual variables by using `mean()`, `stdev()`, `var()`, `median()`, `quantile()`
 
+We can extract individual variables from our data frame and use those statistical functions.  For example, if we wanted to compute the interquartile range on `DBP`, we could say:
+
+~~~
+iqr_DBP <- quantile(analysis_swan_df$DBP, na.rm = TRUE)[3] - quantile(analysis_swan_df$DBP, na.rm = TRUE)[1]
+~~~
+{: .language-r}
 
 ## Visualizations of single variables
 
@@ -132,6 +141,8 @@ Visualizations of single variables might include histograms, boxplots, or other 
 
 Let's take a look at the DBP (diastolic blood pressure) of the subjects in our data.
 
+### Histograms
+
 A basic histogram, created with `hist()` with no optional parameters, gives us a starting point:
 
 
@@ -140,7 +151,7 @@ hist(analysis_swan_df$DBP)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-07-unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-07-unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="612" style="display: block; margin: auto;" />
 
 What are some of the parameters we can control?  We can learn more about `hist()` either by typing `?hist` at the Console, or by searching for it using the search bar in the Help pane.
 
@@ -179,9 +190,7 @@ hist(analysis_swan_df$DBP, breaks = 50)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-07-unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="612" style="display: block; margin: auto;" />
-
-#TODO: Consider other parameters
+<img src="../fig/rmd-07-unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
 
 > ## Exercise
 > 
@@ -199,25 +208,27 @@ hist(analysis_swan_df$DBP, breaks = 50)
 > > ~~~
 > > {: .language-r}
 > > 
-> > <img src="../fig/rmd-07-unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/rmd-07-unnamed-chunk-9-1.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" width="612" style="display: block; margin: auto;" />
 > >
 > {: .solution}
 {: .challenge}
 
+### Boxplots
+A different way to look at the distribution of values in a variable is a boxplot.  Boxplots are one of the best visualizations for identifying outliers.  A boxplot shows the minimum value, lower quartile (25th percentile), median (50th percentile), upper quartile (75th percentile), and maximum value.  Identifying outliers is important because you want to avoid claiming an association that is only due to the presence of outliers in the data.
 
-#TODO: Show horizontal
+We can use the `boxplot()` function for a quick boxplot.
 
 
 ~~~
-boxplot(analysis_swan_df$Glucose)
+boxplot(analysis_swan_df$DBP)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-07-unnamed-chunk-9-1.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-07-unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
 
 # Plotting the relationship between two continuous variables
 
-We would now like to verify that any relationship between each X and Y is roughly linear.  We can use the `plot()` function in R to quickly create a scatterplot.
+We would now like to verify that any relationship between each X and Y is roughly linear.  We can use the `plot()` function in R to create a scatterplot.
 
 
 ~~~
@@ -225,12 +236,14 @@ plot(y = analysis_swan_df$Glucose, x = analysis_swan_df$BMI)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-07-unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-07-unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
 
 
 In this case, we see there may be some outliers where Glucose levels are high.  Given that a glucose level of over 126 mg/dL is considered Type II Diabetic, we can take a look at the scatterplot with those data excluded.
 
 We'll make a new data frame from a subset, then redraw the scatterplot:
+
+# TODO: Introduce ggplot
 
 
 ~~~
@@ -247,7 +260,7 @@ Warning: Removed 44 rows containing missing values (geom_point).
 ~~~
 {: .error}
 
-<img src="../fig/rmd-07-unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-07-unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
 
 What we're looking at here is the relationship between BMI and Glucose *for subjects with normal (non-diabetic) glucose levels*.  Although it might not be obvious to the naked eye, there is an overall upward trend and it is reasonably possible that there might be a linear relationship between BMI and Glucose in this data.  
 
@@ -255,6 +268,7 @@ What we're looking at here is the relationship between BMI and Glucose *for subj
 > 
 > Create the following to check linear regression assumptions between CRP and Glucose:
 > * A histogram of CRP values
+> * A boxplot of CRP values
 > 
 > > ## Solution
 > >
@@ -264,7 +278,14 @@ What we're looking at here is the relationship between BMI and Glucose *for subj
 > > ~~~
 > > {: .language-r}
 > > 
-> > <img src="../fig/rmd-07-unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/rmd-07-unnamed-chunk-13-1.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" width="612" style="display: block; margin: auto;" />
+> > 
+> > ~~~
+> > boxplot(analysis_swan_df$CRP)
+> > ~~~
+> > {: .language-r}
+> > 
+> > <img src="../fig/rmd-07-unnamed-chunk-13-2.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" width="612" style="display: block; margin: auto;" />
 > >
 > {: .solution}
 {: .challenge}
@@ -273,7 +294,7 @@ We notice here that the distribution definitely does not look like a normal dist
 
 ## Variable transformations
 
-We essentially need to make a new variable in our data frame that is calculated from the values in the `CRP` variable.
+We need to make a new variable in our data frame that is calculated from the values in the `CRP` variable.
 
 You might remember back in Episode 3, we were able to create a new vector like this:
 
@@ -306,7 +327,7 @@ hist(analysis_swan_df$log_CRP, breaks = 50)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-07-unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-07-unnamed-chunk-16-1.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" width="612" style="display: block; margin: auto;" />
 
 As we see that `log_CRP` does appear to have more of normal distribution, we can consider using this variable in our regression instead of `CRP`.  Let's continue checking our assumptions using `log_CRP`:
 
@@ -317,7 +338,7 @@ plot(y = analysis_swan_df$Glucose, x = analysis_swan_df$log_CRP)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-07-unnamed-chunk-16-1.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-07-unnamed-chunk-17-1.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" width="612" style="display: block; margin: auto;" />
 
 We see again that the Glucose values in the diabetic range may be problematic, so let's re-make the swan_non_diabetic subset.  This time it will have the `log_CRP` variable as well:
 
@@ -335,7 +356,7 @@ Warning: Removed 5 rows containing missing values (geom_point).
 ~~~
 {: .error}
 
-<img src="../fig/rmd-07-unnamed-chunk-17-1.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-07-unnamed-chunk-18-1.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" width="612" style="display: block; margin: auto;" />
 
 After removing the data with high glucose values, we see that `log_CRP` could possibly have a linear relationship with `Glucose`.
 
@@ -362,7 +383,7 @@ plot(y = analysis_swan_df$Glucose, x = analysis_swan_df$Chol_Ratio)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-07-unnamed-chunk-20-1.png" title="plot of chunk unnamed-chunk-20" alt="plot of chunk unnamed-chunk-20" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-07-unnamed-chunk-21-1.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" width="612" style="display: block; margin: auto;" />
 
 
 ~~~
@@ -379,7 +400,7 @@ Warning: Removed 19 rows containing missing values (geom_point).
 ~~~
 {: .error}
 
-<img src="../fig/rmd-07-unnamed-chunk-21-1.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-07-unnamed-chunk-22-1.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" width="612" style="display: block; margin: auto;" />
 
 Again, we can see that there is a possible linear trend between the predictor `Chol_Ratio` variable and the outcome `Glucose`.
 
@@ -390,7 +411,7 @@ hist(analysis_swan_df$Age)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-07-unnamed-chunk-22-1.png" title="plot of chunk unnamed-chunk-22" alt="plot of chunk unnamed-chunk-22" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-07-unnamed-chunk-23-1.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" width="612" style="display: block; margin: auto;" />
 This Swan dataset is unique because the study was designed to understand exposures in women during their early to mid-age. For now, we are going to consider this to be sufficiently normally distributed for our analysis. 
 
 Next we can try a scatterplot of `Age` versus `Glucose`:
@@ -400,7 +421,7 @@ plot(y = analysis_swan_df$Glucose, x = analysis_swan_df$Age)
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-07-unnamed-chunk-23-1.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-07-unnamed-chunk-24-1.png" title="plot of chunk unnamed-chunk-24" alt="plot of chunk unnamed-chunk-24" width="612" style="display: block; margin: auto;" />
 
 
 ~~~
@@ -416,7 +437,7 @@ Warning: Removed 1 rows containing missing values (geom_point).
 ~~~
 {: .error}
 
-<img src="../fig/rmd-07-unnamed-chunk-24-1.png" title="plot of chunk unnamed-chunk-24" alt="plot of chunk unnamed-chunk-24" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-07-unnamed-chunk-25-1.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" width="612" style="display: block; margin: auto;" />
 
 We may not be sure what to make of it but Age variable is often a confounder.  A lot of chronic illnesses come with age so we want to make sure we assess this variable in our multivariate analysis. 
 

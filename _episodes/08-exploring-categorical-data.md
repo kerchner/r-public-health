@@ -23,6 +23,34 @@ source: Rmd
 
 
 
+We are going to assess categorical variables just like we did for continuous variables. 
+
+~~~
+str(analysis_swan_df)
+~~~
+{: .language-r}
+
+
+
+~~~
+'data.frame':	2424 obs. of  14 variables:
+ $ SWANID    : int  10046 10056 10126 10153 10196 10245 10484 10514 10522 10532 ...
+ $ Age       : int  58 57 54 57 52 54 56 52 52 49 ...
+ $ RACE      : int  2 4 1 3 2 4 1 4 4 4 ...
+ $ BMI       : num  35.6 19.8 26.4 31.6 22.3 ...
+ $ Glucose   : int  116 89 82 85 80 88 111 101 83 91 ...
+ $ Smoker    : int  1 1 NA 1 1 1 2 1 1 NA ...
+ $ LDL       : int  137 90 136 154 130 129 93 137 103 128 ...
+ $ HDL       : int  48 78 57 55 59 83 47 39 65 41 ...
+ $ CRP       : num  8.7 0.5 1.5 2.7 0.3 1.3 7.4 1.3 1.1 1.5 ...
+ $ DBP       : int  72 62 80 68 62 64 68 70 58 70 ...
+ $ SBP       : int  134 96 102 108 94 94 130 124 102 118 ...
+ $ Exercise  : int  2 2 NA 2 2 1 2 2 2 NA ...
+ $ log_CRP   : num  2.163 -0.693 0.405 0.993 -1.204 ...
+ $ Chol_Ratio: num  3.85 2.15 3.39 3.8 3.2 ...
+~~~
+{: .output}
+
 
 ~~~
 colnames(analysis_swan_df)
@@ -38,7 +66,7 @@ colnames(analysis_swan_df)
 ~~~
 {: .output}
 
-Three variables that are categorical at the moment are :Race, Smoker, and Exercise.
+Three variables that are categorical at the moment are: Race, Smoker, and Exercise.  We can also refer to the data dictionary that comes with SWAN dataset.
 
 
 ~~~
@@ -46,39 +74,13 @@ barplot(table(analysis_swan_df$Smoker))
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-08-unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="612" style="display: block; margin: auto;" />
-In this barplot of `Smoker` we notice that there four distinct values for this variable.  In most health data, a common convention is to denote responses such as "did not answer", "don't know" using `-7`, `-9` or `-9999` etc. Missing values in health data can give scientists and data analyists valueable information that explains the nature of "missingness".  So, an particular subject may not be attend his visit appointment due to severe illness (an illness that the study has an interest in) or he may not attend the visit due to lack of transportation. That information has to be recorded in a manner that can be meaningful during the data analysis phase.  This type of information is particularly informative for clinical trials and in studies of cancer etc. 
+<img src="../fig/rmd-08-unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+In this barplot of `Smoker` we notice that there are four distinct values for this variable.  In most health data, a common convention is to denote responses such as "did not answer", "don't know" using `-7`, `-9` or `-9999` etc. Missing values in health data can give scientists and data analyists valueable information that explains the nature of "missingness".  So, an particular subject may not be attend his visit appointment due to severe illness (an illness that the study has an interest in) or he may not attend the visit due to lack of transportation. That information has to be recorded in a manner that can be meaningful during the data analysis phase.  This type of information is particularly informative for clinical trials and in studies of cancer etc. 
 
 So, in lognitudinal analysis of this data, we may want to utilize this information on missingness accroding to the analysis of interest.  In our cross-sectional analysis of this particular time point (year 2002 - 2004), we are going to treat all missing values are simply missing and designate as `NA`. 
 
 
-~~~
-class(analysis_swan_df$Smoker)
-~~~
-{: .language-r}
-
-
-
-~~~
-[1] "integer"
-~~~
-{: .output}
-
-
-
-~~~
-typeof(analysis_swan_df$Smoker)
-~~~
-{: .language-r}
-
-
-
-~~~
-[1] "integer"
-~~~
-{: .output}
-
-
+We can look at this variable in more detail and confirm that its values are integers
 
 ~~~
 str(analysis_swan_df$Smoker)
@@ -91,6 +93,7 @@ str(analysis_swan_df$Smoker)
  int [1:2424] 1 1 NA 1 1 1 2 1 1 NA ...
 ~~~
 {: .output}
+
 Let's convert `-7` and `-9` to `NA` first.
 
 ~~~
@@ -99,41 +102,18 @@ analysis_swan_df$Smoker[analysis_swan_df$Smoker == -9] <- NA
 ~~~
 {: .language-r}
 
+Next, we are going to convert this to a factor variable.  In a regression model, we want to have this variable treated as a categorical and for this we have to convert it from an integer to a factor.  
 
+As you might recall from episode 3, factor variables in R represent categorical data.  In the example of smoker variable, 1 and 2 don't represent quantities, they represent survey answers of Yes and No. 
 
-~~~
-analysis_swan_df$Smoker <- as.factor(analysis_swan_df$Smoker)
-~~~
-{: .language-r}
-
+We are going to overwrite the `Smoker` variable with the result of creating a factor variable from the `Smoker` data.
 
 ~~~
-class(analysis_swan_df$Smoker)
+analysis_swan_df$Smoker <- factor(analysis_swan_df$Smoker)
 ~~~
 {: .language-r}
 
-
-
-~~~
-[1] "factor"
-~~~
-{: .output}
-
-
-
-~~~
-typeof(analysis_swan_df$Smoker)
-~~~
-{: .language-r}
-
-
-
-~~~
-[1] "integer"
-~~~
-{: .output}
-
-
+Let's look at the result of "factorizing" the `Smoker` variable.  
 
 ~~~
 str(analysis_swan_df$Smoker)
@@ -147,6 +127,7 @@ str(analysis_swan_df$Smoker)
 ~~~
 {: .output}
 
+We can get back the category names using the `levels()` function.
 
 ~~~
 levels(analysis_swan_df$Smoker)
@@ -159,12 +140,17 @@ levels(analysis_swan_df$Smoker)
 [1] "1" "2"
 ~~~
 {: .output}
-
 We see that there are two levels for this factor variable. 1 is `No` and 2 is `Yes` for survey question: `Since your last study visit, have you smoked cigarettes regularly (at least one cigarette a day)?` Let's relabel with NO and YES. Keep in mind that when you assign labels, they are in the same order as the levels.
 
 
 ~~~
 levels(analysis_swan_df$Smoker) <- c('No','Yes')
+~~~
+{: .language-r}
+
+Let's observed that the names of the levels changed. 
+
+~~~
 levels(analysis_swan_df$Smoker)
 ~~~
 {: .language-r}
@@ -182,7 +168,7 @@ barplot(table(analysis_swan_df$Smoker))
 ~~~
 {: .language-r}
 
-<img src="../fig/rmd-08-unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" width="612" style="display: block; margin: auto;" />
+<img src="../fig/rmd-08-unnamed-chunk-13-1.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" width="612" style="display: block; margin: auto;" />
 We can't just use bar plot and inspect visually, we want to make sure that categorical variables have at least five observations in each category (cell).  In order to check, let's create a frequency count table. 
 
 ~~~
@@ -198,19 +184,21 @@ table(analysis_swan_df$Smoker)
 1985  320 
 ~~~
 {: .output}
+We can also use `prop.table()` function to convert the frequencies to percentages. 
 
-# TODO:  See comment in tip
+~~~
+prop.table(table(analysis_swan_df$Smoker))
+~~~
+{: .language-r}
 
-> ## Tip: Another way to relabel levels in factor variables
-> 
-> ~~~
-> # The code in this tip actually runs and alters $Smoker in a way that causes problems.  Commented out for now.
-> # levels(analysis_swan_df$Smoker) <- c(NA, NA, "No", "Yes")
-> ~~~
-> {: .language-r}
-{: .callout}
 
-#TODO show how to make a contingency table and maybe even a tableone. 
+
+~~~
+
+       No       Yes 
+0.8611714 0.1388286 
+~~~
+{: .output}
 
 > ## Exercise
 > 
@@ -224,35 +212,7 @@ table(analysis_swan_df$Smoker)
 > > ~~~
 > > {: .language-r}
 > > 
-> > <img src="../fig/rmd-08-unnamed-chunk-14-1.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" width="612" style="display: block; margin: auto;" />
-> > 
-> > ~~~
-> > class(analysis_swan_df$Exercise)
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > [1] "integer"
-> > ~~~
-> > {: .output}
-> > 
-> > 
-> > 
-> > ~~~
-> > typeof(analysis_swan_df$Exercise)
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > [1] "integer"
-> > ~~~
-> > {: .output}
-> > 
-> > 
+> > <img src="../fig/rmd-08-unnamed-chunk-16-1.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" width="612" style="display: block; margin: auto;" />
 > > 
 > > ~~~
 > > str(analysis_swan_df$Exercise)
@@ -271,34 +231,6 @@ table(analysis_swan_df$Smoker)
 > > ~~~
 > > analysis_swan_df$Exercise[analysis_swan_df$Exercise == -7] <- NA
 > > analysis_swan_df$Exercise <- as.factor(analysis_swan_df$Exercise)
-> > class(analysis_swan_df$Exercise)
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > [1] "factor"
-> > ~~~
-> > {: .output}
-> > 
-> > 
-> > 
-> > ~~~
-> > typeof(analysis_swan_df$Exercise)
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > [1] "integer"
-> > ~~~
-> > {: .output}
-> > 
-> > 
-> > 
-> > ~~~
 > > str(analysis_swan_df$Exercise)
 > > ~~~
 > > {: .language-r}
@@ -526,11 +458,11 @@ if (sbp>=140 | dbp >=90) {
     return("Hypertension Stage 2+")
   }
 
-if ((sbp>=130 & sbp<=139) | (dbp >=80 & dbp <=89)) {
+if ((sbp>=130 & sbp<140) | (dbp >=80 & dbp <90)) {
     return("Hypertension Stage 1")
   }
 
- if ((sbp>=120 & sbp<=129) &  dbp <80) {
+ if ((sbp>=120 & sbp<130) &  dbp <80) {
     return("Elevated")
   }
 
